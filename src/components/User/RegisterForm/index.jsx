@@ -10,11 +10,11 @@ import { registerUser } from "../../../services/api/httpsrequests";
 const RegisterForm = () => {
   const formik = useFormik({
     initialValues: {
-      Name: "",
-      Surname: "",
-      Password: "",
+      name: "",
+      surname: "",
+      password: "",
       confirmPassword: "",
-      Username: "",
+      username: "",
       photo:""
     },
     // validationSchema: registerValidationSchema,
@@ -41,49 +41,49 @@ const RegisterForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <div className="nameWrapper">
             <div className="name">
-              <label htmlFor="Name">First Name</label>
+              <label htmlFor="name">First Name</label>
               <Input
-                id="Name"
-                name="Name"
+                id="name"
+                name="name"
                 placeholder="First Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Name}
+                value={formik.values.name}
               />
-              {formik.touched.Name && formik.errors.Name ? (
-                <div className="error">{formik.errors.Name}</div>
+              {formik.touched.name && formik.errors.name ? (
+                <div className="error">{formik.errors.name}</div>
               ) : null}
             </div>
 
-            <div className="Surname">
-              <label htmlFor="Surname">Last Name</label>
+            <div className="surname">
+              <label htmlFor="surname">Last Name</label>
               <Input
-                id="Surname"
-                name="Surname"
+                id="surname"
+                name="surname"
                 placeholder="Last Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Surname}
+                value={formik.values.surname}
               />
-              {formik.touched.Surname && formik.errors.Surname ? (
-                <div className="error">{formik.errors.Surname}</div>
+              {formik.touched.surname && formik.errors.surname ? (
+                <div className="error">{formik.errors.surname}</div>
               ) : null}
             </div>
           </div>
 
           <div className="passwordWrapper">
             <div className="password">
-              <label htmlFor="Password">Password</label>
+              <label htmlFor="password">Password</label>
               <Input.Password
-                id="Password"
-                name="Password"
+                id="password"
+                name="password"
                 placeholder="Password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Password}
+                value={formik.values.password}
               />
-              {formik.touched.Password && formik.errors.Password ? (
-                <div className="error">{formik.errors.Password}</div>
+              {formik.touched.password && formik.errors.password ? (
+                <div className="error">{formik.errors.password}</div>
               ) : null}
             </div>
 
@@ -105,18 +105,18 @@ const RegisterForm = () => {
 
           <div className="userInfoWrapper">
             <div className="username">
-              <label htmlFor="Username">Username</label>
+              <label htmlFor="username">Username</label>
               <Input
                 placeholder="Enter your Username"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                id="Username"
-                name="Username"
+                id="username"
+                name="username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.Username}
+                value={formik.values.username}
               />
-              {formik.touched.Username && formik.errors.Username ? (
-                <div className="error">{formik.errors.Username}</div>
+              {formik.touched.username && formik.errors.username ? (
+                <div className="error">{formik.errors.username}</div>
               ) : null}
             </div>
 
