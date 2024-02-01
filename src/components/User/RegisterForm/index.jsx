@@ -8,31 +8,11 @@ import registerValidationSchema from "../../../validations/RegisterValidationSch
 import { registerUser } from "../../../services/api/httpsrequests";
 
 const RegisterForm = () => {
-  const props = {
-    name: "file",
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-        // formik.setFieldValue("photo", info.file.response.url);
-      }
-      if (info.file.status === "done") {
-        // formik.setFieldValue("photo", info.file.response.url);
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
   const formik = useFormik({
     initialValues: {
-      name: "",
-      surname: "",
-      password: "",
+      Name: "",
+      Surname: "",
+      Password: "",
       confirmPassword: "",
       username: "",
       photo:""
@@ -40,7 +20,7 @@ const RegisterForm = () => {
     // validationSchema: registerValidationSchema,
     onSubmit: async (values, actions) => {
       console.log("Form submitted", values);
-      await registerUser(values)
+      // await registerUser(values)
       // actions.resetForm()
     },
   });
@@ -61,49 +41,49 @@ const RegisterForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <div className="nameWrapper">
             <div className="name">
-              <label htmlFor="name">First Name</label>
+              <label htmlFor="Name">First Name</label>
               <Input
-                id="name"
-                name="name"
+                id="Name"
+                name="Name"
                 placeholder="First Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
+                value={formik.values.Name}
               />
-              {formik.touched.name && formik.errors.name ? (
-                <div className="error">{formik.errors.name}</div>
+              {formik.touched.Name && formik.errors.Name ? (
+                <div className="error">{formik.errors.Name}</div>
               ) : null}
             </div>
 
-            <div className="surname">
-              <label htmlFor="surname">Last Name</label>
+            <div className="Surname">
+              <label htmlFor="Surname">Last Name</label>
               <Input
-                id="surname"
-                name="surname"
+                id="Surname"
+                name="Surname"
                 placeholder="Last Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.surname}
+                value={formik.values.Surname}
               />
-              {formik.touched.surname && formik.errors.surname ? (
-                <div className="error">{formik.errors.surname}</div>
+              {formik.touched.Surname && formik.errors.Surname ? (
+                <div className="error">{formik.errors.Surname}</div>
               ) : null}
             </div>
           </div>
 
           <div className="passwordWrapper">
             <div className="password">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="Password">Password</label>
               <Input.Password
-                id="password"
-                name="password"
-                placeholder="password"
+                id="Password"
+                name="Password"
+                placeholder="Password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.password}
+                value={formik.values.Password}
               />
-              {formik.touched.password && formik.errors.password ? (
-                <div className="error">{formik.errors.password}</div>
+              {formik.touched.Password && formik.errors.Password ? (
+                <div className="error">{formik.errors.Password}</div>
               ) : null}
             </div>
 
@@ -142,9 +122,6 @@ const RegisterForm = () => {
 
             <div className="image">
               <label htmlFor="photo">Profile Picture</label>
-              {/* <Upload {...props} id="photo" name="photo" value={formik.values.photo} >
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-              </Upload> */}
               <input id="photo" name="photo" value={formik.values.photo} onChange={formik.handleChange} type="file" />
             </div>
           </div>

@@ -1,6 +1,5 @@
 import axios from 'axios'
-import API_BASE_URL from './ap_base_url'
-
+import API_BASE_URL from './api_base_url'
 
 export async function registerUser(payload){
     let newUser
