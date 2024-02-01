@@ -13,10 +13,10 @@ const Register = () => {
       </Helmet>
       <section className="register">
         <Grid container>
-          <Grid item xs={12} sm={4}>
+          <Grid item sm={12} lg={4} >
             <RegisterForm />
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item lg={8} sm={12}>
             <FormSlider />
           </Grid>
         </Grid>

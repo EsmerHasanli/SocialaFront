@@ -131,7 +131,7 @@ const RegisterForm = () => {
 
             <div className="image">
               <label htmlFor="photo">Profile Picture</label>
-              <input id="photo" name="photo" value={formik.values.photo} onChange={(e) => formik.setFieldValue('file', e.currentTarget.files[0])} type="file" />
+              <input className="fileUpload" id="photo" name="photo" value={formik.values.photo} onChange={(e) => formik.setFieldValue('file', e.currentTarget.files[0])} type="file" />
             </div>
           </div>
 
