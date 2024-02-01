@@ -101,7 +101,7 @@ $link-color: rgb(29, 78, 216);
       }
     }
   }
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 767px) {
     form {
       .nameWrapper, .passwordWrapper{
        flex-direction: column!important;
@@ -111,7 +111,7 @@ $link-color: rgb(29, 78, 216);
       display: none!important;
     }
   }
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 767px) {
     .wrapper{
       padding: 0px!important;
     }

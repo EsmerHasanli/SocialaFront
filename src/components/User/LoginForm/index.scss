@@ -1,3 +1,58 @@
+$text-color: rgb(55, 65, 81);
+$link-color: rgb(29, 78, 216);
+
 .loginForm{
-    
+   padding: 40px;
+   img{
+    margin-bottom: 25px;
+   }
+   .wrappper{
+    padding: 0 58px;
+    h1 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: $text-color;
+        a {
+          color: $link-color;
+        }
+      }
+   }
+   form{
+    .checkboxWrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+        a{
+            font-size:14px;
+            font-weight:500;
+            color: $link-color;
+        }
+   }
+    .error{
+        color:red;
+        font-size: 12px;
+        margin: 5px 0;
+      }
+    .submit{
+        cursor: pointer;
+          margin-top: 25px;
+          width: 100%;
+          background-color:rgb(2,132,199);
+          border:none;
+          color: white;
+          padding: 8px 0;
+          border-radius: 5px;
+          font-size: 12px;
+      }
+    .password{
+        margin: 15px 0;
+    }
+   }
 }

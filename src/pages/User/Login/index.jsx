@@ -8,14 +8,14 @@ const Login = () => {
   return (
     <>
         <Helmet>
-            <title>Login</title>
+            <title>Sociala | Login</title>
         </Helmet>
         <section className="register">
         <Grid container>
-          <Grid item xs={12} sm={4}>
+          <Grid item sm={6} lg={4} md={6} xs={12}>
             <LoginForm />
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item sm={6} lg={8} md={6} xs={12}>
             <FormSlider />
           </Grid>
         </Grid>
