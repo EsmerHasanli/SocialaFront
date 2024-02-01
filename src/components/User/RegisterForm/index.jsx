@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import registerValidationSchema from "../../../validations/RegisterValidationSchema";
-import { registerUser } from "../../../services/api/httpsrequests";
+// import { registerUser } from "../../../services/api/httpsrequests";
 
 const RegisterForm = () => {
   const formik = useFormik({
@@ -23,13 +23,8 @@ const RegisterForm = () => {
       formData.append("surname", values.surname)
       formData.append("username", values.username)
       formData.append("password", values.password)
-      const res = await registerUser(formData)
+      // const result = await registerUser(formData)
       
-      if (res.statusCode) {
-          
-      }
-
-
       actions.resetForm()
     },
   });
