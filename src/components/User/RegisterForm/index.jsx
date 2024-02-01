@@ -14,7 +14,7 @@ const RegisterForm = () => {
       Surname: "",
       Password: "",
       confirmPassword: "",
-      username: "",
+      Username: "",
       photo:""
     },
     // validationSchema: registerValidationSchema,
@@ -105,18 +105,18 @@ const RegisterForm = () => {
 
           <div className="userInfoWrapper">
             <div className="username">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="Username">Username</label>
               <Input
-                placeholder="Enter your username"
+                placeholder="Enter your Username"
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                id="username"
-                name="username"
+                id="Username"
+                name="Username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.username}
+                value={formik.values.Username}
               />
-              {formik.touched.username && formik.errors.username ? (
-                <div className="error">{formik.errors.username}</div>
+              {formik.touched.Username && formik.errors.Username ? (
+                <div className="error">{formik.errors.Username}</div>
               ) : null}
             </div>
 
