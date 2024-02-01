@@ -1,0 +1,97 @@
+$text-color: rgb(55, 65, 81);
+$link-color: rgb(29, 78, 216);
+
+@mixin d-flex{
+    display: flex;
+    gap: 15px;
+}
+
+@mixin flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.register {
+  .swiper {
+    .swiper-pagination-bullet {
+      background-color: white;
+      width: 10px;
+      height: 10px;
+    }
+    width: 100%;
+    height: 100vh;
+    .image-slide {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      // animation: scaleDown 5s ease;
+    }
+
+    //   @keyframes scaleDown {
+    //     from {
+    //       transform: scale(1);
+    //     }
+    //     to {
+    //       transform: scale(0.8);
+    //     }
+    //   }
+  }
+
+  .registerForm {
+    // box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 40px;
+    img {
+      margin-bottom: 10px;
+    }
+    .wrapper {
+      padding: 0px 58px;
+      h1 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        margin-bottom: 16px;
+        color: $text-color;
+        a {
+          color: $link-color;
+        }
+      }
+      form {
+        .error{
+          color:red;
+          font-size: 12px;
+          margin: 5px 0;
+        }
+        .submit{
+            margin-top: 25px;
+            width: 100%;
+            background-color:rgb(2,132,199);
+            border:none;
+            color: white;
+            padding: 8px 0;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        label {
+          font-size: 14px;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }      
+        .nameWrapper, .passwordWrapper{
+            @include d-flex;
+            margin-bottom: 15px;
+        }
+        .userInfoWrapper{
+            margin-top: 15px;
+            .image{
+                margin-top: 15px;
+                @include flex-column;
+            }
+        }
+      }
+    }
+  }
+}
