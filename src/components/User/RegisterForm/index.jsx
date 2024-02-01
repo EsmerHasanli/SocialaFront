@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Button, Input, Upload, message } from "antd";
-import { UploadOutlined, UserOutlined } from "@ant-design/icons";
+import { Input } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import registerValidationSchema from "../../../validations/RegisterValidationSchema";
 import { registerUser } from "../../../services/api/httpsrequests";
 
@@ -15,13 +14,23 @@ const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       username: "",
-      photo:""
     },
     // validationSchema: registerValidationSchema,
     onSubmit: async (values, actions) => {
-      console.log("Form submitted", values);
-      // await registerUser(values)
-      // actions.resetForm()
+      const formData = new FormData();
+      formData.append("photo", values.file)
+      formData.append("name", values.name)
+      formData.append("surname", values.surname)
+      formData.append("username", values.username)
+      formData.append("password", values.password)
+      const res = await registerUser(formData)
+      
+      if (res.statusCode) {
+          
+      }
+
+
+      actions.resetForm()
     },
   });
 
@@ -122,7 +131,7 @@ const RegisterForm = () => {
 
             <div className="image">
               <label htmlFor="photo">Profile Picture</label>
-              <input id="photo" name="photo" value={formik.values.photo} onChange={formik.handleChange} type="file" />
+              <input id="photo" name="photo" value={formik.values.photo} onChange={(e) => formik.setFieldValue('file', e.currentTarget.files[0])} type="file" />
             </div>
           </div>
 

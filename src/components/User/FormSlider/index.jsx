@@ -5,12 +5,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
+
+Swiper.use([Pagination, Autoplay]);
 
 const FormSlider = () => {
   return (
     <Swiper
-    autoplay={{ delay: 50000, disableOnInteraction: false }} 
     pagination={true}
     modules={[Pagination]}
     className="mySwiper"

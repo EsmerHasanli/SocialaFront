@@ -2,6 +2,7 @@ import React from 'react'
 import {Helmet} from "react-helmet";
 import FormSlider from '../../../components/User/FormSlider';
 import { Grid } from '@mui/material';
+import LoginForm from '../../../components/User/LoginForm';
 
 const Login = () => {
   return (
@@ -12,7 +13,7 @@ const Login = () => {
         <section className="register">
         <Grid container>
           <Grid item xs={12} sm={4}>
-            {/* <LoginForm /> */}
+            <LoginForm />
           </Grid>
           <Grid item xs={12} sm={8}>
             <FormSlider />
