@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { Helmet } from "react-helmet";
 
@@ -12,4 +13,4 @@ const UserHomePage = () => {
   );
 };
 
-export default UserHomePage;
+export default observer(UserHomePage);

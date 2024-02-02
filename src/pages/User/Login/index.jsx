@@ -3,6 +3,7 @@ import {Helmet} from "react-helmet";
 import FormSlider from '../../../components/User/FormSlider';
 import { Grid } from '@mui/material';
 import LoginForm from '../../../components/User/LoginForm';
+import { observer } from 'mobx-react-lite';
 
 const Login = () => {
   return (
@@ -24,4 +25,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default observer(Login)

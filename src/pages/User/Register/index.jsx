@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import RegisterForm from "../../../components/User/RegisterForm";
 import "./index.scss";
 import FormSlider from "../../../components/User/FormSlider";
+import { observer } from "mobx-react-lite";
 
 const Register = () => {
   return (
@@ -25,4 +26,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default observer(Register);

@@ -1,16 +1,17 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import { ROUTES } from './routes/index.jsx'
+import "./App.css";
+import { observer } from "mobx-react-lite";
+import AppRouter from "./pages/AppRouter";
+import { Context } from "./main";
+import { useContext } from "react";
 
 function App() {
- 
-  const routes  = createBrowserRouter(ROUTES)
-
+  const { store } = useContext(Context);
+  console.log(store.isAuth);
   return (
     <>
-      <RouterProvider router={routes}/>
+      <AppRouter />
     </>
-  )
+  );
 }
 
-export default App
+export default observer(App);
