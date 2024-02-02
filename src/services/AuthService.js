@@ -10,8 +10,8 @@ export default class AuthService {
     return axios.post(`${API_BASE_URL}/auth/login`, payload);
   }
 
-  static async logout() {
-    return axios.post(`${API_BASE_URL}/auth/logout`);
+  static async logout(refreshToken) {
+    return axios.post(`${API_BASE_URL}/auth/logout/${refreshToken}`);
   }
 
   static async checkAuth() {

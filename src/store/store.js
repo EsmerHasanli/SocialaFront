@@ -26,6 +26,8 @@ export default class Store {
     try {
       const res = await AuthService.register(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
+      document.cookie = RefreshToken = `${res.data.refreshToken}`;
+      expires = `${res.data.expiresAt}`;
       this.setAuth(true);
       return res.data.username;
     } catch (e) {
@@ -38,9 +40,11 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.login(payload);
-      localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      this.setAuth(true);
       console.log(res.data);
+      localStorage.setItem("token", JSON.stringify(res.data.accessToken));
+      document.cookie = RefreshToken = `${res.data.refreshToken}`;
+      expires = `${res.data.expiresAt}`;
+      this.setAuth(true);
     } catch (e) {
       console.log(e);
     } finally {
@@ -55,6 +59,31 @@ export default class Store {
       console.log(res.data);
       this.setAuth(true);
       this.setUser(res.data.user);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  async logout() {
+    this.setLoading(true);
+    try {
+      let token = null;
+      var cookiesArray = document.cookie.split("; ");
+      for (var i = 0; i < cookiesArray.length; i++) {
+        var cookie = cookiesArray[i].split("=");
+        if (cookie[0] === "RefreshToken") {
+          token = decodeURIComponent(cookie[1]);
+        }
+      }
+      if (token) {
+        await AuthService.logout(token);
+      }
+
+      localStorage.removeItem("token");
+      this.setAuth(false);
+      this.setUser({});
     } catch (e) {
       console.log(e);
     } finally {

@@ -4,11 +4,13 @@ import { publicRoutes, privateRoutes } from "../routes";
 import { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../main";
+import Layout from "./Layout";
 
 const AppRouter = () => {
   const { store } = useContext(Context);
   return (
     <>
+        <Layout/>
       {store.isAuth ? (
         <Routes>
           {privateRoutes.map((route) => (
