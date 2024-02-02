@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { Checkbox, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../../main";
 
 const LoginForm = () => {
+  const { store } = useContext(Context);
+
   const formik = useFormik({
     initialValues: {
-      email: "",
+      usernameOrEmail: "",
       password: "",
-      isRemembered: false
+      isPersistence: false,
     },
     onSubmit: async (values, actions) => {
       console.log("Form submitted", values);
+      const formData = new FormData();
+      formData.append("usernameOrEmail", values.usernameOrEmail);
+      formData.append("password", values.password);
+      formData.append("isPersistence", values.isPersistence);
+      await store.login(formData);
       // actions.resetForm()
     },
   });
@@ -32,47 +41,49 @@ const LoginForm = () => {
           <Link to="/register">Register here!</Link>
         </p>
 
-        <form>
-          <div className="email">
-            <label htmlFor="email">Email address</label>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="usernameOrEmail">
+            <label htmlFor="usernameOrEmail">Username or Email address</label>
             <Input
-              id="email"
-              name="email"
-              placeholder="Email"
+              id="usernameOrEmail"
+              name="usernameOrEmail"
+              placeholder="username or email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
-            {formik.touched.email && formik.errors.email ? (
-              <div className="error">{formik.errors.email}</div>
+            {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail ? (
+              <div className="error">{formik.errors.usernameOrEmail}</div>
             ) : null}
           </div>
 
           <div className="password">
-              <label htmlFor="password">Password</label>
-              <Input.Password
-                id="password"
-                name="password"
-                placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <div className="error">{formik.errors.password}</div>
-              ) : null}
-            </div>
+            <label htmlFor="password">Password</label>
+            <Input.Password
+              id="password"
+              name="password"
+              placeholder="Password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error">{formik.errors.password}</div>
+            ) : null}
+          </div>
 
-            <div className="checkboxWrapper">
-              <Checkbox onChange={formik.handleChange}>Remember me</Checkbox>
-                <a href="#">Forgot Password</a>
-            </div>
+          <div className="checkboxWrapper">
+            <Checkbox onChange={formik.handleChange}>Remember me</Checkbox>
+            <a href="#">Forgot Password</a>
+          </div>
 
-            <button className="submit" type="submit">Sign In</button>
+          <button className="submit" type="submit">
+            Sign In
+          </button>
         </form>
       </div>
     </section>
   );
 };
 
-export default LoginForm;
+export default observer(LoginForm);

@@ -1,28 +1,20 @@
-import $api from "../http";
+import axios from "axios";
+import $api, { API_BASE_URL } from "../http";
 
-export async function login(email, password) {
-  try {
-    const response = await $api.post('/login', { email, password });
-    return response.data;
-  } catch (error) {
-    throw error;
+export default class AuthService {
+  static async register(payload) {
+    return axios.post(`${API_BASE_URL}/auth/register`, payload);
   }
-}
 
-export async function registration(payload) {
-  try {
-    const response = await $api.post('/register', payload);
-    return response.data;
-  } catch (error) {
-    throw error;
+  static async login(payload) {
+    return axios.post(`${API_BASE_URL}/auth/login`, payload);
   }
-}
 
-export async function logout() {
-  try {
-    const response = await $api.post('/logout');
-    return response.data;
-  } catch (error) {
-    throw error;
+  static async logout() {
+    return axios.post(`${API_BASE_URL}/auth/logout`);
+  }
+
+  static async checkAuth() {
+    return $api.get(`${API_BASE_URL}/auth`);
   }
 }

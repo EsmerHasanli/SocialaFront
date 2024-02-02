@@ -1,15 +1,41 @@
-import axios from 'axios'
+import axios from "axios";
 
-export const API_BASE_URL = 'https://localhost:7023/api'
+export const API_BASE_URL = "https://localhost:7023/api";
 
 const $api = axios.create({
-    withCredentials: true,
-    baseURL: API_BASE_URL
-})
+  withCredentials: true,
+  baseURL: API_BASE_URL,
+});
 
-$api.interceptors.request.use(config => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config
-})
+$api.interceptors.request.use((config) => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  return config;
+});
 
-export default $api
+$api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status == 401 &&
+      error.config &&
+      !error.config._IsRetry
+    ) {
+      originalRequest._IsRetry = true;
+      try {
+        const response = await axios.get(`${API_URL}/refresh`, {
+          withCredentials: true,
+        });
+        localStorage.setItem("token", response.data.accessToken);
+        return $api.request(originalRequest);
+      } catch (e) {
+        console.log("User is not autorized");
+      }
+    }
+    throw error;
+  }
+);
+
+export default $api;

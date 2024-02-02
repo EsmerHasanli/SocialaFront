@@ -18,14 +18,14 @@ const RegisterForm = () => {
     // validationSchema: registerValidationSchema,
     onSubmit: async (values, actions) => {
       const formData = new FormData();
-      formData.append("photo", values.file)
-      formData.append("name", values.name)
-      formData.append("surname", values.surname)
-      formData.append("username", values.username)
-      formData.append("password", values.password)
+      formData.append("photo", values.file);
+      formData.append("name", values.name);
+      formData.append("surname", values.surname);
+      formData.append("username", values.username);
+      formData.append("password", values.password);
       // const result = await registerUser(formData)
-      
-      actions.resetForm()
+
+      actions.resetForm();
     },
   });
 
@@ -101,7 +101,8 @@ const RegisterForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
               />
-              {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
                 <div className="error">{formik.errors.confirmPassword}</div>
               ) : null}
             </div>
@@ -126,7 +127,19 @@ const RegisterForm = () => {
 
             <div className="image">
               <label htmlFor="photo">Profile Picture</label>
-              <input className="fileUpload" id="photo" name="photo" value={formik.values.photo} onChange={(e) => formik.setFieldValue('file', e.currentTarget.files[0])} type="file" />
+              <input
+                className="fileUpload"
+                id="photo"
+                name="photo"
+                value={formik.values.photo}
+                onChange={(e) =>
+                  formik.setFieldValue("file", e.currentTarget.files[0])
+                }
+                type="file"
+              />
+              {formik.touched.photo && formik.errors.photo ? (
+                <div className="error">{formik.errors.photo}</div>
+              ) : null}
             </div>
           </div>
 
