@@ -1,6 +1,7 @@
 import React from 'react'
 import './index.scss'
 
+import MenuIcon from '@mui/icons-material/Menu';
 import { Input } from 'antd';
 
 import AddDropdown from './AddDropdown';
@@ -13,7 +14,9 @@ const Navbar = () => {
         <nav>
             <div className="wrapper">
                 <div className="left-bar">
-                    <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo.png" alt="Socialate" />
+                    <MenuIcon className='mobile'/>
+                    <img className='desktop' src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo.png" alt="Socialate" />
+                    <img className='mobile' src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo-mobile.png" alt="" />
                 </div>
                 <div className="center-bar">
                     <Input size="large" placeholder='Search Friends, videos... '/>

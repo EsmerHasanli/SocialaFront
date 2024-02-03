@@ -30,10 +30,10 @@ const UserDetailsPage = () => {
       </Helmet>
 
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <SideBar/>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={10}>
           <Item>xs=9</Item>
         </Grid>
       </Grid>

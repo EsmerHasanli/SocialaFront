@@ -11,7 +11,7 @@ const AppRouter = () => {
   return (
     <>
         <Layout/>
-      {store.isAuth ? (
+      {!store.isAuth ? (
         <Routes>
           {privateRoutes.map((route) => (
             <Route path={route.path} element={route.element} key={route.path} />

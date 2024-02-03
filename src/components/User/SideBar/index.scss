@@ -1,0 +1,31 @@
+.side-bar{
+    ul{
+        padding: 8px;
+        li{
+            display: flex;
+            gap: 20px;
+            padding: 16px 12px;
+            border-radius: 5px;
+            align-items:center;
+            a, p{
+                font-size: 14px;
+                font-weight: 500;
+                color: rgb(0,0,0);
+            }
+            &:hover{
+                background-color: rgb(241,245,249);
+            }
+        }
+    }
+    .pages{
+        li{
+            img{
+                height: 24px;
+                width: 24px;
+            }
+            &:hover a{ 
+                color: rgb(2, 132, 199);
+            }
+        }
+    }
+}
