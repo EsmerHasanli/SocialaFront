@@ -31,6 +31,7 @@ const RegisterForm = () => {
       try {
         const username = await store.register(formData);
         console.log("Registration successful:", username);
+        console.log(username); //undefied
         if (username) {
           navigate(`/users/${username}`);
         }
