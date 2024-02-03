@@ -2,7 +2,7 @@ import React from 'react'
 import {Helmet} from "react-helmet";
 import FormSlider from '../../../components/User/FormSlider';
 import { Grid } from '@mui/material';
-import LoginForm from '../../../components/User/LoginForm';
+import LoginForm from '../../../components/User/LoginForm/index';
 import { observer } from 'mobx-react-lite';
 
 const Login = () => {

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -9,6 +9,7 @@ import { Context } from "../../../main";
 
 const RegisterForm = () => {
   const { store } = useContext(Context);
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -26,14 +27,18 @@ const RegisterForm = () => {
       formData.append("surname", values.surname);
       formData.append("username", values.username);
       formData.append("password", values.password);
-      const username = await store.register(formData);
-      actions.resetForm()
 
-      if (username) {
-        navigate(`/users/${username}`)
+      try {
+        const username = await store.register(formData);
+        console.log("Registration successful:", username);
+        if (username) {
+          navigate(`/users/${username}`);
+        }
+      } catch (e) {
+        console.error("Registration error:", e);
       }
-
-      // actions.resetForm();
+      
+      // actions.resetForm()
     },
   });
 

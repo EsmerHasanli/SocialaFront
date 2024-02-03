@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
+import Swal from "sweetalert2";
 
 export default class Store {
   user = {};
@@ -31,11 +32,19 @@ export default class Store {
       this.setAuth(true);
       return res.data.username;
     } catch (e) {
-      console.log(e);
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `${e.response.data?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log(`form data error: ${e}`);
     } finally {
       this.setLoading(false);
     }
   }
+
   async login(payload) {
     this.setLoading(true);
     try {
@@ -45,6 +54,7 @@ export default class Store {
       document.cookie = `RefreshToken = ${res.data.refreshToken}`;
       expires = `${res.data.expiresAt}`;
       this.setAuth(true);
+      return res.data.username
     } catch (e) {
       console.log(e);
     } finally {
@@ -59,6 +69,7 @@ export default class Store {
       console.log(res.data);
       this.setAuth(true);
       this.setUser(res.data.user);
+      return res.data.userName
     } catch (e) {
       console.log(e);
     } finally {

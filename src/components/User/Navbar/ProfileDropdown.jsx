@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -12,9 +12,29 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-
+import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { Context } from '../../../main';
 
 const ProfileDropdown = () => {
+  const { store } = useContext(Context);
+  const [username, setUsername] = useState()
+
+  // useEffect(() => {
+  //   const fetchAuth = async () => {
+  //     try {
+  //       const res = await store.checkAuth();
+  //       console.log(res);
+  //       setUsername(res)
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchAuth();
+
+  // }, []);
+  
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -80,7 +100,7 @@ const ProfileDropdown = () => {
             </div>
             <div>
               <h5>Ayshen Salahova</h5>
-              <h6>@slhv</h6>
+              <h6>@<Link to={`/users/${{username}}`}>slhv</Link></h6>
             </div>
           </MenuItem>
           <Divider />
@@ -107,4 +127,4 @@ const ProfileDropdown = () => {
     );
 }
 
-export default ProfileDropdown
+export default observer(ProfileDropdown)
