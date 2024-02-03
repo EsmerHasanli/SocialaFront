@@ -26,7 +26,7 @@ export default class Store {
     try {
       const res = await AuthService.register(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = RefreshToken = `${res.data.refreshToken}`;
+      document.cookie = `RefreshToken = ${res.data.refreshToken}`;
       expires = `${res.data.expiresAt}`;
       this.setAuth(true);
       return res.data.username;
@@ -42,7 +42,7 @@ export default class Store {
       const res = await AuthService.login(payload);
       console.log(res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = RefreshToken = `${res.data.refreshToken}`;
+      document.cookie = `RefreshToken = ${res.data.refreshToken}`;
       expires = `${res.data.expiresAt}`;
       this.setAuth(true);
     } catch (e) {

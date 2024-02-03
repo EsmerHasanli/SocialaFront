@@ -16,10 +16,8 @@ function App() {
 
   if (store.isLoading) {
     return (
-      <div>
-        <Box sx={{ width: "100%" }}>
+      <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'50px'}}>
           <CircularProgress />
-        </Box>
       </div>
     );
   }

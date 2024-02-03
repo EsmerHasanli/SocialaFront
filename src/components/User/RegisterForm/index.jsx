@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import registerValidationSchema from "../../../validations/RegisterValidationSchema";
-// import { registerUser } from "../../../services/api/httpsrequests";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../../main";
 
 const RegisterForm = () => {
+  const { store } = useContext(Context);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -15,7 +18,7 @@ const RegisterForm = () => {
       confirmPassword: "",
       username: "",
     },
-    // validationSchema: registerValidationSchema,
+    validationSchema: registerValidationSchema,
     onSubmit: async (values, actions) => {
       const formData = new FormData();
       formData.append("photo", values.file);
@@ -23,9 +26,14 @@ const RegisterForm = () => {
       formData.append("surname", values.surname);
       formData.append("username", values.username);
       formData.append("password", values.password);
-      // const result = await registerUser(formData)
+      const username = await store.register(formData);
+      actions.resetForm()
 
-      actions.resetForm();
+      if (username) {
+        navigate(`/users/${username}`)
+      }
+
+      // actions.resetForm();
     },
   });
 
@@ -152,4 +160,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default observer(RegisterForm);

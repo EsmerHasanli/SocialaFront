@@ -12,6 +12,14 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import AddIcon from '@mui/icons-material/Add';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+
+import { Swiper, SwiperSlide } from "swiper/react";
 
 
 const AddDropdown = () => {
@@ -24,7 +32,7 @@ const AddDropdown = () => {
       setAnchorEl(null);
     };
     return (
-      <>
+      <div className='add-dropdown'>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Account settings">
             <IconButton
@@ -35,7 +43,9 @@ const AddDropdown = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}>
+                <AddIcon />
+              </Avatar>
             </IconButton>
           </Tooltip>
         </Box>
@@ -74,12 +84,28 @@ const AddDropdown = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={handleClose}>
-            <Avatar /> Profile
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Avatar /> My account
-          </MenuItem>
+          <Swiper style={{padding:'15px', width:"325px"}} watchSlidesProgress={true} spaceBetween={'10px'} slidesPerView={3}>
+            <SwiperSlide style={{backgroundColor:"rgb(224,253,247)", color:'rgb(13,148,136)', height:'80px', width:'100px', borderRadius:'5px', fontSize:"14px", fontWeight:'500', padding:'8px'}}>
+              <ImportContactsIcon style={{fontSize:'24px', marginBottom:'20px'}}/>
+              <p>Story</p>
+            </SwiperSlide>
+            <SwiperSlide style={{backgroundColor:"rgb(236,247,254)", color:'rgb(2,132,199)', height:'80px', width:'100px', borderRadius:'5px', fontSize:"14px", fontWeight:'500', padding:'8px'}}>
+              <CameraAltIcon style={{fontSize:'24px', marginBottom:'20px'}} />
+              <p>Post</p>
+            </SwiperSlide>
+            <SwiperSlide style={{backgroundColor:"rgb(248,241,255)", color:'rgb(147,51,234)', height:'80px', width:'100px', borderRadius:'5px', fontSize:"14px", fontWeight:'500', padding:'8px'}}>
+              <VideocamIcon style={{fontSize:'24px', marginBottom:'20px'}}/>
+              <p>Reel</p>
+            </SwiperSlide>
+            <SwiperSlide style={{backgroundColor:"rgb(253,241,248)", color:'rgb(219,39,119)', height:'80px', width:'100px', borderRadius:'5px', fontSize:"14px", fontWeight:'500', padding:'8px'}}>
+              <LocationOnIcon style={{fontSize:'24px', marginBottom:'20px'}} />
+              <p>Location</p>
+            </SwiperSlide>
+            <SwiperSlide style={{backgroundColor:"rgb(233,246,254)", color:'rgb(2,132,199)', height:'80px', width:'100px', borderRadius:'5px', fontSize:"14px", fontWeight:'500', padding:'8px'}}>
+              <EmojiEmotionsIcon style={{fontSize:'24px', marginBottom:'20px'}}/>
+              <p>Reel</p>
+            </SwiperSlide>
+          </Swiper>
           <Divider />
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
@@ -100,7 +126,7 @@ const AddDropdown = () => {
             Logout
           </MenuItem>
         </Menu>
-      </>
+      </div>
     );
 }
 

@@ -11,8 +11,9 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import WavingHandIcon from '@mui/icons-material/WavingHand';
+import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 
 const NotificationDropdown = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,7 +25,7 @@ const NotificationDropdown = () => {
       setAnchorEl(null);
     };
     return (
-      <>
+      <div className='notification-dropdown'>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Account settings">
             <IconButton
@@ -35,7 +36,8 @@ const NotificationDropdown = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              
+              <Avatar sx={{ width: 32, height: 32 }}><NotificationsActiveIcon /></Avatar>
             </IconButton>
           </Tooltip>
         </Box>
@@ -75,32 +77,27 @@ const NotificationDropdown = () => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem onClick={handleClose}>
-            <Avatar /> Profile
+            <div>
+              <Avatar /> 
+            </div>
+            <div>
+              <p><b>Alexa Gray</b> started following you. Welocome him to your profile. <WavingHandIcon style={{fill:'rgb(255,200,61)', fontSize:'16px'}} /></p>
+              <article>4 hours ago</article>
+            </div>
           </MenuItem>
+
           <MenuItem onClick={handleClose}>
-            <Avatar /> My account
+            <div>
+              <Avatar /> 
+            </div>
+            <div>
+              <p><b>Jesse Steeve</b> commented on ypur photo. "Wow, stanning shot!" <CloudQueueIcon style={{fill:'rgb(155,155,155)', fontSize:'16px'}} /></p>
+              <article>4 hours ago</article>
+            </div>
           </MenuItem>
-          <Divider />
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <PersonAdd fontSize="small" />
-            </ListItemIcon>
-            Add another account
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
+
         </Menu>
-      </>
+      </div>
     );
 }
 

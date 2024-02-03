@@ -24,7 +24,7 @@ const ProfileDropdown = () => {
       setAnchorEl(null);
     };
     return (
-      <>
+      <div className='profile-dropdown'>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Account settings">
             <IconButton
@@ -75,10 +75,13 @@ const ProfileDropdown = () => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem onClick={handleClose}>
-            <Avatar /> Profile
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <Avatar /> My account
+            <div>
+              <Avatar /> 
+            </div>
+            <div>
+              <h5>Ayshen Salahova</h5>
+              <h6>@slhv</h6>
+            </div>
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleClose}>
@@ -100,7 +103,7 @@ const ProfileDropdown = () => {
             Logout
           </MenuItem>
         </Menu>
-      </>
+      </div>
     );
 }
 

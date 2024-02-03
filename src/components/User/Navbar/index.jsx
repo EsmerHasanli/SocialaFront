@@ -5,7 +5,6 @@ import { Input } from 'antd';
 
 import AddDropdown from './AddDropdown';
 import NotificationDropdown from './NotificationDropdown';
-import MessagesDropdown from './MessagesDropdown';
 import ProfileDropdown from './ProfileDropdown';
 
 const Navbar = () => {   
@@ -26,9 +25,6 @@ const Navbar = () => {
                         </li>
                         <li>
                             <NotificationDropdown/>
-                        </li>
-                        <li>
-                            <MessagesDropdown/>
                         </li>
                         <li>
                             <ProfileDropdown/>
