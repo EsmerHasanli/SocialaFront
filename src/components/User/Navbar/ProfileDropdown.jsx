@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -18,22 +18,6 @@ import { Context } from '../../../main';
 
 const ProfileDropdown = () => {
   const { store } = useContext(Context);
-  const [username, setUsername] = useState()
-
-  // useEffect(() => {
-  //   const fetchAuth = async () => {
-  //     try {
-  //       const res = await store.checkAuth();
-  //       console.log(res);
-  //       setUsername(res)
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchAuth();
-
-  // }, []);
   
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -96,11 +80,11 @@ const ProfileDropdown = () => {
         >
           <MenuItem onClick={handleClose}>
             <div>
-              <Avatar /> 
+              <Avatar src={store.user.imageUrl ? store.user.imageUrl : null }/> 
             </div>
             <div>
-              <h5>Ayshen Salahova</h5>
-              <h6>@<Link to={`/users/${{username}}`}>slhv</Link></h6>
+              <h5>{store.user.name}{" "}{store.user.surname}</h5>
+              <h6>@<Link to={`/users/${store.user.userName}`}>{store.user.userName}</Link></h6>
             </div>
           </MenuItem>
           <Divider />

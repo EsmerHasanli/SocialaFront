@@ -6,10 +6,13 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MapsUgcIcon from '@mui/icons-material/MapsUgc';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Skeleton, Switch } from 'antd';
+import { Context } from '../../../main';
+import { observer } from 'mobx-react-lite';
 const { Meta } = Card;
 const UserPostCard = () => {
+    const {store} = useContext(Context)
     const [loading, setLoading] = useState(true);
     const onChange = (checked) => {
       setLoading(!checked);
@@ -160,7 +163,7 @@ const UserPostCard = () => {
         </div>
 
 
-        <Switch checked={!loading} onChange={onChange} />
+        {/* <Switch checked={!loading} onChange={onChange} /> */}
         <Card
             style={{ width: '100%', marginTop: 16, border:'none' }}
         >
@@ -176,4 +179,4 @@ const UserPostCard = () => {
   )
 }
 
-export default UserPostCard
+export default observer(UserPostCard)

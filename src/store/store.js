@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
 import Swal from "sweetalert2";
 import UserServices from "../services/UserServices";
+import PostService from "../services/PostService";
 
 export default class Store {
   user = {};
@@ -66,12 +67,9 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.checkAuth();
-      console.log(res.data);
+      // console.log(res.data);
       this.setAuth(true);
       this.setUser(res.data);
-      // console.log("this user", res.data);
-      // return res.data.userName
-      return res.data
     } catch (e) {
       console.log(e);
     } finally {
@@ -101,6 +99,44 @@ export default class Store {
       console.log(e);
     } finally {
       this.setLoading(false);
+    }
+  }
+
+  async getByUsername() {
+    try{
+      const res = await UserServices.getByUsername(this.user.userName);
+      return res.data
+    }
+    catch(e){
+      console.log("error in data fetch", e);
+    }
+  }
+  async getFollowers() {
+    try{
+      const res = await UserServices.getFollowers(this.user.userName);
+      return res.data
+    }
+    catch(e){
+      console.log("error in data fetch", e);
+    }
+  }
+  async getFollows() {
+    try{
+      const res = await UserServices.getFollows(this.user.userName);
+      return res.data
+    }
+    catch(e){
+      console.log("error in data fetch", e);
+    }
+  }
+
+  async postData(payload){
+    try{
+      const res = await PostService.postData(payload)
+      return res.data
+    }
+    catch(e){
+      console.log("error in post", e);
     }
   }
 }

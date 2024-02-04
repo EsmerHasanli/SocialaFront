@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Avatar, IconButton, Divider } from '@mui/material'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import AddIcon from '@mui/icons-material/Add';
 
 import './index.scss'
+import { Context } from "../../../main";
+import { observer } from 'mobx-react-lite';
 
 const ProfileCard = () => {
+    const { store } = useContext(Context);
+    const [user, setUser] = useState()
+
+    useEffect(()=>{
+        async function fetchData(){
+            const userData = await store.getByUsername()
+            setUser(userData)
+        }
+        fetchData()
+    },[])
+
   return (
     <div id='profile-card'>
-        <div style={{backgroundImage:'url(https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/profile-cover.jpg)'}} className='background-wrapper'>
-            <Avatar className='avatar' src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-6.jpg"/>
+        <div style={{backgroundImage:`url(${store.user.backgroundImage ? store.user.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}} className='background-wrapper'>
+            <Avatar className='avatar' src={store.user.imageUrl ? store.user.imageUrl : null}/>
             <IconButton className='photo'>
                 <PhotoCameraIcon />
             </IconButton>
         </div>
-        <h1>Monroe Parker</h1>
+        <h1>{store.user.name}{" "}{store.user.surname}</h1>
         <div className="decr">
             <p>Family , Food , Fashion , Fourever</p>
             <button>Edit</button>
@@ -47,4 +60,4 @@ const ProfileCard = () => {
   )
 }
 
-export default ProfileCard
+export default observer(ProfileCard)
