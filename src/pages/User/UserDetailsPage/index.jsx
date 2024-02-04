@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import SideBar from "../../../components/User/SideBar";
 import ProfileCard from "../../../components/User/ProfileCard";
 import AddPost from "../../../components/User/AddPost";
+import UserPostCard from "../../../components/User/PostCard";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -42,6 +43,7 @@ const UserDetailsPage = () => {
 
               <Grid item xs={8}>
                 <AddPost />
+                <UserPostCard/>
               </Grid>
 
               <Grid item xs={4}>
