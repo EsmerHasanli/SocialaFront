@@ -80,7 +80,31 @@ $link-color: rgb(29, 78, 216);
           font-size: 14px;
           font-weight: 500;
           margin-bottom: 10px;
-        }      
+        }  
+        .fileLabel {
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          cursor: pointer;
+          background-color: #f8f8f8;
+          color: #333;
+          transition: background-color 0.3s ease;
+          font-size: 14px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+
+          width: 150px;
+        }
+        
+        .fileLabel:hover {
+          color:rgb(2,132,199);
+          border: 1px solid rgb(2,132,199);
+        }    
+        input[type="file"] {
+          display: none
+        }
         .nameWrapper, .passwordWrapper{
             @include d-flex;
             margin-bottom: 15px;

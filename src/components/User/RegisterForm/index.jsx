@@ -6,6 +6,8 @@ import { UserOutlined } from "@ant-design/icons";
 import registerValidationSchema from "../../../validations/RegisterValidationSchema";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
+import { UploadOutlined } from '@ant-design/icons';
+
 
 const RegisterForm = () => {
   const { store } = useContext(Context);
@@ -140,7 +142,7 @@ const RegisterForm = () => {
             </div>
 
             <div className="image">
-              <label htmlFor="photo">Profile Picture</label>
+              <label className="fileLabel" htmlFor="photo"> <UploadOutlined /> <span>Profile Picture</span></label>
               <input
                 className="fileUpload"
                 id="photo"
