@@ -1,0 +1,113 @@
+#profile-card{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color:white;
+    border-bottom-left-radius:8px;
+    border-bottom-right-radius:8px;
+    .background-wrapper{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 260px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        .avatar{
+            position: absolute;
+            border: 8px solid rgb(243,244,246);
+            top: 85px;
+            overflow: hidden;
+            width: 200px;
+            height: 200px;
+            img{
+                border-radius: 50%;
+            }
+        }
+        .photo{
+            position: absolute;
+            bottom: -40px;
+            background-color: white;
+            color: rgb(75,85,99);
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+    }
+    h1{
+        text-align: center;
+        margin-top: 40px;
+        font-size: 36px;
+        font-weight: 700;
+    }
+    .decr{
+        margin: 10px 0 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap:20px;
+        p{
+            color: rgb(75, 85, 99);
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+        }
+        button{
+            cursor: pointer;
+            background-color:transparent;
+            border: none;
+            color:rgb(59, 130, 246);
+            font-size: 16px;
+        }
+    }
+    nav{
+        padding: 0 20px;
+        margin-top: 20px;
+        .wrapper{
+            display: flex;
+            justify-content: space-between;
+            align-items:center;
+            .links{
+                color:rgb(75, 85, 99);
+                display: flex;
+                align-items:center;
+                gap: 30px;
+                li{
+                    padding-bottom:20px ;
+                    border-bottom:3px solid white ;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center;
+                    gap: 8px;
+                    span{
+                        font-size: 12px;
+                    }
+                    &:hover{
+                        border-bottom:3px solid rgb(59, 130, 246);
+                        color:rgb(59, 130, 246);
+                    }
+                }
+            }
+        }
+        .feautures{
+            margin-bottom: 20px;
+            li{
+                span{
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center;
+                    border-radius:50%;
+                    background-color:white;
+                }
+                p{
+                    color:white;
+                }
+                padding: 5px;
+                border-radius: 8px;
+                display: flex;
+                align-items:center;
+                gap: 10px; 
+                background-color:rgb(59, 130, 246);
+                color:black
+            }
+        }
+    }
+}
