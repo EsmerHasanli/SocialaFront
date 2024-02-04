@@ -11,6 +11,8 @@ import SideBar from "../../../components/User/SideBar";
 import ProfileCard from "../../../components/User/ProfileCard";
 import AddPost from "../../../components/User/AddPost";
 import UserPostCard from "../../../components/User/PostCard";
+import UserInfoCard from "../../../components/User/UserInfoCard";
+import UsersFriendsCard from "../../../components/User/UsersFriends"
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -47,7 +49,8 @@ const UserDetailsPage = () => {
               </Grid>
 
               <Grid item xs={4}>
-                mdmdfdfdf
+                <UserInfoCard/>
+                <UsersFriendsCard/>
               </Grid>
             </Grid>
           </Grid>
