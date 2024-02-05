@@ -11,9 +11,12 @@ import { Card, Skeleton, Switch } from 'antd';
 import { Context } from '../../../main';
 import { observer } from 'mobx-react-lite';
 const { Meta } = Card;
-const UserPostCard = () => {
+
+const UserPostCard = ({fetchedUser}) => {
+    
     const {store} = useContext(Context)
     const [loading, setLoading] = useState(true);
+
     const onChange = (checked) => {
       setLoading(!checked);
     };

@@ -31,6 +31,7 @@ const UserDetailsPage = () => {
   const navigate = useNavigate()
 
   const [fetchedUser, setFetchedUser] = useState()
+  const [findedFollower, setFindedFollower] = useState()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,6 +46,9 @@ const UserDetailsPage = () => {
     if(username){
       fetchUser();
     }
+    console.log(fetchedUser);
+    console.log(store.user);
+    
   }, [username])
 
   return (
@@ -64,10 +68,20 @@ const UserDetailsPage = () => {
 
               <Grid item xs={8}>
                 {
-                  fetchedUser?.userName == store.user.userName &&
+                  fetchedUser && fetchedUser?.userName == store.user.userName &&
                   <AddPost />
                 }
-                <UserPostCard/>
+                {
+                  fetchedUser && fetchedUser.userName == store.user.userName   
+                  ?
+                  <UserPostCard fetchedUser={fetchedUser}/>
+                  :
+                  fetchedUser && store.user.follows.find(x=> x.userName == fetchedUser.userName && x.isConfirmed==true) &&  
+                  <div className="locked-account-bg">
+                    <img src="https://static.thenounproject.com/png/2259534-200.png" alt="" />
+                    <h2>This account is private</h2>
+                  </div>
+                }
               </Grid>
 
               <Grid item xs={4}>

@@ -43,7 +43,7 @@ $api.interceptors.response.use(
           "token",
           JSON.stringify(response.data.accessToken)
         );
-        document.cookie = `RefreshToken=${response.data.refreshToken};expires=${response.data.expiresAt}";path=/;`
+        document.cookie = `RefreshToken=${response.data.refreshToken};expires=${response.data.expiresAt};path=/;`
         return $api.request(originalRequest);
       } catch (e) {
         console.log(e);

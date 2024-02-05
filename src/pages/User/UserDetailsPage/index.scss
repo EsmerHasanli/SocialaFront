@@ -3,4 +3,24 @@
         max-width: 1070px;
         margin: 0 auto;
     }
+    .locked-account-bg{
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px 0;
+        width: 100%;
+        margin: 30px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        img{
+            max-width: 350px;
+            max-height: 350px;
+        }
+        h2{
+            margin-top: 20px;
+            text-align: center;
+        }
+    }
 }

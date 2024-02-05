@@ -30,7 +30,7 @@ export default class Store {
       const res = await AuthService.register(payload);
       console.log(res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = `RefreshToken=${res.data.refreshToken}`;
+      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
       this.setAuth(true);
       return res.data.username;
     } catch (e) {
@@ -53,8 +53,8 @@ export default class Store {
       const res = await AuthService.login(payload);
       console.log("res.data", res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt}";path=/;`
-      this.checkAuth();
+      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
+      await this.checkAuth();
       this.setAuth(true);
       return res.data.username;
     } catch (e) {

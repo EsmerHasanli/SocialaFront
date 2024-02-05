@@ -10,11 +10,11 @@ export const Context = createContext({
   store,
 });
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
       <Context.Provider value={{ store }}>
         <App />
       </Context.Provider>
     </BrowserRouter>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
