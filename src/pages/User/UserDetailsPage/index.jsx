@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../main";
 import { Helmet } from "react-helmet";
 import './index.scss'
@@ -13,6 +13,7 @@ import AddPost from "../../../components/User/AddPost";
 import UserPostCard from "../../../components/User/PostCard";
 import UserInfoCard from "../../../components/User/UserInfoCard";
 import UsersFriendsCard from "../../../components/User/UsersFriends"
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,7 +27,25 @@ const Item = styled(Paper)(({ theme }) => ({
   
 const UserDetailsPage = () => {
   const { store } = useContext(Context);
+  const {username} = useParams();
+  const navigate = useNavigate()
 
+  const [fetchedUser, setFetchedUser] = useState()
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUserData = await store.getByUsername(username);
+      if(fetchedUserData.status == 200){
+        setFetchedUser(fetchedUserData.data);
+      }else{
+        navigate('/not-found')
+      }
+      console.log(fetchedUserData);
+    }
+    if(username){
+      fetchUser();
+    }
+  }, [username])
 
   return (
     <>
@@ -39,12 +58,15 @@ const UserDetailsPage = () => {
             <SideBar/>
           </Grid>
           <Grid className="profile-wrapper" item xs={10}>
-            <ProfileCard/>
+            <ProfileCard fetchedUser={fetchedUser} />
 
             <Grid container spacing={4}>
 
               <Grid item xs={8}>
-                <AddPost />
+                {
+                  fetchedUser?.userName == store.user.userName &&
+                  <AddPost />
+                }
                 <UserPostCard/>
               </Grid>
 

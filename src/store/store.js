@@ -53,7 +53,7 @@ export default class Store {
       const res = await AuthService.login(payload);
       console.log("res.data", res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = `RefreshToken=${res.data.refreshToken}`;
+      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt}";path=/;`
       this.checkAuth();
       this.setAuth(true);
       return res.data.username;
@@ -102,8 +102,9 @@ export default class Store {
     try {
       const res = await AuthService.checkAuth();
       // console.log(res.data);
-      this.setAuth(true);
       this.setUser(res.data);
+      console.log(res.data)
+      this.setAuth(true);
     } catch (e) {
       console.log(e);
     } finally {
@@ -136,14 +137,19 @@ export default class Store {
     }
   }
 
-  async getByUsername() {
+  async getByUsername(username) {
+    // this.setLoading(true)
     try {
-      const res = await UserServices.getByUsername(this.user.userName);
-      return res.data;
+      const res = await UserServices.getByUsername(username);
+      console.log(res)
+      return res;
     } catch (e) {
-      console.log("error in data fetch", e);
+      return e.response.data
+    }finally{
+      // this.setLoading(false)
     }
   }
+
   async getFollowers() {
     try {
       const res = await UserServices.getFollowers(this.user.userName);
@@ -170,5 +176,14 @@ export default class Store {
     }
   }
 
-  async;
+  async getPosts(username){
+    try{
+      const res = await PostService.getPosts(username);
+      return res.data
+    }catch (e) {
+      console.log('error in getting posts', e);
+    }
+  }
+  
 }
+

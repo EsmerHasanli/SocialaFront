@@ -1,6 +1,8 @@
 import React from "react";
 import "./index.scss";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+
 const NotFound = () => {
   return (
     <>
@@ -18,6 +20,7 @@ const NotFound = () => {
           <h2>
             This is not a fault, just an accident that was not intentional.
           </h2>
+          <Link to='/'>Home</Link>
         </div>
       </section>
     </>

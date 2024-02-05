@@ -39,17 +39,22 @@ const AddPost = () => {
           timer: 1500,
         });
       } else {
-       
+        
+        console.log(values.files);
         const newData = new FormData();
         newData.append("description", values.description);
-        newData.append("files", values.files);
-
+        for (let i = 0; i < values.files.length; i++) {
+          newData.append("files", values.files[i]);
+        }
         await store.createPost(newData);
+        values.files = []
+        actions.resetForm();
+        closeModal();
       }
-console.log(values);
       actions.resetForm();
     },
   });
+  
   return (
     <section id="add-post">
       <button onClick={showModal} className="status">

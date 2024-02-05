@@ -13,10 +13,6 @@ export const privateRoutes = [
     path: '/users/:username',
     element: <UserDetailsPage/>
   },
-  {
-    path: '*',
-    element: <NotFound/>
-  }
 ];
 
 export const publicRoutes = [
@@ -27,9 +23,5 @@ export const publicRoutes = [
   { 
     path: "/register", 
     element: <Register /> 
-  },
-  {
-    path: '*',
-    element: <NotFound/>
   }
 ];

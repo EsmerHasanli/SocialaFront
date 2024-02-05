@@ -7,30 +7,25 @@ import './index.scss'
 import { Context } from "../../../main";
 import { observer } from 'mobx-react-lite';
 
-const ProfileCard = () => {
+const ProfileCard = ({fetchedUser}) => {
     const { store } = useContext(Context);
-    const [user, setUser] = useState()
-
-    useEffect(()=>{
-        async function fetchData(){
-            const userData = await store.getByUsername()
-            setUser(userData)
-        }
-        fetchData()
-    },[])
-
+console.log('fetchedUSer', fetchedUser);
+console.log('username', store.user.userName);
   return (
     <div id='profile-card'>
-        <div style={{backgroundImage:`url(${store.user.backgroundImage ? store.user.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}} className='background-wrapper'>
-            <Avatar className='avatar' src={store.user.imageUrl ? store.user.imageUrl : null}/>
+        <div style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}} className='background-wrapper'>
+            <Avatar className='avatar' src={fetchedUser?.imageUrl ? fetchedUser?.imageUrl : null}/>
             <IconButton className='photo'>
                 <PhotoCameraIcon />
             </IconButton>
         </div>
-        <h1>{store.user.name}{" "}{store.user.surname}</h1>
+        <h1>{fetchedUser?.name}{" "}{fetchedUser?.surname}</h1>
         <div className="decr">
             <p>Family , Food , Fashion , Fourever</p>
-            <button>Edit</button>
+            {
+                fetchedUser?.userName == store.user.userName &&
+                <button>Edit</button>
+            }
         </div>
         <Divider/>
         <nav>
@@ -49,11 +44,14 @@ const ProfileCard = () => {
                         Video
                     </li>
                 </ul>
-                <ul className='feautures'>
-                    <li>
-                        <span><AddIcon style={{fontSize:'14px',}} /> </span><p>Add Your Story</p>
-                    </li>
-                </ul>
+                {
+                fetchedUser?.userName == store.user.userName &&
+                    <ul className='feautures'>
+                        <li>
+                            <span><AddIcon style={{fontSize:'14px',}} /> </span><p>Add Your Story</p>
+                        </li>
+                    </ul>
+                }
             </div>
         </nav>
     </div>

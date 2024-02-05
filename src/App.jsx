@@ -6,12 +6,22 @@ import { useContext, useEffect } from "react";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const { store } = useContext(Context);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    store.checkAuth();
+    const fetchCurrentUser = async () => {
+      await store.checkAuth();
+    }
+    if (document.cookie.includes("RefreshToken")) {
+      fetchCurrentUser();
+    }
+    if(!store.isAuth && !document.cookie.includes("RefreshToken")){
+      navigate('/login')
+    }
   }, []);
 
   if (store.isLoading) {
