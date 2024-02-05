@@ -28,7 +28,6 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.register(payload);
-      console.log(res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
       document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
       this.setAuth(true);
@@ -141,7 +140,7 @@ export default class Store {
     // this.setLoading(true)
     try {
       const res = await UserServices.getByUsername(username);
-      console.log(res)
+      console.log(res.data)
       return res;
     } catch (e) {
       return e.response.data

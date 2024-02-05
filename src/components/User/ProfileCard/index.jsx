@@ -2,19 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Avatar, IconButton, Divider } from '@mui/material'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import AddIcon from '@mui/icons-material/Add';
-
 import './index.scss'
 import { Context } from "../../../main";
 import { observer } from 'mobx-react-lite';
 
 const ProfileCard = ({fetchedUser}) => {
     const { store } = useContext(Context);
-console.log('fetchedUSer', fetchedUser);
-console.log('username', store.user.userName);
+
   return (
     <div id='profile-card'>
         <div style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}} className='background-wrapper'>
-            <Avatar className='avatar' src={fetchedUser?.imageUrl ? fetchedUser?.imageUrl : null}/>
+            <Avatar className='avatar' src={fetchedUser?.imageUrl}/>
             <IconButton className='photo'>
                 <PhotoCameraIcon />
             </IconButton>
@@ -35,7 +33,10 @@ console.log('username', store.user.userName);
                         Timeline
                     </li>
                     <li>
-                        Friends <span>220</span>
+                        Follows <span>{fetchedUser?.followsCount}</span>
+                    </li>
+                    <li>
+                        Followers <span>{fetchedUser?.followersCount}</span>
                     </li>
                     <li>
                         Photo

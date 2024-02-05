@@ -1,185 +1,173 @@
-import './index.scss'
-import { Avatar, Divider, IconButton } from '@mui/material'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import MapsUgcIcon from '@mui/icons-material/MapsUgc';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import React, { useContext, useState } from 'react';
-import { Card, Skeleton, Switch } from 'antd';
-import { Context } from '../../../main';
-import { observer } from 'mobx-react-lite';
+import "./index.scss";
+import { Avatar, Divider, IconButton } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MapsUgcIcon from "@mui/icons-material/MapsUgc";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useContext, useEffect, useState } from "react";
+import { Card, Skeleton, Switch } from "antd";
+import { Context } from "../../../main";
+import { observer } from "mobx-react-lite";
 const { Meta } = Card;
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
 
-const UserPostCard = ({fetchedUser}) => {
-    
-    const {store} = useContext(Context)
-    const [loading, setLoading] = useState(true);
+// import required modules
+import {  Pagination } from "swiper/modules";
 
-    const onChange = (checked) => {
-      setLoading(!checked);
-    };
+const UserPostCard = ({ fetchedUser }) => {
+  const { store } = useContext(Context);
+  const [loading, setLoading] = useState(true);
+
+  const [posts, setPosts] = useState();
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await store.getPosts(fetchedUser.userName);
+      setPosts(res);
+      setLoading(false);
+    }
+    fetchPosts();
+  }, [fetchedUser]);
 
   return (
-    <div id='user-posts-wrapper'>
-        <div id='user-post-card'>
-            <div className="header">
+    <div id="user-posts-wrapper">
+      {posts &&
+        posts.map((post) => {
+          return (
+            <div id="user-post-card">
+              <div className="header">
                 <ul>
-                    <li>
-                        <Avatar src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-3.jpg"/>
-                        <p>
-                            <span>Monroe Parker</span>
-                            <span>2 hours ago</span>
-                        </p>
-                    </li>
+                  <li>
+                    <Avatar src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-3.jpg" />
+                    <p>
+                      <span>
+                        {fetchedUser.name} {fetchedUser.surname}
+                      </span>
+                      <span>
+                        {Math.floor((Date.now() - post.createdAt) / (1000 * 60 * 60))} hours ago
+                      </span>
+                    </p>
+                  </li>
 
-                    <li>
-                        <IconButton>
-                            <MoreHorizIcon />
-                        </IconButton>
-                    </li>
-                </ul>
-            </div>
-
-            <Divider/>
-
-            <div className="post-content">
-                <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/post/img-2.jpg" alt="" />
-                <div className="icons-wrapper">
-                    <IconButton style={{backgroundColor:'rgb(254,226,226)', color:'rgb(239,68,68)'}}>
-                        <FavoriteIcon/>
+                  <li>
+                    <IconButton>
+                      <MoreHorizIcon />
                     </IconButton>
-                    {/* <IconButton style={{backgroundColor:'rgb(254,226,226)', color:'rgb(239,68,68)'}}>
-                        <FavoriteBorderIcon/>
-                    </IconButton> */}
-                    <IconButton style={{backgroundColor:'rgb(235,239,244)', color:'rgb(75,85,99)'}}>
-                        <MapsUgcIcon/>
-                    </IconButton>
-                </div>
-            </div>
-
-            <Divider/>
-
-            <div className="comments">
-                <ul>
-                    <li>
-                        <Avatar/>
-                        <div>
-                            <h6>User user</h6>
-                            <p>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <Avatar/>
-                        <div>
-                            <h6>User user</h6>
-                            <p>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </li>
+                  </li>
                 </ul>
-                <button><ExpandMoreIcon/><span>More Comments</span></button>
-            </div>
+              </div>
 
-            <Divider/>
-
-            <div className="my-comment">
-                <div>
-                    <Avatar/>
-                    <input placeholder='Add Comment....' type="text" />
-                </div>
-                <button>Reply</button>
-            </div>
-
-        </div>
-
-        <div id='user-post-card'>
-            <div className="header">
-                <ul>
-                    <li>
-                        <Avatar src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-3.jpg"/>
-                        <p>
-                            <span>Monroe Parker</span>
-                            <span>2 hours ago</span>
-                        </p>
-                    </li>
-
-                    <li>
-                        <IconButton>
-                            <MoreHorizIcon />
-                        </IconButton>
-                    </li>
-                </ul>
-            </div>
-
-            <Divider/>
-
-            <div className="post-content">
+              <Divider />
+              <div className="post-content">
+                <Swiper
+                  pagination={{
+                    dynamicBullets: true,
+                  }}
+                  modules={[Pagination]}
+                  className="mySwiper"
+                >
+                  {post.items &&
+                    post.items.map((item) => {
+                      return (
+                        <SwiperSlide className="swiper-slide">
+                          <img
+                            src="https://demo.foxthemes.net/socialite-v3.0/assets/images/post/img-2.jpg"
+                            alt=""
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
+                    <SwiperSlide className="swiper-slide">
+                        <video style={{ borderRadius: '8px',}} controls width="100%" height="100%" >
+                            <source src="https://cdn.dribbble.com/users/133941/screenshots/16414788/media/cd8b34ba1faa0e80f66c6b67b33a5feb.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </SwiperSlide>
+                </Swiper>
                 <p>
-                Photography is the art of capturing light with a camera. It can be used to create images that tell stories, express emotions, or document reality. it can be fun, challenging, or rewarding. It can also be a hobby, a profession, or a passion. 📷
+                  {post?.description}
+                  📷
                 </p>
                 <div className="icons-wrapper">
-                    <IconButton style={{backgroundColor:'rgb(254,226,226)', color:'rgb(239,68,68)'}}>
-                        <FavoriteIcon/>
-                    </IconButton>
-                    {/* <IconButton style={{backgroundColor:'rgb(254,226,226)', color:'rgb(239,68,68)'}}>
-                        <FavoriteBorderIcon/>
-                    </IconButton> */}
-                    <IconButton style={{backgroundColor:'rgb(235,239,244)', color:'rgb(75,85,99)'}}>
-                        <MapsUgcIcon/>
-                    </IconButton>
+                  <IconButton
+                    style={{
+                      backgroundColor: "rgb(254,226,226)",
+                      color: "rgb(239,68,68)",
+                    }}
+                  >
+                    <FavoriteIcon />
+                  </IconButton>
+                  {/* <IconButton style={{backgroundColor:'rgb(254,226,226)', color:'rgb(239,68,68)'}}>
+                                    <FavoriteBorderIcon/>
+                                </IconButton> */}
+                  <IconButton
+                    style={{
+                      backgroundColor: "rgb(235,239,244)",
+                      color: "rgb(75,85,99)",
+                    }}
+                  >
+                    <MapsUgcIcon />
+                  </IconButton>
                 </div>
-            </div>
+              </div>
 
-            <Divider/>
+              <Divider />
 
-            <div className="comments">
+              <div className="comments">
                 <ul>
-                    <li>
-                        <Avatar/>
+                  {post.comments && post.comments.map((comment) => {
+                    return (
+                      <li>
+                        <Avatar src={comment?.authorImageUrl} />
                         <div>
-                            <h6>User user</h6>
-                            <p>Lorem ipsum dolor sit amet.</p>
+                          <h6>{comment?.author}</h6>
+                          <p>{comment?.text}</p>
                         </div>
-                    </li>
-                    <li>
-                        <Avatar/>
-                        <div>
-                            <h6>User user</h6>
-                            <p>Lorem ipsum dolor sit amet.</p>
-                        </div>
-                    </li>
+                      </li>
+                    );
+                  })}
                 </ul>
-                <button><ExpandMoreIcon/><span>More Comments</span></button>
-            </div>
+                {
+                    post.comments.length !=0 &&
+                    <button>
+                    <ExpandMoreIcon />
+                    <span>More Comments</span>
+                    </button>
+                    
+                }
+              </div>
 
-            <Divider/>
+              <Divider />
 
-            <div className="my-comment">
+              <div className="my-comment">
                 <div>
-                    <Avatar/>
-                    <input placeholder='Add Comment....' type="text" />
+                  <Avatar />
+                  <input placeholder="Add Comment...." type="text" />
                 </div>
                 <button>Reply</button>
+              </div>
             </div>
+          );
+        })}
 
-        </div>
-
-
-        {/* <Switch checked={!loading} onChange={onChange} /> */}
-        <Card
-            style={{ width: '100%', marginTop: 16, border:'none' }}
-        >
-            <Skeleton loading={loading} avatar active>
+      {loading && (
+        <Card style={{ width: "100%", marginTop: 16, border: "none" }}>
+          <Skeleton loading={loading} avatar active>
             <Meta
-                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />}
-                title="Card title"
-                description="This is the description"
+              avatar={
+                <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />
+              }
+              title="Card title"
+              description="This is the description"
             />
-            </Skeleton>
+          </Skeleton>
         </Card>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default observer(UserPostCard)
+export default observer(UserPostCard);

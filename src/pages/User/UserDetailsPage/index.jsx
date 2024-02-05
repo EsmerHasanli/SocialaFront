@@ -41,14 +41,10 @@ const UserDetailsPage = () => {
       }else{
         navigate('/not-found')
       }
-      console.log(fetchedUserData);
     }
     if(username){
       fetchUser();
-    }
-    console.log(fetchedUser);
-    console.log(store.user);
-    
+    }    
   }, [username])
 
   return (
@@ -67,16 +63,16 @@ const UserDetailsPage = () => {
             <Grid container spacing={4}>
 
               <Grid item xs={8}>
-                {
-                  fetchedUser && fetchedUser?.userName == store.user.userName &&
-                  <AddPost />
-                }
-                {
+              {
                   fetchedUser && fetchedUser.userName == store.user.userName   
                   ?
                   <UserPostCard fetchedUser={fetchedUser}/>
                   :
-                  fetchedUser && store.user.follows.find(x=> x.userName == fetchedUser.userName && x.isConfirmed==true) &&  
+                  fetchedUser 
+                  && store.user.follows
+                  && store.user.follows.find(x=> x.userName == fetchedUser.userName && x.isConfirmed==true)
+                  ? <UserPostCard fetchedUser={fetchedUser}/>
+                  :
                   <div className="locked-account-bg">
                     <img src="https://static.thenounproject.com/png/2259534-200.png" alt="" />
                     <h2>This account is private</h2>
