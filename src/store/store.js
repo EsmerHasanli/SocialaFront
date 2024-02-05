@@ -130,10 +130,10 @@ export default class Store {
     }
   }
 
-  async postData(payload){
+  async createPost(payload){
     try{
-      const res = await PostService.postData(payload)
-      return res.data
+      const res = await PostService.createPost(payload)
+      console.log(res);
     }
     catch(e){
       console.log("error in post", e);

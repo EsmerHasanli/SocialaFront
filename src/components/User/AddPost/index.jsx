@@ -25,26 +25,32 @@ const AddPost = () => {
     initialValues: {
       description: "",
       image: null,
-      video: null
+      video: null,
+      files: []
     },
     // validattionSchema: ,
     onSubmit: async (values, actions) => {
-      console.log('values', values);
 
-      const media = {
-        items: [values.image, values.video]
-      }
+      const mediaArray = [values.image, values.video] //video and image are also arrays
+      values.files = mediaArray
 
-      const formData = new FormData();
-      formData.append("description", values.description);
-      formData.append("items", media);
+      const newData = new FormData()
+      newData.append("description", values.description)
+      newData.append("files", values.files)
+
+      await store.createPost(newData)
+
+
+      // const formData = new FormData();
+      // formData.append("description", values.description);
+      // formData.append("items", media);
       // if (values.image) {
       //   formData.append("items", values.image);
       // }
       // if (values.video) {
       //   formData.append("items", values.video);
       // }
-      console.log(formData);
+      // console.log(formData);
       actions.resetForm()
 
     },
@@ -127,7 +133,7 @@ const AddPost = () => {
                 type="file"
                 style={{ display: "none" }}
                 onChange={(event) => {
-                  formik.setFieldValue("image", event.currentTarget.files[0]);
+                  formik.setFieldValue("image", event.currentTarget.files);
                 }}
               />
             </div>
@@ -154,7 +160,7 @@ const AddPost = () => {
                 type="file"
                 style={{ display: "none" }}
                 onChange={(event) => {
-                  formik.setFieldValue("video", event.currentTarget.files[0]);
+                  formik.setFieldValue("video", event.currentTarget.files);
                 }}
               />
             </div>
