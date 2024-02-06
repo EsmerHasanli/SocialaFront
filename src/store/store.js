@@ -28,14 +28,16 @@ export default class Store {
     this.setLoading(true);
     try {
       await AuthService.register(payload);
-    } catch (e) {
-      console.log(`form data error: ${e}`);
       Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: `${e.response.data?.message}`,
-        showConfirmButton: false,
-        timer: 1500,
+        icon: "success",
+        title: "Account created!",
+        text: "Please, check your email and confirm your account!"
+      });
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops, something went wrong!",
+        text: e.response.data?.message,
       });
     } finally {
       this.setLoading(false);
@@ -52,13 +54,11 @@ export default class Store {
       this.setAuth(true);
       return res.data.username;
     } catch (e) {
-      console.log(`form data error: ${e}`);
+      console.log(e.response);
       Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: `${e.response.data?.message}`,
-        showConfirmButton: false,
-        timer: 1500,
+        icon: "error",
+        title: "Oops, something went wrong!",
+        text: e.response.data?.message,
       });
     } finally {
       this.setLoading(false);
@@ -69,11 +69,9 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.login(payload);
-      console.log("res.data", res.data);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
       document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
       await this.checkAuth();
-      this.setAuth(true);
       return res.data.username;
     } catch (e) {
       console.log(e.response.data);
@@ -110,9 +108,14 @@ export default class Store {
           },
         });
       }
-    } finally {
-      this.setLoading(false);
-    }
+      else if (e.response.data.statusCode == 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops, something went wrong!",
+          text: e.response.data?.message,
+        });
+      }
+    } 
   }
 
   async checkAuth() {

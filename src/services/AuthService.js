@@ -7,7 +7,7 @@ export default class AuthService {
   }
 
   static async confirmEmail(payload) {
-    return axios.patch(`${API_BASE_URL}/auth/confirm`, payload);
+    return axios.post(`${API_BASE_URL}/auth/confirm`, payload);
   }
 
   static async login(payload) {

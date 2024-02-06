@@ -6,16 +6,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 const EmailConfirmationPage = () => {
     const { store } = useContext(Context);
     const navigate = useNavigate()
-    const {token, email} = useParams()
-
+    const queryParams = new URLSearchParams(window.location.search);
     useEffect(()=>{
         async function confirmEmail(){
-            const username = await store.confirmEmail({token, email});
-            console.log("confirm successful:", username);
+            const formData = new FormData();
+            formData.append("token", queryParams.get("token"))
+            formData.append("email", queryParams.get("email"))
+            const username = await store.confirmEmail(formData);
             if (username) {
                 navigate(`/users/${username}`);
             }
         }
+        if (!store.isAuth)
         confirmEmail();
     },[])
 

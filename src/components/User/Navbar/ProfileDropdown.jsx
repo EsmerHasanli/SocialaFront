@@ -12,21 +12,30 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../../main';
 
 const ProfileDropdown = () => {
   const { store } = useContext(Context);
-  
+  const navigate = useNavigate()
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
       setAnchorEl(null);
     };
+
+    const handleLogout = async () => {
+      await store.logout();
+      navigate('/login')
+    }
+
     return (
       <div className='profile-dropdown'>
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -101,7 +110,7 @@ const ProfileDropdown = () => {
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>
