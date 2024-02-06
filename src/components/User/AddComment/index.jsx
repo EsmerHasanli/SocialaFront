@@ -29,17 +29,19 @@ const AddComment = ({postId}) => {
                 }
                 console.log(newData); 
                 await store.postComment(newData)
-                values.text = "";
+                formik.resetForm();
             }
         },
     });
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
+        <div>
         <Avatar src={store.user.imageUrl} />
         <input id='text' name='text' value={formik.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
+        </div>
+        <button type='submit'>Comment</button>
       </form>
-      <button type='submit'>Comment</button>
     </>
   );
 };

@@ -8,6 +8,7 @@ export default class Store {
   user = {};
   isLoading = false;
   isAuth = false;
+  showSideBar = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -22,6 +23,10 @@ export default class Store {
 
   setLoading(bool) {
     this.isLoading = bool;
+  }
+  
+  setShowSideBar(bool) {
+    this.showSideBar = bool;
   }
 
   async register(payload) {
@@ -115,7 +120,9 @@ export default class Store {
           text: e.response.data?.message,
         });
       }
-    } 
+    } finally{
+      this.setLoading(false);
+    }
   }
 
   async checkAuth() {

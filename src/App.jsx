@@ -2,9 +2,8 @@ import "./App.css";
 import { observer } from "mobx-react-lite";
 import AppRouter from "./pages/AppRouter";
 import { Context } from "./main";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, } from "react";
 import * as React from "react";
-import Box from "@mui/material/Box";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +33,7 @@ function App() {
 
   return (
     <>
-      <AppRouter />
+      <AppRouter/>
     </>
   );
 }
