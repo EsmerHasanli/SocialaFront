@@ -14,6 +14,7 @@ import UserPostCard from "../../../components/User/PostCard";
 import UserInfoCard from "../../../components/User/UserInfoCard";
 import UsersFriendsCard from "../../../components/User/UsersFriends"
 import { useNavigate, useParams } from "react-router-dom";
+import FooterMobile from "../../../components/User/FooterMobile";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -99,6 +100,7 @@ const UserDetailsPage = () => {
             </Grid>
           </Grid>
         </Grid>
+        <FooterMobile/>
       </section>
     </>
   );

@@ -1,4 +1,4 @@
-.side-bar{
+#side-bar{
     position: fixed;
     ul{
         padding: 8px;
@@ -30,3 +30,9 @@
         }
     }
 }
+
+@media only screen and (max-width: 1024px) {
+    #side-bar{
+        display: none !important; 
+    }
+  }
