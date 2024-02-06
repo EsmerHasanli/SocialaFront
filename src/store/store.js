@@ -206,5 +206,15 @@ export default class Store {
     }
   }
   
+  async postComment(payload) {
+    console.log('store', payload);
+    try {
+      const res = await PostService.postComment(payload);
+      console.log(res);
+    } catch (e) {
+      console.log("error in post", e);
+    }
+  }
+  
 }
 

@@ -19,7 +19,7 @@ const ProfileCard = ({fetchedUser}) => {
         </div>
         <h1>{fetchedUser?.name}{" "}{fetchedUser?.surname}</h1>
         <div className="decr">
-            <p>Family , Food , Fashion , Fourever</p>
+            <p>{fetchedUser?.bio}</p>
             {
                 fetchedUser?.userName == store.user.userName &&
                 <button>Edit</button>

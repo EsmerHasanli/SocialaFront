@@ -49,7 +49,7 @@ const ProfileDropdown = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }} />
+              <Avatar src={store.user.imageUrl} sx={{ width: 32, height: 32 }} />
             </IconButton>
           </Tooltip>
         </Box>

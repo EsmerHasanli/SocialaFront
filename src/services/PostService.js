@@ -6,6 +6,11 @@ export default class PostService{
     }
 
     static async createPost(payload){
-        return $api.post(`${API_BASE_URL}/posts`, payload)
+        return await $api.post(`${API_BASE_URL}/posts`, payload)
+    }
+
+    static async postComment(payload){
+        console.log('service', payload);
+        return await $api.post(`${API_BASE_URL}/posts/${payload.id}/comment`, payload.text)
     }
 }

@@ -15,13 +15,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import { Keyboard, Pagination } from "swiper/modules";
+import AddComment from "../AddComment";
 
 const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => {
   const { store } = useContext(Context);
   
   useEffect(()=>{
     fetchPosts()
-    console.log('posts');
   },[])
 
   function getTimeAgoString(createdAt) {
@@ -50,11 +50,11 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
   return (
     <div id="user-posts-wrapper">
       {posts &&
-        posts.map((post, id) => {
+        posts.map((post) => {
           const postCreatedAt = Date.parse(post.createdAt);
           const timeAgoString = getTimeAgoString(postCreatedAt);
           return (
-            <div key={id} id="user-post-card">
+            <div key={post.id} id="user-post-card">
               <div className="header">
                 <ul>
                   <li>
@@ -80,6 +80,7 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
               <Divider />
               <div className="post-content">
                 <Swiper
+                  key={post.id}
                   pagination={{
                     dynamicBullets: true,
                   }}
@@ -92,21 +93,21 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
                 >
                   {post.items &&
                     post.items.map((item) => {
-                      if(item.type == 'image'){
+                      if(item.type == 'Image'){
                         return (
-                          <SwiperSlide className="swiper-slide">
+                          <SwiperSlide key={item.id} className="swiper-slide">
                             <img
-                              src="https://demo.foxthemes.net/socialite-v3.0/assets/images/post/img-2.jpg"
+                              src={item?.sourceUrl}
                               alt=""
                             />
                           </SwiperSlide>
                         );
                       }
-                      if(item.type == 'video'){
+                      if(item.type == 'Video'){
                         return(
-                        <SwiperSlide className="swiper-slide">
+                        <SwiperSlide key={item.id} className="swiper-slide">
                             <video style={{ borderRadius: '8px',}} controls width="100%" height="100%" >
-                                <source src="https://cdn.dribbble.com/users/133941/screenshots/16414788/media/cd8b34ba1faa0e80f66c6b67b33a5feb.mp4" type="video/mp4" />
+                                <source src={item?.sourceUrl} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
                         </SwiperSlide>
@@ -116,7 +117,6 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
                 </Swiper>
                 <p>
                   {post?.description}
-                  📷
                 </p>
                 <div className="icons-wrapper">
                   <IconButton
@@ -146,8 +146,9 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
               <div className="comments">
                 <ul>
                   {post.comments && post.comments.map((comment) => {
+                    console.log(comment);
                     return (
-                      <li>
+                      <li key={comment.id}>
                         <Avatar src={comment?.authorImageUrl} />
                         <div>
                           <h6>{comment?.author}</h6>
@@ -158,23 +159,18 @@ const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => 
                   })}
                 </ul>
                 {
-                    post.comments.length !=0 &&
-                    <button>
+                  post.comments.length !=0 &&
+                  <button>
                     <ExpandMoreIcon />
                     <span>More Comments</span>
-                    </button>
-                    
+                  </button>
                 }
               </div>
 
               <Divider />
 
               <div className="my-comment">
-                <div>
-                  <Avatar />
-                  <input placeholder="Add Comment...." type="text" />
-                </div>
-                <button>Reply</button>
+                <AddComment postId={post.id}/>
               </div>
             </div>
           );
