@@ -14,40 +14,57 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-// import required modules
-import {  Pagination } from "swiper/modules";
+import { Keyboard, Pagination } from "swiper/modules";
 
-const UserPostCard = ({ fetchedUser }) => {
+const UserPostCard = ({ fetchedUser, posts, setPosts, loading, fetchPosts }) => {
   const { store } = useContext(Context);
-  const [loading, setLoading] = useState(true);
+  
+  useEffect(()=>{
+    fetchPosts()
+    console.log('posts');
+  },[])
 
-  const [posts, setPosts] = useState();
+  function getTimeAgoString(createdAt) {
+    const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60)); 
 
-  useEffect(() => {
-    async function fetchPosts() {
-      const res = await store.getPosts(fetchedUser.userName);
-      setPosts(res);
-      setLoading(false);
+    if (elapsedTime < 1) {
+        return 'less than a minute ago';
+    } else if (elapsedTime === 1) {
+        return '1 minute ago';
+    } else if (elapsedTime < 60) {
+        return `${elapsedTime} minutes ago`;
+    } else if (elapsedTime < 120) {
+        return 'an hour ago';
+    } else if (elapsedTime < 1440) { 
+        const hoursAgo = Math.floor(elapsedTime / 60);
+        return `${hoursAgo} hours ago`;
+    } else if (elapsedTime < 2880) { 
+        return 'yesterday';
+    } else {
+        const daysAgo = Math.floor(elapsedTime / 1440); 
+        return `${daysAgo} days ago`;
     }
-    fetchPosts();
-  }, [fetchedUser]);
+}
+
 
   return (
     <div id="user-posts-wrapper">
       {posts &&
-        posts.map((post) => {
+        posts.map((post, id) => {
+          const postCreatedAt = Date.parse(post.createdAt);
+          const timeAgoString = getTimeAgoString(postCreatedAt);
           return (
-            <div id="user-post-card">
+            <div key={id} id="user-post-card">
               <div className="header">
                 <ul>
                   <li>
-                    <Avatar src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-3.jpg" />
+                    <Avatar src={fetchedUser.imageUrl} />
                     <p>
                       <span>
                         {fetchedUser.name} {fetchedUser.surname}
                       </span>
                       <span>
-                        {Math.floor((Date.now() - post.createdAt) / (1000 * 60 * 60))} hours ago
+                        {timeAgoString}
                       </span>
                     </p>
                   </li>
@@ -66,26 +83,36 @@ const UserPostCard = ({ fetchedUser }) => {
                   pagination={{
                     dynamicBullets: true,
                   }}
-                  modules={[Pagination]}
+                  keyboard={{
+                    enabled: true,
+                    onlyInViewport: false, 
+                  }}
+                  modules={[Keyboard, Pagination]}
                   className="mySwiper"
                 >
                   {post.items &&
                     post.items.map((item) => {
-                      return (
+                      if(item.type == 'image'){
+                        return (
+                          <SwiperSlide className="swiper-slide">
+                            <img
+                              src="https://demo.foxthemes.net/socialite-v3.0/assets/images/post/img-2.jpg"
+                              alt=""
+                            />
+                          </SwiperSlide>
+                        );
+                      }
+                      if(item.type == 'video'){
+                        return(
                         <SwiperSlide className="swiper-slide">
-                          <img
-                            src="https://demo.foxthemes.net/socialite-v3.0/assets/images/post/img-2.jpg"
-                            alt=""
-                          />
+                            <video style={{ borderRadius: '8px',}} controls width="100%" height="100%" >
+                                <source src="https://cdn.dribbble.com/users/133941/screenshots/16414788/media/cd8b34ba1faa0e80f66c6b67b33a5feb.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
                         </SwiperSlide>
-                      );
+                        )
+                      }
                     })}
-                    <SwiperSlide className="swiper-slide">
-                        <video style={{ borderRadius: '8px',}} controls width="100%" height="100%" >
-                            <source src="https://cdn.dribbble.com/users/133941/screenshots/16414788/media/cd8b34ba1faa0e80f66c6b67b33a5feb.mp4" type="video/mp4" />
-                            Your browser does not support the video tag.
-                        </video>
-                    </SwiperSlide>
                 </Swiper>
                 <p>
                   {post?.description}

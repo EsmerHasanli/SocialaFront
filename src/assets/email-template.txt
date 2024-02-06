@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Confirmation</title>
+</head>
+<body>
+    <div style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-image: url('https://marketplace.canva.com/EAFcuA4ZUpk/1/0/1600w/canva-beige-pastel-terrazzo-abstract-desktop-wallpaper-rtHx0Wpl5Oc.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh; width: 100vw;">
+      <div class="container" style="text-align: center; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo.png" alt="Logo" class="logo" style="width: 100px; height: auto; margin-bottom: 20px;">
+        <h2 style="color: rgb(88,80,236)">Welcome To Socialite!</h2>
+        <div class="confirmation-message" style="font-size: 24px; margin-bottom: 20px;">
+          Thank you for joinig us!
+        </div>
+        <img style="width: 350px; height:150px" src="https://sendgrid.com/content/dam/sendgrid/legacy/2019/12/confirmation-email-examples.png" alt="">
+        <div style="display: flex; justify-content: center; align-items: center; ">
+            <div class="social-media-icons" style="margin-top: 20px; padding: 5px 10px; border-radius:8px; background-color: rgb(88,80,236); width: 150px; cursor:'pointer' ">
+              <a href="#" style=" display: inline-block; margin: 0 10px; text-decoration: none;color: rgba(255, 255, 255, 0.8); transition: transform 0.3s ease;">click to confirm!</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

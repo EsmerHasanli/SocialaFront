@@ -32,6 +32,7 @@ const ProfileDropdown = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
           <Tooltip title="Account settings">
             <IconButton
+            style={{width:'35px', height:'35px'}}
               onClick={handleClick}
               size="small"
               sx={{ ml: 2 }}
@@ -39,7 +40,7 @@ const ProfileDropdown = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              <Avatar sx={{ width: 32, height: 32 }} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -84,7 +85,7 @@ const ProfileDropdown = () => {
             </div>
             <div>
               <h5>{store.user.name}{" "}{store.user.surname}</h5>
-              <h6>@<Link to={`/users/${store.user.userName}`}>{store.user.userName}</Link></h6>
+              <h5>@<Link to={`/users/${store.user.userName}`}>{store.user.userName}</Link></h5>
             </div>
           </MenuItem>
           <Divider />

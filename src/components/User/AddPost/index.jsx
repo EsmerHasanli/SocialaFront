@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import PostCreateValidationSchema from "../../../validations/PostCreateValidationSchema";
 
-const AddPost = () => {
+const AddPost = ({ fetchPosts }) => {
   const { store } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,6 +47,7 @@ const AddPost = () => {
           newData.append("files", values.files[i]);
         }
         await store.createPost(newData);
+        await fetchPosts()
         values.files = []
         actions.resetForm();
         closeModal();

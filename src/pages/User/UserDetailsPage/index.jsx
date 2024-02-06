@@ -31,7 +31,17 @@ const UserDetailsPage = () => {
   const navigate = useNavigate()
 
   const [fetchedUser, setFetchedUser] = useState()
-  const [findedFollower, setFindedFollower] = useState()
+  const [posts, setPosts] = useState()
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+    async function fetchPosts() {
+      const res = await store.getPosts(fetchedUser.userName);
+      setPosts(res);
+      setLoading(false);
+    }
+  //   fetchPosts();
+  // }, [fetchedUser]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,12 +76,14 @@ const UserDetailsPage = () => {
               {
                   fetchedUser && fetchedUser.userName == store.user.userName   
                   ?
-                  <UserPostCard fetchedUser={fetchedUser}/>
+                  <>
+                    <AddPost posts={posts} setPosts={setPosts} fetchPosts={fetchPosts}/>
+                    <UserPostCard fetchedUser={fetchedUser} posts={posts} setPosts={setPosts} loading={loading} fetchPosts={fetchPosts} />
+                  </>
                   :
-                  fetchedUser 
-                  && store.user.follows
+                  store.user.follows
                   && store.user.follows.find(x=> x.userName == fetchedUser.userName && x.isConfirmed==true)
-                  ? <UserPostCard fetchedUser={fetchedUser}/>
+                  ? <UserPostCard fetchedUser={fetchedUser} posts={posts} setPosts={setPosts}/>
                   :
                   <div className="locked-account-bg">
                     <img src="https://static.thenounproject.com/png/2259534-200.png" alt="" />
