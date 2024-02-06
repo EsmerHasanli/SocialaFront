@@ -34,6 +34,8 @@ const registerValidationSchema = Yup.object().shape({
     .max(20, "Username should be at most 20 characters long!")
     .required("Username is required"),
 
+    email: Yup.string().matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Its not valid email address").email("Its not valid email address").required("Email address is required"),
+    
     photo: Yup.mixed()
     .test('fileSize', 'File size must be less than 2MB', (value) => {
       if (!value) return true; 

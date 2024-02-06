@@ -27,9 +27,28 @@ export default class Store {
   async register(payload) {
     this.setLoading(true);
     try {
-      const res = await AuthService.register(payload);
+      await AuthService.register(payload);
+    } catch (e) {
+      console.log(`form data error: ${e}`);
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `${e.response.data?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  async confirmEmail(payload){
+    this.setLoading(true);
+    try {
+      const res = await AuthService.confirmEmail(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
       document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
+      this.setUser(res.data)
       this.setAuth(true);
       return res.data.username;
     } catch (e) {

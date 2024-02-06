@@ -6,6 +6,10 @@ export default class AuthService {
     return axios.post(`${API_BASE_URL}/auth/register`, payload);
   }
 
+  static async confirmEmail(payload) {
+    return axios.patch(`${API_BASE_URL}/auth/confirm`, payload);
+  }
+
   static async login(payload) {
     return axios.post(`${API_BASE_URL}/auth/login`, payload);
   }

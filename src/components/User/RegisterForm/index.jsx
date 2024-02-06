@@ -17,6 +17,7 @@ const RegisterForm = () => {
     initialValues: {
       name: "",
       surname: "",
+      email: "",
       password: "",
       confirmPassword: "",
       username: "",
@@ -29,17 +30,8 @@ const RegisterForm = () => {
       formData.append("surname", values.surname);
       formData.append("username", values.username);
       formData.append("password", values.password);
-
-      try {
-        const username = await store.register(formData);
-        console.log("Registration successful:", username);
-        console.log(username); //undefied
-        if (username) {
-          navigate(`/users/${username}`);
-        }
-      } catch (e) {
-        console.error("Registration error:", e);
-      }
+      formData.append("email", values.email)
+      await store.register(formData);
       
       // actions.resetForm()
     },
@@ -123,6 +115,21 @@ const RegisterForm = () => {
               ) : null}
             </div>
           </div>
+
+          <div className="email">
+              <label htmlFor="email">Email:</label>
+              <Input
+                id="email"
+                name="email"
+                placeholder="example@example.com"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="error">{formik.errors.email}</div>
+              ) : null}
+            </div>
 
           <div className="userInfoWrapper">
             <div className="username">
