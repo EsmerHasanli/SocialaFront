@@ -1,0 +1,121 @@
+#user-settings {
+  .settings-wrapper {
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    max-width: 736px;
+    .header {
+      padding: 32px 32px 16px 23px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      .left {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .avatar {
+          &-input {
+            display: none;
+          }
+          &-upload {
+            margin-left: -30px;
+            margin-top: 70px;
+          }
+        }
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        h4 {
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+        h6 {
+          a {
+            color: rgb(37, 99, 235);
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    #user-info-form {
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        div {
+          display: flex;
+          gap: 26px;
+          margin-bottom: 26px;
+          font-size: 14px;
+          font-weight: 400;
+          #name,
+          #surname,
+          #username,
+          #email,
+          #bio,
+          #gender,
+          #relationship {
+            padding: 7px 10px;
+            border: none;
+            background-color: rgb(241, 245, 249);
+            border-radius: 8px;
+            transition: width 0.5s, height 0.5s, background-color 0.5s;
+            &:focus {
+              outline: 2px solid rgb(37, 99, 235);
+            }
+          }
+        }
+        .button-wrapper{
+            margin-top: 26px;
+            button{
+                padding: 6px 24px;
+                border: none;
+                border-radius:8px;
+                font-size: 12px;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            .white{
+                background-color:rgb(241,245,249);
+            }
+            .blue{
+                background-color: rgb(37, 99, 235);
+                color: white;
+            }
+        }
+      }
+    }
+    #user-social-links{
+        h3{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        p{
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 400;
+            color:rgb(75, 85, 99);
+        }
+        button{
+            padding: 6px 24px;
+            border: none;
+            border-radius:8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .white{
+            background-color:rgb(241,245,249);
+        }
+        .blue{
+            background-color: rgb(37, 99, 235);
+            color: white;
+        }
+        
+    }
+  }
+}

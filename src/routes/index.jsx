@@ -4,6 +4,7 @@ import Login from "../pages/User/Login";
 import NotFound from "../pages/NotFound";
 import UserDetailsPage from "../pages/User/UserDetailsPage";
 import EmailConfirmationPage from "../pages/User/EmailConfirmationPage";
+import UserSettings from "../pages/User/UserSettings";
 
 export const privateRoutes = [
   { 
@@ -13,6 +14,10 @@ export const privateRoutes = [
   {
     path: '/users/:username',
     element: <UserDetailsPage/>
+  },
+  {
+    path: '/settings',
+    element: <UserSettings/>
   },
 ];
 

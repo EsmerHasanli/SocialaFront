@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.scss'
 import { Link } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@mui/material/Divider';
+import { Context } from '../../../main';
+import { observer } from 'mobx-react-lite';
 
 const SideBar = () =>  {
+  const {store} = useContext(Context)
 
+  const handleLogout = async () => {
+    await store.logout();
+    navigate('/login')
+  }
   return(
     <>
       <div id='side-bar'> 
@@ -32,9 +39,9 @@ const SideBar = () =>  {
           <ul className='functions'>
           <li>
               <SettingsIcon/>
-              <p>Settings</p>
+              <Link to='/settings'>Settings</Link>
             </li>
-            <li>
+            <li onClick={handleLogout}>
               <LogoutIcon/>
               <p>Logout</p>
             </li>
@@ -44,4 +51,4 @@ const SideBar = () =>  {
   )
 }
 
-export default SideBar
+export default observer(SideBar)

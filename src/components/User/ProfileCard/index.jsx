@@ -39,10 +39,10 @@ const ProfileCard = ({fetchedUser}) => {
                         Followers <span>{fetchedUser?.followersCount}</span>
                     </li>
                     <li>
-                        Photo
+                        Follow Requests <span>0</span>
                     </li>
                     <li>
-                        Video
+                        Follow erRequests <span>0</span>
                     </li>
                 </ul>
                 {

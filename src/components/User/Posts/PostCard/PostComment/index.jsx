@@ -12,6 +12,8 @@ function PostComment({ post, comment }) {
   const [isLiked, setIsLiked] = useState(
     store.user.likedCommentsIds.includes(comment.id) ? true : false
   );
+  const postCreatedAt = Date.parse(post.createdAt);
+  const timeAgoString = getTimeAgoString(postCreatedAt);
   const [replies, setReplies] = useState([]);
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [value, setValue] = useState("");
@@ -20,6 +22,28 @@ function PostComment({ post, comment }) {
   const [showRepliesBtn, setShowRepliesBtn] = useState(
     comment.repliesCount ? true : false
   );
+
+  function getTimeAgoString(createdAt) {
+    const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
+
+    if (elapsedTime < 1) {
+      return "less than a minute ago";
+    } else if (elapsedTime === 1) {
+      return "1 minute ago";
+    } else if (elapsedTime < 60) {
+      return `${elapsedTime} minutes ago`;
+    } else if (elapsedTime < 120) {
+      return "an hour ago";
+    } else if (elapsedTime < 1440) {
+      const hoursAgo = Math.floor(elapsedTime / 60);
+      return `${hoursAgo} hours ago`;
+    } else if (elapsedTime < 2880) {
+      return "yesterday";
+    } else {
+      const daysAgo = Math.floor(elapsedTime / 1440);
+      return `${daysAgo} days ago`;
+    }
+  }
 
   async function getReplies() {
     const skip = replySkip + 10;
@@ -56,7 +80,10 @@ function PostComment({ post, comment }) {
         <div className="com">
           <Avatar src={comment?.authorImageUrl} />
           <div>
-            <h6>{comment?.author}</h6>
+            <div>
+              <h6>{comment?.author}</h6>
+              <span>{timeAgoString}</span>
+            </div>
             <p>{comment?.text}</p>
           </div>
         </div>

@@ -280,5 +280,29 @@ export default class Store {
       console.log("error in getting post's likes", e);
     }
   }
+  async followUser (username) {
+    try {
+      await UserServices.followUser(username);
+    } catch (e) {
+      console.log("error in follow user", e);
+    }
+  }
+  async unfollowUser (username) {
+    try {
+      await UserServices.unfollowUser(username);
+    } catch (e) {
+      console.log("error in follow user", e);
+    }
+  }
+
+
+  async checkAccountPrivate(username) {
+    try {
+      const res = await UserServices.checkAccountPrivate(username);
+      return res.data;
+    } catch (e) {
+      console.log("error in follow user", e);
+    }
+  }
 }
 

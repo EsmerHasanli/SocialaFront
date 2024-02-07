@@ -118,7 +118,7 @@ const PostCard = ({ post, fetchedUser }) => {
         </Swiper>
         <p>{post?.description}</p>
         <div className="icons-wrapper">
-          <PostLike post={post}  />
+          <PostLike post={post} fetchedUser={fetchedUser} />
         </div>
       </div>
       <Divider />

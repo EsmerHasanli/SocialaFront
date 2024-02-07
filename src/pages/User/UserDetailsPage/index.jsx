@@ -3,14 +3,11 @@ import { Context } from "../../../main";
 import { Helmet } from "react-helmet";
 import './index.scss'
 
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import SideBar from "../../../components/User/SideBar";
 import ProfileCard from "../../../components/User/ProfileCard";
 import AddPost from "../../../components/User/AddPost";
-import UserPostCard from "../../../components/User/Posts";
 import UserInfoCard from "../../../components/User/UserInfoCard";
 import UsersFriendsCard from "../../../components/User/UsersFriends"
 import { useNavigate, useParams } from "react-router-dom";

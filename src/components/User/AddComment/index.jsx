@@ -12,7 +12,7 @@ const AddComment = ({comments,setComments, post}) => {
         initialValues: {
             text: "", 
         },
-        validationSchema: CommentvalidationSchema,
+        // validationSchema: CommentvalidationSchema,
         onSubmit: async (values, actions) => {
             if( values.text=== "" && values.text.trim() === ""){
                 console.log(values.text); 
