@@ -23,8 +23,8 @@ export default class Store {
   setLoading(bool) {
     this.isLoading = bool;
   }
-  
 
+  
   async register(payload) {
     this.setLoading(true);
     try {
@@ -44,15 +44,13 @@ export default class Store {
       this.setLoading(false);
     }
   }
-
   async confirmEmail(payload){
     this.setLoading(true);
     try {
       const res = await AuthService.confirmEmail(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
       document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
-      this.setUser(res.data)
-      this.setAuth(true);
+      await this.checkAuth();
       return res.data.username;
     } catch (e) {
       console.log(e.response);
@@ -65,7 +63,6 @@ export default class Store {
       this.setLoading(false);
     }
   }
-
   async login(payload) {
     this.setLoading(true);
     try {
@@ -120,22 +117,19 @@ export default class Store {
       this.setLoading(false);
     }
   }
-
   async checkAuth() {
     this.setLoading(true);
     try {
       const res = await AuthService.checkAuth();
-      // console.log(res.data);
+      console.log(res.data);
       this.setUser(res.data);
-      console.log(res.data)
       this.setAuth(true);
     } catch (e) {
-      console.log(e);
+      localStorage.removeItem("token");
     } finally {
       this.setLoading(false);
     }
   }
-
   async logout() {
     this.setLoading(true);
     try {
@@ -148,7 +142,12 @@ export default class Store {
         }
       }
       if (token) {
-        await AuthService.logout(token);
+        try {
+          await AuthService.logout(token);
+        }
+        catch (e) {
+          console.log(e.response)
+        }
       }
 
       localStorage.removeItem("token");
@@ -173,7 +172,6 @@ export default class Store {
       // this.setLoading(false)
     }
   }
-
   async getFollowers() {
     try {
       const res = await UserServices.getFollowers(this.user.userName);
@@ -194,12 +192,11 @@ export default class Store {
   async createPost(payload) {
     try {
       const res = await PostService.createPost(payload);
-      console.log(res);
+      return res.data;
     } catch (e) {
       console.log("error in post", e);
     }
   }
-
   async getPosts(username){
     try{
       const res = await PostService.getPosts(username);
@@ -210,14 +207,78 @@ export default class Store {
   }
   
   async postComment(payload) {
-    console.log('store', payload);
     try {
       const res = await PostService.postComment(payload);
-      console.log(res);
+      return res.data;
     } catch (e) {
       console.log("error in post", e);
     }
   }
-  
+  async likeComment(id) {
+    try {
+      const res  = await PostService.likeComment(id);
+      return res
+    } catch (e) {
+      
+      console.log("error in post", e);
+    }
+  }
+  async replyComment(id, text) {
+    try {
+      const paylaod = {id, text}
+      const res  = await PostService.replyComment(paylaod);
+      return res.data
+    } catch (e) {
+      
+      console.log("error in post", e);
+    }
+  }
+  async getPostComments(postId, skip) {
+    try {
+      const res = await PostService.getComments(postId, skip);
+      console.log(res.data)
+      return res.data;
+    } catch (e) {
+      console.log("error in getting comments", e);
+    }
+  }
+  async getCommentReplies(commentId, skip) {
+    try {
+      console.log(commentId)
+      const res = await PostService.getCommentReplies(commentId, skip);
+      console.log(res)
+      return res.data;
+    } catch (e) {
+      console.log("error in getting replies", e);
+    }
+  }
+  async likeCommentReply(replyId) {
+    try {
+      const res = await PostService.likeCommentReply(replyId);
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log("error in like reply", e);
+    }
+  }
+
+  async likePost(postId){
+    try {
+      const res = await PostService.likePost(postId);
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log("error in like post", e);
+    }
+  }
+  async getPostLikes(postId){
+    try {
+      const res = await PostService.getPostLikes(postId);
+      console.log(res.data)
+      return res.data;
+    } catch (e) {
+      console.log("error in getting post's likes", e);
+    }
+  }
 }
 

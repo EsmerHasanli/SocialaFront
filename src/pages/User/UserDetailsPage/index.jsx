@@ -10,44 +10,29 @@ import Grid from '@mui/material/Grid';
 import SideBar from "../../../components/User/SideBar";
 import ProfileCard from "../../../components/User/ProfileCard";
 import AddPost from "../../../components/User/AddPost";
-import UserPostCard from "../../../components/User/PostCard";
+import UserPostCard from "../../../components/User/Posts";
 import UserInfoCard from "../../../components/User/UserInfoCard";
 import UsersFriendsCard from "../../../components/User/UsersFriends"
 import { useNavigate, useParams } from "react-router-dom";
 import FooterMobile from "../../../components/User/FooterMobile";
+import Posts from "../../../components/User/Posts";
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
-  
 const UserDetailsPage = () => {
   const { store } = useContext(Context);
   const {username} = useParams();
   const navigate = useNavigate()
-
+  const [posts, setPosts] = useState([])
   const [fetchedUser, setFetchedUser] = useState()
-  const [posts, setPosts] = useState()
-  const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-    async function fetchPosts() {
-      const res = await store.getPosts(fetchedUser.userName);
-      setPosts(res);
-      setLoading(false);
-    }
-  //   fetchPosts();
-  // }, [fetchedUser]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       const fetchedUserData = await store.getByUsername(username);
       if(fetchedUserData.status == 200){
+        const findedUser = fetchedUserData.data;
+        if (findedUser.userName == store.user.userName || !findedUser.isPrivate) setVisible(true);
+        else if (store.user.follows.find(f => f.userName == findedUser.userName && f.isConfirmed)) setVisible(true);
         setFetchedUser(fetchedUserData.data);
       }else{
         navigate('/not-found')
@@ -75,16 +60,14 @@ const UserDetailsPage = () => {
 
               <Grid item xs={8}>
               {
-                  fetchedUser && fetchedUser.userName == store.user.userName   
+                  visible
                   ?
                   <>
-                    <AddPost posts={posts} setPosts={setPosts} fetchPosts={fetchPosts}/>
-                    <UserPostCard fetchedUser={fetchedUser} posts={posts} setPosts={setPosts} loading={loading} fetchPosts={fetchPosts} />
+                    {store.user.userName == fetchedUser.userName &&
+                    <AddPost posts={posts} setPosts={setPosts} />}
+                    
+                    <Posts posts={posts} setPosts={setPosts} fetchedUser={fetchedUser}/>
                   </>
-                  :
-                  store.user.follows
-                  && store.user.follows.find(x=> x.userName == fetchedUser.userName && x.isConfirmed==true)
-                  ? <UserPostCard fetchedUser={fetchedUser} posts={posts} setPosts={setPosts}/>
                   :
                   <div className="locked-account-bg">
                     <img src="https://static.thenounproject.com/png/2259534-200.png" alt="" />

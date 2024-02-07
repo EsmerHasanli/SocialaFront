@@ -1,10 +1,10 @@
 #mobile-footer {
-    background-color: white; // устанавливаем белый фон для футера
+    background-color: white; 
   }
   
   @media (min-width: 1025px) {
     #mobile-footer {
-      display: none; // скрываем футер при ширине экрана больше 1024 пикселей
+      display: none; 
     }
   }
   

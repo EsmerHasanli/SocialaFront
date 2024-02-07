@@ -10,8 +10,9 @@ import { Context } from "../../../main";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import PostCreateValidationSchema from "../../../validations/PostCreateValidationSchema";
+import { observer } from "mobx-react-lite";
 
-const AddPost = ({ fetchPosts }) => {
+const AddPost = ({ posts, setPosts }) => {
   const { store } = useContext(Context);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,8 +47,8 @@ const AddPost = ({ fetchPosts }) => {
         for (let i = 0; i < values.files.length; i++) {
           newData.append("files", values.files[i]);
         }
-        await store.createPost(newData);
-        await fetchPosts()
+        const post = await store.createPost(newData);
+        setPosts([...posts, {...post}]);
         values.files = []
         actions.resetForm();
         closeModal();
@@ -136,4 +137,4 @@ const AddPost = ({ fetchPosts }) => {
     </section>
   );
 };
-export default AddPost;
+export default observer(AddPost);

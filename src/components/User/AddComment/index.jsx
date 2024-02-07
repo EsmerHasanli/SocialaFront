@@ -1,14 +1,13 @@
 import { Avatar } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../../main";
 import { useFormik } from "formik";
 import CommentvalidationSchema from "../../../validations/CommentvalidationSchema";
 import Swal from "sweetalert2";
 
-const AddComment = ({postId}) => {
+const AddComment = ({comments,setComments, post}) => {
     const {store} = useContext(Context)
-
     const formik = useFormik({
         initialValues: {
             text: "", 
@@ -24,13 +23,17 @@ const AddComment = ({postId}) => {
                 });
             }else{
                 const newData = {
-                    id: postId,
+                    id: post.id,
                     text: values.text
                 }
-                console.log(newData); 
-                await store.postComment(newData)
-                formik.resetForm();
+                const res = await store.postComment(newData);
+                setComments([{...res}, ...comments]);
+                //const comments = await store.getPostComments(postId)
+                
             }
+            formik.resetForm();
+            actions.resetForm()
+            values.text = ''
         },
     });
   return (
@@ -38,7 +41,7 @@ const AddComment = ({postId}) => {
       <form onSubmit={formik.handleSubmit}>
         <div>
         <Avatar src={store.user.imageUrl} />
-        <input id='text' name='text' value={formik.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
+        <input className="com-inp" id='text' name='text' value={formik.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
         </div>
         <button type='submit'>Comment</button>
       </form>

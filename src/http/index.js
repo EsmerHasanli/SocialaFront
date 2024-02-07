@@ -46,6 +46,7 @@ $api.interceptors.response.use(
         document.cookie = `RefreshToken=${response.data.refreshToken};expires=${response.data.expiresAt};path=/;`
         return $api.request(originalRequest);
       } catch (e) {
+        localStorage.removeItem('token')
         console.log(e);
       }
     }
