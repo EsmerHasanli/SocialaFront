@@ -41,81 +41,204 @@
       }
     }
     #user-info-form {
-      form {
+      div {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        div {
+        form {
           display: flex;
-          gap: 26px;
-          margin-bottom: 26px;
-          font-size: 14px;
-          font-weight: 400;
-          #name,
-          #surname,
-          #username,
-          #email,
-          #bio,
-          #gender,
-          #relationship {
-            padding: 7px 10px;
-            border: none;
-            background-color: rgb(241, 245, 249);
-            border-radius: 8px;
-            transition: width 0.5s, height 0.5s, background-color 0.5s;
-            &:focus {
-              outline: 2px solid rgb(37, 99, 235);
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            div:first-child {
+              display: flex;
+              justify-content: center;
+              align-items: end;
+              flex-direction: column;
+            }
+            div:nth-child(2) {
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              input {
+                margin-bottom: 26px;
+                padding: 7px 10px;
+                border: none;
+                background-color: rgb(241, 245, 249);
+                border-radius: 8px;
+                transition: width 0.5s, height 0.5s, background-color 0.5s;
+                &:focus {
+                  outline: 2px solid rgb(37, 99, 235);
+                }
+              }
+              textarea{
+                margin-bottom: 26px;
+                padding: 7px 10px;
+                border: none;
+                background-color: rgb(241, 245, 249);
+                border-radius: 8px;
+              }
+              select{
+                margin-bottom: 26px;
+                padding: 7px 10px;
+                border: none;
+                background-color: rgb(241, 245, 249);
+                border-radius: 8px;
+              }
+            }
+          }
+          .button-wrapper {
+            margin-top: 26px;
+            display: flex;
+            gap: 26px;
+            button {
+              padding: 6px 24px;
+              border: none;
+              border-radius: 8px;
+              font-size: 12px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+            .white {
+              background-color: rgb(241, 245, 249);
+            }
+            .blue {
+              background-color: rgb(37, 99, 235);
+              color: white;
             }
           }
         }
-        .button-wrapper{
-            margin-top: 26px;
-            button{
-                padding: 6px 24px;
-                border: none;
-                border-radius:8px;
-                font-size: 12px;
-                font-weight: 500;
-                cursor: pointer;
+      }
+    }
+    #user-social-links {
+      h3 {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      p {
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgb(75, 85, 99);
+      }
+      form {
+        margin-top: 32px;
+        ul {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          li {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 26px;
+            div {
+              padding: 8px;
+              display: flex;
+              align-items: center;
+              border-radius: 50%;
             }
-            .white{
-                background-color:rgb(241,245,249);
+            input {
+              padding: 7px 10px;
+              border: none;
+              background-color: rgb(241, 245, 249);
+              border-radius: 8px;
+              transition: width 0.5s, height 0.5s, background-color 0.5s;
+              &:focus {
+                outline: 2px solid rgb(37, 99, 235);
+              }
             }
-            .blue{
-                background-color: rgb(37, 99, 235);
-                color: white;
-            }
+          }
+        }
+      }
+      .btn-wrapper {
+        margin-top: 26px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 26px;
+        button {
+          padding: 6px 24px;
+          border: none;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+        .white {
+          background-color: rgb(241, 245, 249);
+        }
+        .blue {
+          background-color: rgb(37, 99, 235);
+          color: white;
         }
       }
     }
-    #user-social-links{
-        h3{
-            font-size: 20px;
-            font-weight: 500;
+    #user-password-form {
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        form {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            div:first-child {
+              display: flex;
+              justify-content: center;
+              align-items: end;
+              flex-direction: column;
+            }
+            div:nth-child(2) {
+              display: flex;
+              flex-direction: column;
+              input {
+                padding: 7px 10px;
+                border: none;
+                background-color: rgb(241, 245, 249);
+                border-radius: 8px;
+                transition: width 0.5s, height 0.5s, background-color 0.5s;
+                &:focus {
+                  outline: 2px solid rgb(37, 99, 235);
+                }
+              }
+            }
+          }
+          .button-wrapper {
+            margin-top: 26px;
+            display: flex;
+            gap: 26px;
+            button {
+              padding: 6px 24px;
+              border: none;
+              border-radius: 8px;
+              font-size: 12px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+            .white {
+              background-color: rgb(241, 245, 249);
+            }
+            .blue {
+              background-color: rgb(37, 99, 235);
+              color: white;
+            }
+          }
         }
-        p{
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: 400;
-            color:rgb(75, 85, 99);
-        }
-        button{
-            padding: 6px 24px;
-            border: none;
-            border-radius:8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .white{
-            background-color:rgb(241,245,249);
-        }
-        .blue{
-            background-color: rgb(37, 99, 235);
-            color: white;
-        }
-        
+      }
     }
   }
 }

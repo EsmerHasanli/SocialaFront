@@ -20,6 +20,7 @@ import { PhotoCamera } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import UserInfoForm from "../../../components/User/UserSettings/UserInfoForm";
 import SocialLinks from "../../../components/User/UserSettings/SocialLinks";
+import PasswordReset from "../../../components/User/UserSettings/PasswordReset";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -117,8 +118,8 @@ const UserSettings = () => {
                 <TabPanel style={{padding:'48px 80px'}} id='user-social-links' value={value} index={1}>
                   <SocialLinks/>
                 </TabPanel>
-                <TabPanel style={{padding:'48px 80px'}} value={value} index={2}>
-                  Password Tab Content
+                <TabPanel style={{padding:'48px 80px'}} id='user-password-form' value={value} index={2}>
+                  <PasswordReset/>
                 </TabPanel>
               </Box>
             </div>
