@@ -282,7 +282,8 @@ export default class Store {
   }
   async followUser (username) {
     try {
-      await UserServices.followUser(username);
+      const res = await UserServices.followUser(username);
+      return res.data;
     } catch (e) {
       console.log("error in follow user", e);
     }
@@ -290,6 +291,16 @@ export default class Store {
   async unfollowUser (username) {
     try {
       await UserServices.unfollowUser(username);
+    } catch (e) {
+      console.log("error in follow user", e);
+    }
+  }
+
+
+  async checkAccountPrivate(username) {
+    try {
+      const res = await UserServices.checkAccountPrivate(username);
+      return res.data;
     } catch (e) {
       console.log("error in follow user", e);
     }

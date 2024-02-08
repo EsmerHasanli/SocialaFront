@@ -10,33 +10,32 @@ import { FollowContext } from '../../../context';
 const ProfileCard = () => {
     const { store } = useContext(Context);
     const {fetchedUser, setFetchedUser} = useContext(FollowContext)
-    const {followStatus, setFollowStatus} = useContext(FollowContext)
+    const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext);
 
-    async function handleFollowBtn() {
-        const isPrivate = await store.checkAccountPrivate(fetchedUser.userName);
+    async function handleFollow() {
         let count;
-        if (followStatus == "follow") 
+        const followItem = currentUserFollows.find(fi => fi.userName == fetchedUser.userName)
+        if (!followItem) 
         {
-            await store.followUser(fetchedUser.userName);
-            if (isPrivate) {
-                setFollowBtn("cancel request")
-                store.user.followRequestsCount++;
+            const newFollowItem = await store.followUser(fetchedUser.userName);
+            if (newFollowItem.isConfirmed) {
+                count = fetchedUser.followersCount + 1
+                setFetchedUser(prev => ({...prev,followersCount:count }))
             }
-            else {
-                count = fetchedUser.followersCount + 1;
-                setFollowBtn("unfollow") 
-                setFetchedUser(prev => ({...prev,followersCount:count}))
-                store.user.followsCount++;
-            }
+            setCurrentUserFollows([...currentUserFollows, {...newFollowItem}])
         }
         else 
         {
-            await store.unfollowUser(fetchedUser.username);
-            if (!isPrivate) {
+            const currentFollow = currentUserFollows.find(f => f.userName == fetchedUser.userName);
+            if (currentFollow) {
+                await store.unfollowUser(fetchedUser.userName);
+            }
+            const filteredArr = currentUserFollows.filter(f => f.userName != fetchedUser.userName)
+            if (currentFollow.isConfirmed) {
                 count = fetchedUser.followersCount - 1
                 setFetchedUser(prev => ({...prev,followersCount:count }))
             }
-            setFollowBtn("follow");
+            setCurrentUserFollows([...filteredArr]);
         }
       }
   return (
@@ -68,12 +67,16 @@ const ProfileCard = () => {
                     <li>
                         Followers <span>{fetchedUser?.followersCount}</span>
                     </li>
-                    <li>
-                        Follow Requests <span>{fetchedUser.followsCount}</span>
-                    </li>
-                    <li>
-                        Follower Requests <span>{fetchedUser.followersCount}</span>
-                    </li>
+                    {store.user.userName == fetchedUser.userName &&
+                    <>
+                        <li>
+                            Follow Requests <span>{currentUserFollows.filter(uf => uf.isConfirmed == false).length}</span>
+                        </li>
+                        <li>
+                            Follower Requests <span>{store.user.followers.filter(uf => uf.isConfirmed == false).length}</span>
+                        </li>
+                    </>
+                   }
                 </ul>
                 {
                 fetchedUser?.userName == store.user.userName ?
@@ -84,8 +87,12 @@ const ProfileCard = () => {
                     </ul>
                     :
                     <ul className='feautures'>
-                        <li style={{padding:'10px 15px'}}>
-                            <p>Follow</p>
+                        <li onClick={handleFollow} style={{padding:'10px 15px'}}>
+                            <p>{currentUserFollows.find(f => f.userName == fetchedUser.userName) 
+                                ? currentUserFollows.find(f => f.userName == fetchedUser.userName && f.isConfirmed)
+                                    ? "unfollow" 
+                                    : "cancel request" 
+                                : 'follow'}</p>
                         </li>
                 </ul>
                 }

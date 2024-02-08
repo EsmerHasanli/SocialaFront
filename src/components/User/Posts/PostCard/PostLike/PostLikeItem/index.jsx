@@ -11,30 +11,38 @@ const PostLikeItem = ({likeItem, handleClose}) => {
   const navigate = useNavigate()
   const { store } = useContext(Context);
   const {fetchedUser, setFetchedUser} = useContext(FollowContext)
-  const followItem = store.user.follows.find(f => f.userName == likeItem.username)
-  const [followBtn, setFollowBtn] = useState(
-    followItem
-      ? followItem.isConfirmed
-        ? "unfollow"
-        : "cancel request"
-      : "follow"
-  );
+  const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext);
+  
   async function handleFollowBtn() {
-    const isPrivate = await store.checkAccountPrivate(likeItem.username);
-    if (followBtn == "follow") {
-      await store.followUser(likeItem.username);
-      if (fetchedUser.userName == likeItem.username) {
-        const count = fetchedUser.followersCount + 1;
-        setFetchedUser(prev => ({...prev,followersCount:count}))
-      }
-      if (isPrivate) setFollowBtn("cancel request");
-      else setFollowBtn("unfollow");
-    } else {
-      await store.unfollowUser(likeItem.username);
-      const count = fetchedUser.followersCount - 1;
-      setFetchedUser(prev => ({...prev,followersCount:count }))
-      setFollowBtn("follow");
-    }
+      let count;
+      const followItem = currentUserFollows.find(fi => fi.userName == likeItem.username)
+        if (!followItem) 
+        {
+            const newFollowItem = await store.followUser(likeItem.username);
+            console.log(newFollowItem);
+            if (likeItem.username == fetchedUser.userName) {
+              if (newFollowItem?.isConfirmed) {
+                count = fetchedUser.followersCount + 1
+                setFetchedUser(prev => ({...prev,followersCount:count }))
+              }
+             
+            }
+            setCurrentUserFollows([...currentUserFollows, {...newFollowItem}])
+        }
+        else 
+        {
+            const currentFollow = currentUserFollows.find(f => f.userName == likeItem.username);
+            if (currentFollow) {
+                await store.unfollowUser(likeItem.username);
+            }
+            const filteredArr = currentUserFollows.filter(f => f.userName != likeItem.username)
+            if (currentFollow.isConfirmed && likeItem.username == fetchedUser.userName) {
+                count = fetchedUser.followersCount - 1
+                setFetchedUser(prev => ({...prev,followersCount:count }))
+            }
+            
+            setCurrentUserFollows([...filteredArr]);
+        }
   }
   return (
     <>
@@ -62,7 +70,11 @@ const PostLikeItem = ({likeItem, handleClose}) => {
         </div>
         <div>
           {store.user.userName != likeItem.username && (
-            <Button onClick={handleFollowBtn}>{followBtn}</Button>
+            <Button onClick={handleFollowBtn}>{currentUserFollows.find(f => f.userName == likeItem.username) 
+              ? currentUserFollows.find(f => f.userName == likeItem.username && f.isConfirmed)
+                  ? "unfollow" 
+                  : "cancel request" 
+              : 'follow'}</Button>
           )}
         </div>
       </li>

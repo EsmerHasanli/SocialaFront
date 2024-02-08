@@ -13,10 +13,12 @@ function App() {
   const { store } = useContext(Context);
   const navigate = useNavigate();
   const [fetchedUser, setFetchedUser] = useState({});
-  const [followStatus, setFollowStatus] = useState(false);
+  const [currentUserFollows, setCurrentUserFollows] = useState([]);
+
   useEffect(() => {
     const fetchCurrentUser = async () => {
       await store.checkAuth();
+      setCurrentUserFollows(store.user.follows);
     };
     if (document.cookie.includes("RefreshToken")) {
       fetchCurrentUser();
@@ -46,6 +48,8 @@ function App() {
       value={{
         fetchedUser,
         setFetchedUser,
+        currentUserFollows,
+        setCurrentUserFollows,
       }}
     >
       <AppRouter />

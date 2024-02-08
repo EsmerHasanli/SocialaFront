@@ -2,11 +2,11 @@ import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import {Context} from '../../../main'
 import { useFormik } from "formik";
-import { Checkbox } from "@mui/material";
+import Swal from "sweetalert2";
 
 const UserInfoForm = () => {
   const {store} = useContext(Context)
-
+  
   const formik = useFormik({
     initialValues: {
       name: store.user.name,
@@ -19,6 +19,8 @@ const UserInfoForm = () => {
     },
     // validationSchema: 
     onSubmit: async (values, actions) => {
+      Swal.fire("Your info updated succesfully!");
+
       const editedData = new FormData()
       editedData.append('name', values.name)
       editedData.append('surname', values.surname)
@@ -27,20 +29,13 @@ const UserInfoForm = () => {
       editedData.append('bio', values.bio)
       editedData.append('gender', values.gender)
       editedData.append('isPrivate', values.isPrivate)
-
+    
+      console.log(values);
       await store.editDesription(editedData)
-      const user = store.user
-      user.name = values.name
-      user.surname = values.surname
-      user.userName = values.userName
-      user.email = values.email
-      user.bio = values.bio
-      user.gender = values.gender
-      user.isPrivate = values.isPrivate
       
       actions.resetForm();
-
     }
+    
   })
   return (
     <div>
@@ -68,7 +63,6 @@ const UserInfoForm = () => {
               <option value="None">None</option>
             </select>
             <input type='checkbox' id='isPrivate' name='isPrivate' value={formik.values.isPrivate} onChange={formik.handleChange} />
-            {/* <input type="checkbox" id='isPrivate' name='isPrivate' value={formik.values.isPrivate} onChange={formik.handleChange} /> */}
           </div>
         </div>
 
