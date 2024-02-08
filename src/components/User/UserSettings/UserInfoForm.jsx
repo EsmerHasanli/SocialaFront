@@ -1,9 +1,50 @@
-import React from "react";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import {Context} from '../../../main'
+import { useFormik } from "formik";
+import { Checkbox } from "@mui/material";
 
 const UserInfoForm = () => {
+  const {store} = useContext(Context)
+
+  const formik = useFormik({
+    initialValues: {
+      name: store.user.name,
+      surname: store.user.surname,
+      userName: store.user.userName, 
+      email: store.user.email,
+      bio: store.user.bio,
+      gender: store.user.gender, 
+      isPrivate: store.user.isPrivate
+    },
+    // validationSchema: 
+    onSubmit: async (values, actions) => {
+      const editedData = new FormData()
+      editedData.append('name', values.name)
+      editedData.append('surname', values.surname)
+      editedData.append('userName', values.userName)
+      editedData.append('email', values.email)
+      editedData.append('bio', values.bio)
+      editedData.append('gender', values.gender)
+      editedData.append('isPrivate', values.isPrivate)
+
+      await store.editDesription(editedData)
+      const user = store.user
+      user.name = values.name
+      user.surname = values.surname
+      user.userName = values.userName
+      user.email = values.email
+      user.bio = values.bio
+      user.gender = values.gender
+      user.isPrivate = values.isPrivate
+      
+      actions.resetForm();
+
+    }
+  })
   return (
     <div>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <div className="form-wrapper">
           <div>
             <label style={{marginBottom:'34px'}} htmlFor="name">Name</label>
@@ -12,27 +53,22 @@ const UserInfoForm = () => {
             <label style={{marginBottom:'34px'}} htmlFor="email">Email</label>
             <label style={{marginBottom:'34px'}} htmlFor="bio">Bio</label>
             <label style={{marginBottom:'34px'}} htmlFor="gender">Gender</label>
-            <label style={{marginBottom:'34px'}} htmlFor="relationship">Relationship</label>
+            <label htmlFor="isPravite">Private Account</label>
           </div>
 
           <div>
-            <input  style={{marginBottom:'26px'}} id="name" name="name" type="text" />
-            <input  style={{marginBottom:'26px'}} id="surname" name="surname" type="text" />
-            <input  style={{marginBottom:'26px'}} id="username" name="username" type="text" />
-            <input  style={{marginBottom:'26px'}} id="email" name="email" type="email" />
-            <textarea  style={{marginBottom:'26px'}} id="bio" name="bio" />
-            <select  style={{marginBottom:'26px'}} name="gender" id="gender">
+            <input style={{marginBottom:'26px'}} id="name" name="name" type="text" placeholder={store.user.name} value={formik.values.name} onChange={formik.handleChange} />
+            <input style={{marginBottom:'26px'}} id="surname" name="surname" type="text" placeholder={store.user.surname} value={formik.values.surname} onChange={formik.handleChange} />
+            <input style={{marginBottom:'26px'}} id="username" name="username" type="text" placeholder={store.user.userName} value={formik.values.username} onChange={formik.handleChange} />
+            <input style={{marginBottom:'26px'}} id="email" name="email" type="email"  placeholder={store.user.email} value={formik.values.email} onChange={formik.handleChange} />
+            <textarea style={{marginBottom:'26px'}} id="bio" name="bio" placeholder={store.user.bio} values={formik.values.bio} onChange={formik.handleChange} />
+            <select style={{marginBottom:'26px'}} name="gender" id="gender" defaultValue={store.user.gender} values={formik.values.gender} onChange={formik.handleChange} >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="None">None</option>
             </select>
-            <select  style={{marginBottom:'26px'}} name="relationship" id="relationship">
-              <option value="None">None</option>
-              <option value="Single">Single</option>
-              <option value="In a Relationship">In a Relationship</option>
-              <option value="Engaged">Engaged</option>
-              <option value="Maried">Maried</option>
-            </select>
+            <input type='checkbox' id='isPrivate' name='isPrivate' value={formik.values.isPrivate} onChange={formik.handleChange} />
+            {/* <input type="checkbox" id='isPrivate' name='isPrivate' value={formik.values.isPrivate} onChange={formik.handleChange} /> */}
           </div>
         </div>
 
@@ -49,4 +85,4 @@ const UserInfoForm = () => {
   );
 };
 
-export default UserInfoForm;
+export default observer(UserInfoForm);

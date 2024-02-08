@@ -237,5 +237,43 @@
         }
       }
     }
+    #user-notifications-form{
+      div{
+        display: flex;
+        justify-content: center;
+        align-items:start;
+        flex-direction: column;
+        .wrapper{
+          display: flex;
+          align-items:start;
+          justify-content: center;
+          gap: 50px;
+          flex-direction: row;
+        }
+        .button-wrapper {
+          margin-top: 26px;
+          display: flex;
+          justify-content: center;
+          align-items:center;
+          flex-direction: row;
+          gap: 26px;
+          button {
+            padding: 6px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+          }
+          .white {
+            background-color: rgb(241, 245, 249);
+          }
+          .blue {
+            background-color: rgb(37, 99, 235);
+            color: white;
+          }
+        }
+      }
+    }
   }
 }

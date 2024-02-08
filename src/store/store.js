@@ -304,5 +304,14 @@ export default class Store {
       console.log("error in follow user", e);
     }
   }
+
+  async editDesription(payload) {
+    try {
+      const res = await UserServices.editDesription(payload);
+      return res.data;
+    } catch (e) {
+      console.log("error in editing description", e);
+    }
+  }
 }
 

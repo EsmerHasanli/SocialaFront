@@ -19,7 +19,6 @@ const Posts = ({posts, setPosts}) => {
       setPosts(res);
     }
     fetchPosts();
-    console.log('hi');
   }, [fetchedUser.userName]);
 
   return (
