@@ -7,7 +7,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Modal } from "antd";
 import PostLikeItem from "./PostLikeItem";
 
-const PostLike = ({ post }) => {
+const PostLike = ({ post}) => {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isPostLiked, setIsPostLiked] = useState(
@@ -69,7 +69,7 @@ const PostLike = ({ post }) => {
       >
         <ul>
           {likeItems.map((likeItem) => (
-            <PostLikeItem likeItem={likeItem} />
+            <PostLikeItem key={likeItem.id} likeItem={likeItem} handleClose={handleCancel}/>
           ))}
         </ul>
       </Modal>

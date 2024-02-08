@@ -14,10 +14,12 @@ import { Keyboard, Pagination } from "swiper/modules";
 import AddComment from "../../AddComment";
 import PostComment from "./PostComment";
 import PostLike from "./PostLike";
+import { FollowContext } from "../../../../context";
 
-const PostCard = ({ post, fetchedUser }) => {
+const PostCard = ({ post }) => {
     // console.log("post", post);
   const { store } = useContext(Context);
+  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
   const [comments, setComments] = useState(post.comments);
   const [commentSkip, setCommentSkip] = useState(-5);
   const [showMoreBtn, setShowMoreBtn] = useState(

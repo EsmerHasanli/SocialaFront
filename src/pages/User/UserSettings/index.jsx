@@ -6,21 +6,13 @@ import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
 
-import {
-  Avatar,
-  Box,
-  Divider,
-  Grid,
-  IconButton,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Divider, Grid, IconButton, Tab, Tabs, Typography,} from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import UserInfoForm from "../../../components/User/UserSettings/UserInfoForm";
 import SocialLinks from "../../../components/User/UserSettings/SocialLinks";
 import PasswordReset from "../../../components/User/UserSettings/PasswordReset";
+import Notifications from "../../../components/User/UserSettings/Notification";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,7 +50,7 @@ const UserSettings = () => {
       </Helmet>
       <section id="user-settings">
         <Grid container spacing={2}>
-          <Grid item xs={2}>
+          <Grid item xs={false} lg={2}>
             <SideBar />
           </Grid>
           <Grid item xs={10}>
@@ -111,6 +103,7 @@ const UserSettings = () => {
                   <Tab label="User" id="tab-0" />
                   <Tab label="Social Media" id="tab-1" />
                   <Tab label="Password" id="tab-2" />
+                  <Tab label="Notifications" id="tab-3" />
                 </Tabs>
                 <TabPanel style={{padding:'48px 80px'}} id='user-info-form' value={value} index={0}>
                   <UserInfoForm/>
@@ -120,6 +113,9 @@ const UserSettings = () => {
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-password-form' value={value} index={2}>
                   <PasswordReset/>
+                </TabPanel>
+                <TabPanel style={{padding:'48px 80px'}} id='user-notifications-form' value={value} index={3}>
+                  <Notifications/>
                 </TabPanel>
               </Box>
             </div>

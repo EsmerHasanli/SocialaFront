@@ -6,25 +6,27 @@ import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 const { Meta } = Card;
 import PostCard from "./PostCard";
+import { FollowContext } from "../../../context";
 
 
 
-const Posts = ({posts, setPosts, fetchedUser}) => {
+const Posts = ({posts, setPosts}) => {
   const {store} = useContext(Context);
- 
+  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
   useEffect(() => {
     async function fetchPosts() {
       const res = await store.getPosts(fetchedUser.userName);
       setPosts(res);
     }
     fetchPosts();
-  }, []);
+    console.log('hi');
+  }, [fetchedUser.userName]);
 
   return (
     <div id="user-posts-wrapper">
-      {
+      {posts &&
         posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((post) => 
-         <PostCard key={post.id}  post={post} fetchedUser={fetchedUser} />
+         <PostCard key={post.id}  post={post}  />
         )}
 
       {store.isLoading && (
