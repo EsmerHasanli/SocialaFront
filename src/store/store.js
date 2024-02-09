@@ -363,5 +363,15 @@ export default class Store {
       console.log('error in editing bg', e);
     }
   }
+  async likeAvatar(username){
+    console.log('username', username);
+    try {
+      const res = await UserServices.likeAvatar(username);
+      console.log(res);
+      return res;
+    } catch(e){
+      console.log('error in like avatar', e);
+    }
+  }
 }
 

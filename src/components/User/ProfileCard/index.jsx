@@ -9,6 +9,7 @@ import { FollowContext } from '../../../context';
 import UserBio from './UserBio';
 import UserAvatar from './UserAvatar';
 import UserBackground from './UserBackground';
+import LikeAvatar from './LikeAvatar';
 
 const ProfileCard = () => {
     const { store } = useContext(Context);
@@ -44,8 +45,15 @@ const ProfileCard = () => {
   return (
     <div id='profile-card'>
         <div className='background-wrapper' style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}}>
-            <UserBackground/>
-            <UserAvatar/>
+            {
+                store.user.userName == fetchedUser?.userName  &&
+                <UserBackground/>
+            }
+            {
+                store.user.userName == fetchedUser?.userName 
+                ? <UserAvatar />
+                : <LikeAvatar />
+            }
         </div>
         <h1>{fetchedUser?.name}{" "}{fetchedUser?.surname}</h1>
         <UserBio/>

@@ -36,7 +36,6 @@ const UserAvatar = () => {
   return (
     <form className="avatar-form" onSubmit={formik.handleSubmit}>
       <Avatar className="avatar" src={fetchedUser?.imageUrl} />
-      {store.user.userName == fetchedUser.userName && (
         <>
           <input
             type="file"
@@ -49,7 +48,6 @@ const UserAvatar = () => {
             <PhotoCameraIcon />
           </label>
         </>
-      )}
     </form>
   );
 };
