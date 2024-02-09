@@ -32,6 +32,7 @@ const UserInfoForm = () => {
     
       console.log(values);
       await store.editDesription(editedData)
+      await store.checkAuth()
       
       actions.resetForm();
     }
@@ -54,7 +55,7 @@ const UserInfoForm = () => {
           <div>
             <input style={{marginBottom:'26px'}} id="name" name="name" type="text" placeholder={store.user.name} value={formik.values.name} onChange={formik.handleChange} />
             <input style={{marginBottom:'26px'}} id="surname" name="surname" type="text" placeholder={store.user.surname} value={formik.values.surname} onChange={formik.handleChange} />
-            <input style={{marginBottom:'26px'}} id="username" name="username" type="text" placeholder={store.user.userName} value={formik.values.username} onChange={formik.handleChange} />
+            <input style={{marginBottom:'26px'}} id="userName" name="userName" type="text" placeholder={store.user.userName} value={formik.values.userName} onChange={formik.handleChange} />
             <input style={{marginBottom:'26px'}} id="email" name="email" type="email"  placeholder={store.user.email} value={formik.values.email} onChange={formik.handleChange} />
             <textarea style={{marginBottom:'26px'}} id="bio" name="bio" placeholder={store.user.bio} values={formik.values.bio} onChange={formik.handleChange} />
             <select style={{marginBottom:'26px'}} name="gender" id="gender" defaultValue={store.user.gender} values={formik.values.gender} onChange={formik.handleChange} >

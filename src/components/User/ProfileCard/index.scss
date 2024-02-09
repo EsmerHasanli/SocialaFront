@@ -5,30 +5,45 @@
     border-bottom-right-radius:8px;
     margin-bottom: 30px;
     .background-wrapper{
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        height: 260px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        .avatar{
-            position: absolute;
-            border: 8px solid rgb(243,244,246);
-            top: 85px;
-            overflow: hidden;
-            width: 200px;
-            height: 200px;
-            img{
-                border-radius: 50%;
+        form{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 260px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            .avatar{
+                position: absolute;
+                border: 8px solid rgb(243,244,246);
+                top: 85px;
+                overflow: hidden;
+                width: 200px;
+                height: 200px;
+                img{
+                    border-radius: 50%;
+                }
             }
-        }
-        .photo{
-            position: absolute;
-            bottom: -40px;
-            background-color: white;
-            color: rgb(75,85,99);
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            input{
+                display: none;
+            }
+            .photo{
+                display: flex;
+                justify-content: center;
+                align-items:center;
+                padding: 8px;
+                border-radius:50%;
+                position: absolute;
+                bottom: -40px;
+                background-color: white;
+                color: rgb(75,85,99);
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                transition: .5s;
+                &:hover{
+                    background-color: rgb(243,244,246);
+                    
+                }
+            }
         }
     }
     h1{
@@ -43,19 +58,38 @@
         justify-content: center;
         align-items: center;
         gap:20px;
-        p{
-            color: rgb(75, 85, 99);
-            font-size: 16px;
-            font-weight: 400;
-            text-align: center;
-        }
-        button{
-            cursor: pointer;
-            background-color:transparent;
-            border: none;
-            color:rgb(59, 130, 246);
-            font-size: 16px;
-        }
+        form{
+            margin: 10px 0 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:20px;
+            p{
+                color: rgb(75, 85, 99);
+                font-size: 16px;
+                font-weight: 400;
+                text-align: center;
+            }
+            input {
+                padding: 7px 10px;
+                border: none;
+                background-color: rgb(241, 245, 249);
+                border-radius: 8px;
+                transition: width 0.5s, height 0.5s, background-color 0.5s;
+                &:focus {
+                  outline: 2px solid rgb(37, 99, 235);
+                }
+              }
+            }
+            button{
+                padding: 7px 10px;
+                cursor: pointer;
+                background-color:transparent;
+                border: 1px solid rgb(59, 130, 246);
+                border-radius: 8px;
+                color:rgb(59, 130, 246);
+                font-size: 16px;
+            }
     }
     nav{
         padding: 0 20px;
@@ -80,6 +114,7 @@
                         font-size: 12px;
                     }
                     &:hover{
+                        cursor: pointer;
                         border-bottom:3px solid rgb(59, 130, 246);
                         color:rgb(59, 130, 246);
                     }
@@ -89,6 +124,7 @@
         .feautures{
             margin-bottom: 20px;
             li{
+                cursor:pointer;
                 span{
                     width: 24px;
                     height: 24px;
@@ -98,16 +134,14 @@
                     border-radius:50%;
                     background-color:white;
                 }
-                p{
-                    color:white;
-                }
-                padding: 5px;
+                padding: 10px 20px;
                 border-radius: 8px;
                 display: flex;
                 align-items:center;
                 gap: 10px; 
+                border: 1px solid rgb(59, 130, 246);
                 background-color:rgb(59, 130, 246);
-                color:black
+                color:white
             }
         }
     }

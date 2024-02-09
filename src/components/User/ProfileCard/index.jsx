@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Avatar, IconButton, Divider, Button } from '@mui/material'
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import React, { useContext } from 'react'
+import { Divider } from '@mui/material'
+
 import AddIcon from '@mui/icons-material/Add';
 import './index.scss'
 import { Context } from "../../../main";
 import { observer } from 'mobx-react-lite';
 import { FollowContext } from '../../../context';
+import UserBio from './UserBio';
+import UserAvatar from './UserAvatar';
 
 const ProfileCard = () => {
     const { store } = useContext(Context);
@@ -40,27 +42,15 @@ const ProfileCard = () => {
       }
   return (
     <div id='profile-card'>
-        <div style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}} className='background-wrapper'>
-            <Avatar className='avatar' src={fetchedUser?.imageUrl}/>
-            <IconButton className='photo'>
-                <PhotoCameraIcon />
-            </IconButton>
+        <div className='background-wrapper' style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}}>
+            <UserAvatar/>
         </div>
         <h1>{fetchedUser?.name}{" "}{fetchedUser?.surname}</h1>
-        <div className="decr">
-            <p>{fetchedUser?.bio}</p>
-            {
-                fetchedUser?.userName == store.user.userName &&
-                <button>Edit</button>
-            }
-        </div>
+        <UserBio/>
         <Divider/>
         <nav>
             <div className="wrapper">
                 <ul className='links'>
-                    <li>
-                        Timeline
-                    </li>
                     <li>
                         Follows <span>{fetchedUser?.followsCount}</span>
                     </li>
@@ -87,7 +77,7 @@ const ProfileCard = () => {
                     </ul>
                     :
                     <ul className='feautures'>
-                        <li onClick={handleFollow} style={{padding:'10px 15px'}}>
+                        <li onClick={handleFollow} style={!currentUserFollows.find(f => f.userName == fetchedUser.userName && f.isConfirmed) ? { backgroundColor: 'rgb(59, 130, 246)', color:'white'} :  {backgroundColor: 'white', color:'rgb(59, 130, 246)'} }>
                             <p>{currentUserFollows.find(f => f.userName == fetchedUser.userName) 
                                 ? currentUserFollows.find(f => f.userName == fetchedUser.userName && f.isConfirmed)
                                     ? "unfollow" 

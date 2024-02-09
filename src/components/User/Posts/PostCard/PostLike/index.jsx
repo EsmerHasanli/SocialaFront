@@ -10,8 +10,11 @@ import PostLikeItem from "./PostLikeItem";
 const PostLike = ({ post}) => {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(post.likesCount);
+  // const [isPostLiked, setIsPostLiked] = useState(
+  //   store.user.likedPosts.find((x) => (x.post.id == post.id ? true : false))
+  // );
   const [isPostLiked, setIsPostLiked] = useState(
-    store.user.likedPosts.find((x) => (x.post.id == post.id ? true : false))
+    store.user.likedPostsIds.find((id) => (id == post.id ? true : false))
   );
   const [likeItems, setLikeItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);

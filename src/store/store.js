@@ -324,5 +324,24 @@ export default class Store {
       console.log("error in editing description", e);
     }
   }
+  async editSocialLinks(paylaod){
+    try {
+      const res = await UserServices.editSocialLinks(paylaod);
+      console.log(res);
+      return res;
+    } catch(e){
+      console.log('error in editing social media links', e);
+    }
+  }
+
+  async editBio(paylaod){
+    try {
+      const res = await UserServices.editBio(paylaod);
+      console.log(res);
+      return res;
+    } catch(e){
+      console.log('error in editing bio', e);
+    }
+  }
 }
 

@@ -32,7 +32,7 @@ export default class UserServices {
     return await $api.put(`${API_BASE_URL}/settings/bio`, payload)
   }
   static async editSocialLinks(payload) {
-    return await $api.put(`${API_BASE_URL}/settings/social/`, payload)
+    return await $api.put(`${API_BASE_URL}/settings/social`, payload)
   }
   static async editNotifications(payload) {
     return await $api.put(`${API_BASE_URL}/settings/notification`, payload)

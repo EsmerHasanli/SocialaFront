@@ -26,6 +26,10 @@
           p {
             display: flex;
             flex-direction: column;
+            span:last-child{
+              font-size: 10px;
+              color: rgb(89,114,154);
+            }
           }
         }
       }

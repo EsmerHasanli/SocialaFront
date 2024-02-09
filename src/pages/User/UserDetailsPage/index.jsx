@@ -9,7 +9,6 @@ import SideBar from "../../../components/User/SideBar";
 import ProfileCard from "../../../components/User/ProfileCard";
 import AddPost from "../../../components/User/AddPost";
 import UserInfoCard from "../../../components/User/UserInfoCard";
-import UsersFriendsCard from "../../../components/User/UsersFriends";
 import { useNavigate, useParams } from "react-router-dom";
 import FooterMobile from "../../../components/User/FooterMobile";
 import Posts from "../../../components/User/Posts";
@@ -86,7 +85,6 @@ const UserDetailsPage = () => {
 
               <Grid item xs={4}>
                 <UserInfoCard />
-                <UsersFriendsCard />
               </Grid>
             </Grid>
           </Grid>
