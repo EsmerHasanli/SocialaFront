@@ -6,14 +6,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import CommentReply from "./CommentReply";
-function PostComment({ post, comment }) {
+function PostComment({ comment }) {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
   const [isLiked, setIsLiked] = useState(
     store.user.likedCommentsIds.includes(comment.id) ? true : false
   );
-  const postCreatedAt = Date.parse(post.createdAt);
-  const timeAgoString = getTimeAgoString(postCreatedAt);
+  const commentCreatedAt = Date.parse(comment.createdAt);
+  const timeAgoString = getTimeAgoString(commentCreatedAt);
   const [replies, setReplies] = useState([]);
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [value, setValue] = useState("");
@@ -25,7 +25,7 @@ function PostComment({ post, comment }) {
 
   function getTimeAgoString(createdAt) {
     const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
-
+    console.log(elapsedTime)
     if (elapsedTime < 1) {
       return "less than a minute ago";
     } else if (elapsedTime === 1) {
@@ -128,7 +128,7 @@ function PostComment({ post, comment }) {
 
       <div className="show-reply-btn">
       {replies.map((reply) => (
-        <CommentReply reply={reply} /> 
+        <CommentReply key={reply.id} reply={reply} /> 
         ))}
         {showRepliesBtn ? (
           <button>

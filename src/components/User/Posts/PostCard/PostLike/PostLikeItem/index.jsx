@@ -15,7 +15,7 @@ const PostLikeItem = ({likeItem, handleClose}) => {
   
   async function handleFollowBtn() {
       let count;
-      const followItem = currentUserFollows.find(fi => fi.userName == likeItem.username)
+      const followItem = currentUserFollows?.find(fi => fi.userName == likeItem.username)
         if (!followItem) 
         {
             const newFollowItem = await store.followUser(likeItem.username);
@@ -31,11 +31,11 @@ const PostLikeItem = ({likeItem, handleClose}) => {
         }
         else 
         {
-            const currentFollow = currentUserFollows.find(f => f.userName == likeItem.username);
+            const currentFollow = currentUserFollows?.find(f => f.userName == likeItem.username);
             if (currentFollow) {
                 await store.unfollowUser(likeItem.username);
             }
-            const filteredArr = currentUserFollows.filter(f => f.userName != likeItem.username)
+            const filteredArr = currentUserFollows?.filter(f => f.userName != likeItem.username)
             if (currentFollow.isConfirmed && likeItem.username == fetchedUser.userName) {
                 count = fetchedUser.followersCount - 1
                 setFetchedUser(prev => ({...prev,followersCount:count }))
@@ -70,7 +70,7 @@ const PostLikeItem = ({likeItem, handleClose}) => {
         </div>
         <div>
           {store.user.userName != likeItem.username && (
-            <Button onClick={handleFollowBtn}>{currentUserFollows.find(f => f.userName == likeItem.username) 
+            <Button onClick={handleFollowBtn}>{currentUserFollows?.find(f => f.userName == likeItem.username) 
               ? currentUserFollows.find(f => f.userName == likeItem.username && f.isConfirmed)
                   ? "unfollow" 
                   : "cancel request" 

@@ -63,7 +63,7 @@ const ProfileCard = () => {
                             Follow Requests <span>{currentUserFollows.filter(uf => uf.isConfirmed == false).length}</span>
                         </li>
                         <li>
-                            Follower Requests <span>{store.user.followers.filter(uf => uf.isConfirmed == false).length}</span>
+                            Follower Requests <span>{store.user?.followers.filter(uf => uf.isConfirmed == false).length}</span>
                         </li>
                     </>
                    }

@@ -300,7 +300,8 @@ export default class Store {
   async checkAccountPrivate(username) {
     try {
       const res = await UserServices.checkAccountPrivate(username);
-      return res.data;
+      console.log('store', res);
+      return res;
     } catch (e) {
       console.log("error in follow user", e);
     }
@@ -335,10 +336,11 @@ export default class Store {
   }
 
   async editBio(paylaod){
+    console.log('paylaod',paylaod);
     try {
       const res = await UserServices.editBio(paylaod);
-      console.log(res);
-      return res;
+      // console.log(res);
+      return res.data;
     } catch(e){
       console.log('error in editing bio', e);
     }

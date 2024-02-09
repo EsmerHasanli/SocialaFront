@@ -7,9 +7,10 @@ import { useFormik } from "formik";
 
 const UserBio = () => {
   const { store } = useContext(Context);
-  const {fetchedUser} = useContext(FollowContext)
+  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
 
   const [showInput, setShowInput] = useState(false)
+
 
   const formik = useFormik({
     initialValues: {
@@ -19,9 +20,12 @@ const UserBio = () => {
     onSubmit: async (values, actions) => {
       console.log(values);
 
-
-      const res = await store.editBio(values)
+      const editedData = new FormData()
+      editedData.append('bio', values.bio)
+      setFetchedUser({...fetchedUser, bio: values.bio})
+      const res = await store.editBio(editedData)
       console.log(res);
+      actions.resetForm()
       setShowInput(false)
     }
   });

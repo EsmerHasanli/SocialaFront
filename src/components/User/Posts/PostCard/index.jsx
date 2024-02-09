@@ -127,7 +127,7 @@ const PostCard = ({ post }) => {
       <div className="comments">
         <ul>
           {comments.map((comment) => (
-            <PostComment post={post} comment={comment} />
+            <PostComment key={comment.id} post={post} comment={comment} />
           ))}
         </ul>
         {showMoreBtn && (

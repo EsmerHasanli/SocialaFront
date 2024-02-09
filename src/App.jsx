@@ -8,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FollowContext } from "./context";
 import { useState } from "react";
+import Notifications from "./components/User/Notifications";
 
 function App() {
   const { store } = useContext(Context);
@@ -53,6 +54,7 @@ function App() {
       }}
     >
       <AppRouter />
+      <Notifications/>
     </FollowContext.Provider>
   );
 }
