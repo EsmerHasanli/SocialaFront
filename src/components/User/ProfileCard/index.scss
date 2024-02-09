@@ -5,7 +5,28 @@
     border-bottom-right-radius:8px;
     margin-bottom: 30px;
     .background-wrapper{
-        form{
+        width: 100%;
+        background-position:center;
+        background-size:cover;
+        background-repeat: initial;
+        .bg-form{
+            position: relative;
+            input{
+                display: none;
+            }
+            .edit-btn{
+                margin: 16px;
+                padding: 7px 10px;
+                cursor: pointer;
+                background-color:transparent;
+                border: 1px solid rgb(59, 130, 246);
+                border-radius: 8px;
+                color:white;
+                font-size: 16px;
+                background-color:rgb(59, 130, 246);
+            }
+        }
+        .avatar-form{
             display: flex;
             justify-content: center;
             width: 100%;
@@ -98,10 +119,12 @@
             display: flex;
             justify-content: space-between;
             align-items:center;
+            flex-wrap: wrap;
             .links{
                 color:rgb(75, 85, 99);
                 display: flex;
                 align-items:center;
+                flex-wrap: wrap;
                 gap: 30px;
                 li{
                     padding-bottom:20px ;

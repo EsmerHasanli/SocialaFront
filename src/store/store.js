@@ -345,5 +345,23 @@ export default class Store {
       console.log('error in editing bio', e);
     }
   }
+  async editAvatar(paylaod){
+    try {
+      const res = await UserServices.editAvatar(paylaod);
+      // console.log(res);
+      return res.data;
+    } catch(e){
+      console.log('error in editing avatar', e);
+    }
+  }
+  async editBackground(paylaod){
+    try {
+      const res = await UserServices.editBackground(paylaod);
+      // console.log(res);
+      return res.data;
+    } catch(e){
+      console.log('error in editing bg', e);
+    }
+  }
 }
 

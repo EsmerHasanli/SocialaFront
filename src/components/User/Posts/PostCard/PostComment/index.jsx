@@ -25,7 +25,6 @@ function PostComment({ comment }) {
 
   function getTimeAgoString(createdAt) {
     const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
-    console.log(elapsedTime)
     if (elapsedTime < 1) {
       return "less than a minute ago";
     } else if (elapsedTime === 1) {

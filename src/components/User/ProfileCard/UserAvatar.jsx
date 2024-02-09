@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 
 const UserAvatar = () => {
   const { store } = useContext(Context);
-  const { fetchedUser } = useContext(FollowContext);
+  const { fetchedUser, setFetchedUser } = useContext(FollowContext);
 
   const formik = useFormik({
     initialValues: {
@@ -19,7 +19,10 @@ const UserAvatar = () => {
     onSubmit: async (values, actions) => {
       const formData = new FormData();
       formData.append("photo", values.photo);
+      const res = await store.editAvatar(formData)
+      setFetchedUser({...fetchedUser, imageUrl: res })
 
+      await store.checkAuth()
       console.log(values);
     },
   });
@@ -27,12 +30,11 @@ const UserAvatar = () => {
   const handlePhotoChange = (e) => {
     const file = e.currentTarget.files[0];
     formik.setFieldValue("photo", file);
-    // После выбора файла, сразу отправляем форму
     formik.handleSubmit();
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form className="avatar-form" onSubmit={formik.handleSubmit}>
       <Avatar className="avatar" src={fetchedUser?.imageUrl} />
       {store.user.userName == fetchedUser.userName && (
         <>
@@ -41,6 +43,7 @@ const UserAvatar = () => {
             id="photo"
             name="photo"
             onChange={handlePhotoChange}
+            accept="image/*"
           />
           <label className="photo" htmlFor="photo">
             <PhotoCameraIcon />

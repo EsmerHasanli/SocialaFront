@@ -19,13 +19,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
         li {
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           gap: 10px;
           p {
             display: flex;
             flex-direction: column;
+            flex-wrap: wrap;
             span:last-child{
               font-size: 10px;
               color: rgb(89,114,154);
@@ -37,6 +40,7 @@
     .post-content {
       display: flex;
       flex-direction: column;
+      flex-wrap: wrap;
       padding: 16px;
       overflow: hidden;
       .mySwiper {
@@ -67,23 +71,30 @@
       }
     }
     .comments {
+      input{
+        background-color: transparent;
+      }
       padding: 0 16px;
       ul {
         li {
           margin: 16px 0;
           display: flex;
           flex-direction: column;
+          flex-wrap: wrap;
           .wrapper{
             display: flex;
             justify-content: space-between;
             align-items:center;
+            flex-wrap: wrap;
             .com{
               display: flex;
               align-items:center;
+              flex-wrap: wrap;
               gap: 16px;
               div{
                 div{
                   display: flex;
+                  flex-wrap: wrap;
                   gap: 16px;
                   align-items:center;
                   span{
@@ -108,11 +119,13 @@
             .func-wrapper{
               display: flex;
               align-items:center;
+              flex-wrap: wrap;
               gap: 16px;
               .like{
                 display: flex;
                 justify-content: center;
                 align-items:center;
+                flex-wrap: wrap;
                 gap: 5px;
                 div{
                   font-size: 14px;
@@ -131,6 +144,7 @@
             div{
               display: flex;
               align-items:center;
+              flex-wrap: wrap;
               gap: 16px;
               color: rgba(59, 59, 59, 0.8);
               .reply-inp{
@@ -157,10 +171,28 @@
             display: flex;
             justify-content: space-between;
             align-items:center;
+            flex-wrap: wrap;
             margin-bottom: 16px;
             .left{
+              span{
+                margin: 0;
+              }
                 display: flex;
+                flex-wrap: wrap;
                 gap: 16px;
+                div{
+                  div{
+                    display: flex;
+                    align-items:center;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    span{
+                      color:rgba(75, 85, 99, 0.725);
+                      font-size: 12px;
+                      font-weight: 400;
+                    }
+                  }
+                }
                 h6 {
                   font-size: 14px;
                   font-weight: 500;
@@ -176,6 +208,7 @@
             }
             .right{
               display: flex;
+              flex-wrap: wrap;
               gap: 16px;
               font-size: 14px;
               font-weight: 400;
@@ -193,6 +226,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
         border: none;
         background-color: transparent;
         margin-bottom: 16px;
@@ -202,16 +236,21 @@
       }
     }
     .my-comment {
+      input{
+        background-color: transparent;
+      }
       padding: 16px;
       form {
         div {
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           gap: 16px;
         }
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
         .com-inp {
           padding: 8px;
           // border: 1px solid #ccc;
@@ -238,3 +277,20 @@
     }
   }
 }
+
+@media (max-width: 320px) {
+  .my-comment{
+    button {
+      padding: 4px!important;
+      font-size:12px!important;
+      margin-top: 10px;
+    }
+  }
+  #user-posts-wrapper #user-post-card .comments ul li .wrapper {
+    justify-content: center!important;
+  }
+  .func-wrapper{
+    margin-top: 10px!important;
+  }
+}
+

@@ -19,13 +19,11 @@ const CommentReply = ({reply}) => {
             setLikes(likes-1)
         }
     } 
-    console.log(reply)
     const replyCreatedAt = Date.parse(reply.createdAt);
     const timeAgoString = getTimeAgoString(replyCreatedAt);
 
     function getTimeAgoString(createdAt) {
         const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
-        console.log(elapsedTime)
         if (elapsedTime < 1) {
           return "less than a minute ago";
         } else if (elapsedTime === 1) {

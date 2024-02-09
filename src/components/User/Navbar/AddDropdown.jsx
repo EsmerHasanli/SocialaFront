@@ -78,6 +78,13 @@ const AddDropdown = () => {
                 bgcolor: 'background.paper',
                 transform: 'translateY(-50%) rotate(45deg)',
                 zIndex: 0,
+                '@media (max-width: 600px)': {
+                  '& .MuiMenuItem-root': {
+                    maxWidth: '300px',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  },
+                },
               },
             },
           }}

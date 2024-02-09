@@ -32,7 +32,6 @@ const UserInfoForm = () => {
     
       console.log(values);
       await store.editDesription(editedData)
-      await store.checkAuth()
       
       actions.resetForm();
     }

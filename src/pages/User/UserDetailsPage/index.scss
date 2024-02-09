@@ -24,3 +24,12 @@
         }
     }
 }
+
+@media (max-width: 320px){
+    #user-profile{
+        .profile-wrapper{
+            max-width: 320px;
+            padding: 0;
+        }
+    }
+}

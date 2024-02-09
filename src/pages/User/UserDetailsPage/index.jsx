@@ -52,14 +52,14 @@ const UserDetailsPage = () => {
       </Helmet>
       <section id="user-profile">
         <Grid container spacing={2}>
-          <Grid item xs={2}>
+          <Grid item lg={2}>
             <SideBar />
           </Grid>
-          <Grid className="profile-wrapper" item xs={10}>
+          <Grid className="profile-wrapper" item lg={10} xs={12}>
             <ProfileCard />
 
             <Grid container spacing={4}>
-              <Grid item xs={8}>
+              <Grid item lg={8}  xs={12}>
                 {visible ? (
                   <>
                     {store.user.userName == fetchedUser.userName && (
@@ -83,7 +83,7 @@ const UserDetailsPage = () => {
                 )}
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item lg={4} xs={12}>
                 <UserInfoCard />
               </Grid>
             </Grid>
