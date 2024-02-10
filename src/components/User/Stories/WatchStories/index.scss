@@ -1,0 +1,24 @@
+#stories-wrapper{
+
+    height: 100%;
+    width: 100%;
+
+    .stori-swiper{
+        
+      
+    
+    }
+      .swiper-slide{
+        width: 300px!important;
+        height: 300px!important;
+        overflow: hidden;
+        background-position: center;
+        background-size: cover;
+      }
+      
+      .swiper-slide img {
+        width: 300px!important;
+        height: 300px!important;
+      }
+      
+}

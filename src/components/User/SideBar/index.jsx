@@ -27,11 +27,6 @@ const SideBar = () =>  {
               <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/message.png" alt="" />
               <Link to='/messages'>Messages</Link>
             </li>
-  
-            <li>
-              <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/video.png" alt="" />
-              <Link to='/video'>Video</Link>
-            </li>
           </ul>
   
           <Divider />

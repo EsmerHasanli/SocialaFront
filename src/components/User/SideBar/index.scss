@@ -1,6 +1,11 @@
 #side-bar{
     position: fixed;
     width: 250px;
+    transition: width 0.3s ease;
+    &:hover{
+        width: 330px;
+        cursor: pointer;
+    }
     ul{
         padding: 8px;
         li{

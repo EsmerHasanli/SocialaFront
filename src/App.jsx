@@ -8,18 +8,19 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FollowContext } from "./context";
 import { useState } from "react";
-import Notifications from "./components/User/Notifications";
 
 function App() {
   const { store } = useContext(Context);
   const navigate = useNavigate();
   const [fetchedUser, setFetchedUser] = useState({});
   const [currentUserFollows, setCurrentUserFollows] = useState([]);
+  const [userAvatar, setUserAvatar] = useState();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       await store.checkAuth();
       setCurrentUserFollows(store.user.follows);
+      setUserAvatar(store.user.imageUrl);
     };
     if (document.cookie.includes("RefreshToken")) {
       fetchCurrentUser();
@@ -51,10 +52,11 @@ function App() {
         setFetchedUser,
         currentUserFollows,
         setCurrentUserFollows,
+        userAvatar,
+        setUserAvatar
       }}
     >
       <AppRouter />
-      <Notifications/>
     </FollowContext.Provider>
   );
 }

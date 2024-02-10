@@ -25,8 +25,11 @@ export default class UserServices {
   static async editBackground(payload) {
     return await $api.put(`${API_BASE_URL}/settings/background`, payload)
   }
-  static async editDesription(payload) {
+  static async editDescription(payload) {
     return await $api.post(`${API_BASE_URL}/settings/description`, payload)
+  }
+  static async getDescription() {
+    return await $api.get(`${API_BASE_URL}/settings/description`)
   }
   static async editBio(payload) {
     return await $api.put(`${API_BASE_URL}/settings/bio`, payload)
@@ -34,10 +37,16 @@ export default class UserServices {
   static async editSocialLinks(payload) {
     return await $api.put(`${API_BASE_URL}/settings/social`, payload)
   }
+  static async getSocialLinks() {
+    return await $api.get(`${API_BASE_URL}/settings/social`)
+  }
   static async editNotifications(payload) {
     return await $api.put(`${API_BASE_URL}/settings/notification`, payload)
   }
-  static async likeAvatar(username) {
-    return await $api.put(`${API_BASE_URL}/settings/likePhoto`, username)
+  static async getNotificationsSettings() {
+    return await $api.get(`${API_BASE_URL}/settings/notification`)
+  }
+  static async editLikePhoto(payload) {
+    return await $api.put(`${API_BASE_URL}/settings/likePhoto`, payload)
   }
 }

@@ -18,12 +18,12 @@ const ProfileCard = () => {
 
     async function handleFollow() {
         let count;
-        const followItem = currentUserFollows.find(fi => fi.userName == fetchedUser?.userName)
+        const followItem = currentUserFollows?.find(fi => fi.userName == fetchedUser?.userName)
         if (!followItem) 
         {
-            const newFollowItem = await store.followUser(fetchedUser.userName);
+            const newFollowItem = await store.followUser(fetchedUser?.userName);
             if (newFollowItem.isConfirmed) {
-                count = fetchedUser.followersCount + 1
+                count = fetchedUser?.followersCount + 1
                 setFetchedUser(prev => ({...prev,followersCount:count }))
             }
             setCurrentUserFollows([...currentUserFollows, {...newFollowItem}])
@@ -32,16 +32,16 @@ const ProfileCard = () => {
         {
             const currentFollow = currentUserFollows?.find(f => f.userName == fetchedUser?.userName);
             if (currentFollow) {
-                await store.unfollowUser(fetchedUser.userName);
+                await store.unfollowUser(fetchedUser?.userName);
             }
             const filteredArr = currentUserFollows?.filter(f => f.userName != fetchedUser?.userName)
             if (currentFollow.isConfirmed) {
-                count = fetchedUser.followersCount - 1
+                count = fetchedUser?.followersCount - 1
                 setFetchedUser(prev => ({...prev,followersCount:count }))
             }
             setCurrentUserFollows([...filteredArr]);
         }
-      }
+    }
   return (
     <div id='profile-card'>
         <div className='background-wrapper' style={{backgroundImage:`url(${fetchedUser?.backgroundImage ? fetchedUser?.backgroundImage : 'https://cdn.vox-cdn.com/thumbor/bxeeQCchXrYIdTYVMXhT2jHylFs=/0x0:3841x2400/800x500/filters:focal(1921x1200:1922x1201)/cdn.vox-cdn.com/uploads/chorus_asset/file/22661983/img32.jpg'})`}}>
@@ -73,7 +73,7 @@ const ProfileCard = () => {
                             Follow Requests <span>{currentUserFollows?.filter(uf => uf.isConfirmed == false).length}</span>
                         </li>
                         <li>
-                            Follower Requests <span>{store.user?.followers.filter(uf => uf.isConfirmed == false).length}</span>
+                            Follower Requests <span>{store.user?.followers?.filter(uf => uf.isConfirmed == false).length}</span>
                         </li>
                     </>
                    }
@@ -88,8 +88,8 @@ const ProfileCard = () => {
                     :
                     <ul className='feautures'>
                         <li onClick={handleFollow} style={!currentUserFollows?.find(f => f.userName == fetchedUser?.userName && f.isConfirmed) ? { backgroundColor: 'rgb(59, 130, 246)', color:'white'} :  {backgroundColor: 'white', color:'rgb(59, 130, 246)'} }>
-                            <p>{currentUserFollows?.find(f => f.userName == fetchedUser.userName) 
-                                ? currentUserFollows?.find(f => f.userName == fetchedUser.userName && f.isConfirmed)
+                            <p>{currentUserFollows?.find(f => f.userName == fetchedUser?.userName) 
+                                ? currentUserFollows?.find(f => f.userName == fetchedUser?.userName && f.isConfirmed)
                                     ? "unfollow" 
                                     : "cancel request" 
                                 : 'follow'}</p>

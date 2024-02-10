@@ -3,7 +3,7 @@ import './index.scss'
 
 import { Input } from 'antd';
 
-import AddDropdown from './AddDropdown';
+// import AddDropdown from './AddDropdown';
 import NotificationDropdown from './NotificationDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import { Context } from '../../../main';
@@ -27,9 +27,9 @@ const Navbar = () => {
                 </div>
                 <div className="right-bar">
                     <ul>
-                        <li>
+                        {/* <li>
                             <AddDropdown/>
-                        </li>
+                        </li> */}
                         <li>
                             <NotificationDropdown/>
                         </li>

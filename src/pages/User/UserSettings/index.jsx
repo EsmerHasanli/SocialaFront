@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import SideBar from "../../../components/User/SideBar";
 import FooterMobile from "../../../components/User/FooterMobile";
@@ -13,9 +13,11 @@ import UserInfoForm from "../../../components/User/UserSettings/UserInfoForm";
 import SocialLinks from "../../../components/User/UserSettings/SocialLinks";
 import PasswordReset from "../../../components/User/UserSettings/PasswordReset";
 import Notifications from "../../../components/User/UserSettings/Notification";
+import { FollowContext } from "../../../context";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+  const {userAvatar} = useContext(Context)
 
   return (
     <div
@@ -35,11 +37,28 @@ function TabPanel(props) {
 }
 
 const UserSettings = () => {
-  const { store } = useContext(Context);
+  const {store} = useContext(Context)
+  const { userAvatar } = useContext(FollowContext);
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(localStorage.getItem("tabValue") ? JSON.parse(localStorage.getItem("tabValue")) : 0);
+  const [photo, setPhoto] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null)
+
+  useEffect(() => console.log(photo), [photo])
+
+  function handleFileChange(e) {
+    const file = e.target.files[0];
+    setPhoto(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
 
   const handleChange = (event, newValue) => {
+    localStorage.setItem("tabValue", newValue);
     setValue(newValue);
   };
 
@@ -56,44 +75,62 @@ const UserSettings = () => {
           <Grid item xs={10}>
             <div className="settings-wrapper">
               <div className="header">
-                <div className="left">
-                  <Avatar
-                    className="avatar"
-                    alt="Avatar"
-                    src={store.user.imageUrl}
-                    sx={{ width: 100, height: 100 }}
-                  />
-                  <input
-                    className="avatar-input"
-                    accept="image/*"
-                    id="avatar-upload"
-                    type="file"
-                  />
-                  <label htmlFor="avatar-upload" className="avatar-upload">
-                    <IconButton
-                      color="primary"
-                      aria-label="upload picture"
-                      component="span"
-                      style={{
-                        backgroundColor: "rgb(71,85,105)",
-                        color: "white",
-                        border: "3px solid white",
-                      }}
-                    >
-                      <PhotoCamera />
-                    </IconButton>
-                  </label>
+                <div className="current-info-wrapper">
+                  <div className="left">
+                    <Avatar
+                      className="avatar"
+                      alt="Avatar"
+                      src={userAvatar}
+                      sx={{ width: 100, height: 100 }}
+                    />
+                    <input
+                      className="avatar-input"
+                      accept="image/*"
+                      id="avatar-upload"
+                      type="file"
+                      onChange={handleFileChange}
+                      
+                    />
+                    <label htmlFor="avatar-upload" className="avatar-upload">
+                      <IconButton
+                        color="primary"
+                        aria-label="upload picture"
+                        component="span"
+                        style={{
+                          backgroundColor: "rgb(71,85,105)",
+                          color: "white",
+                          border: "3px solid white",
+                        }}
+                        >
+                        <PhotoCamera />
+                      </IconButton>
+                    </label>
+                  </div>
+                  <div className="right">
+                    <div>
+                        <h4>
+                          {store.user.name} {store.user.surname}
+                        </h4>
+                        <h6>
+                          <Link to={`/users/${store.user.userName}`}>
+                            @{store.user.userName}
+                          </Link>
+                        </h6>
+                    </div>
+                  </div>
                 </div>
-                <div className="right">
-                  <h4>
-                    {store.user.name} {store.user.surname}
-                  </h4>
-                  <h6>
-                    <Link to={`/users/${store.user.userName}`}>
-                      @{store.user.userName}
-                    </Link>
-                  </h6>
-                </div>
+                  {previewUrl &&
+                  <div className="new-photo">
+                    <p>New avatar prewiew: </p>
+                   <Avatar
+                      className="avatar"
+                      alt="Avatar"
+                      src={previewUrl}
+                      
+                      sx={{ width: 100, height: 100 }}
+                    />
+                  </div>
+                    }
               </div>
 
               <Divider />
@@ -106,16 +143,16 @@ const UserSettings = () => {
                   <Tab label="Notifications" id="tab-3" />
                 </Tabs>
                 <TabPanel style={{padding:'48px 80px'}} id='user-info-form' value={value} index={0}>
-                  <UserInfoForm/>
+                  <UserInfoForm photo={photo}/>
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-social-links' value={value} index={1}>
-                  <SocialLinks/>
+                  <SocialLinks photo={photo}/>
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-password-form' value={value} index={2}>
-                  <PasswordReset/>
+                  <PasswordReset photo={photo}/>
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-notifications-form' value={value} index={3}>
-                  <Notifications/>
+                  <Notifications photo={photo}/>
                 </TabPanel>
               </Box>
             </div>

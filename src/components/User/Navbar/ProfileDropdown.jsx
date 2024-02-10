@@ -15,9 +15,11 @@ import Logout from '@mui/icons-material/Logout';
 import { Link, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../../main';
+import { FollowContext } from '../../../context';
 
 const ProfileDropdown = () => {
   const { store } = useContext(Context);
+  const {userAvatar} = useContext(FollowContext)
   const navigate = useNavigate()
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -49,7 +51,7 @@ const ProfileDropdown = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar src={store.user.imageUrl} sx={{ width: 32, height: 32 }} />
+              <Avatar src={userAvatar} sx={{ width: 32, height: 32 }} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -91,7 +93,7 @@ const ProfileDropdown = () => {
           <MenuItem onClick={handleClose}>
             <Link style={{display:'flex', alignItems:'center', gap:'16px'}} to={`/users/${store.user.userName}`}>
               <div>
-                <Avatar src={store.user.imageUrl ? store.user.imageUrl : null }/> 
+                <Avatar src={store.user.imageUrl}/> 
               </div>
               <div>
                 <h5>{store.user.name}{" "}{store.user.surname}</h5>
@@ -100,18 +102,14 @@ const ProfileDropdown = () => {
             </Link>
           </MenuItem>
           <Divider />
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <PersonAdd fontSize="small" />
-            </ListItemIcon>
-            Add another account
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
+          <Link to='/settings' style={{color:'rgb(0, 0, 0, 0.87)'}}>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              Settings
+            </MenuItem>
+          </Link>
           <MenuItem onClick={handleLogout}>
             <ListItemIcon>
               <Logout fontSize="small" />

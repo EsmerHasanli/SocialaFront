@@ -1,5 +1,6 @@
 #user-settings {
   .settings-wrapper {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     margin: 20px auto;
     background-color: white;
     border-radius: 8px;
@@ -7,37 +8,53 @@
     .header {
       padding: 32px 32px 16px 23px;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      .left {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        .avatar {
-          &-input {
-            display: none;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .current-info-wrapper{
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          .left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .avatar {
+              &-input {
+                display: none;
+              }
+              &-upload {
+                margin-left: -30px;
+                margin-top: 70px;
+              }
+            }
           }
-          &-upload {
-            margin-left: -30px;
-            margin-top: 70px;
+          .right {
+            display: flex;
+            justify-content: space-between;
+            div{
+              display: flex;
+              flex-direction: column;
+              h4 {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 10px;
+              }
+              h6 {
+                a {
+                  color: rgb(37, 99, 235);
+                  font-size: 14px;
+                  font-weight: 400;
+                }
+              }
+    
+            }
           }
-        }
       }
-      .right {
+      .new-photo{
         display: flex;
-        flex-direction: column;
-        h4 {
-          font-size: 20px;
-          font-weight: 600;
-          margin-bottom: 10px;
-        }
-        h6 {
-          a {
-            color: rgb(37, 99, 235);
-            font-size: 14px;
-            font-weight: 400;
-          }
-        }
+        justify-content: center;
+        align-items:center;
+        gap: 16px;
       }
     }
     #user-info-form {
@@ -275,5 +292,26 @@
         }
       }
     }
+    input[type="checkbox"] {
+      border-radius: 8px;
+      width: 20px;
+      height: 20px;
+      &:checked {
+        border-radius: 8px;
+        outline: none;
+        border:none;
+      }
+      &:hover{
+        border-radius: 8px;
+        outline: none;
+        border:none;
+      }
+      &:active{
+        border-radius: 8px;
+        outline: none;
+        border:none;
+      }
+    }
+    
   }
 }

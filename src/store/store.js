@@ -317,29 +317,32 @@ export default class Store {
     }
   }
 
-  async editDesription(payload) {
-    try {
-      const res = await UserServices.editDesription(payload);
-      return res.data;
-    } catch (e) {
-      console.log("error in editing description", e);
-    }
-  }
+  
   async editSocialLinks(paylaod){
+    this.setLoading(true)
     try {
       const res = await UserServices.editSocialLinks(paylaod);
-      console.log(res);
-      return res;
+      Swal.fire({
+        title: "Great!",
+        text: `Succesfully changed!`,
+        icon: "success"
+      });
+      return res.data;
     } catch(e){
       console.log('error in editing social media links', e);
     }
+    finally {this.setLoading(false)}
   }
-
   async editBio(paylaod){
     console.log('paylaod',paylaod);
     try {
       const res = await UserServices.editBio(paylaod);
       // console.log(res);
+      Swal.fire({
+        title: "Great!",
+        text: `Succesfully changed!`,
+        icon: "success"
+      });
       return res.data;
     } catch(e){
       console.log('error in editing bio', e);
@@ -372,6 +375,91 @@ export default class Store {
     } catch(e){
       console.log('error in like avatar', e);
     }
+  }
+
+  async putNotificationSettings(payload) {
+    try {
+      const res = await UserServices.editNotifications(payload)
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+  async getNotifySettings() {
+    try {
+      const res = await UserServices.getNotificationsSettings()
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+  async getSocialLinks() {
+    try {
+      const res = await UserServices.getSocialLinks()
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+  async getDescription() {
+    try {
+      const res = await UserServices.getDescription()
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+  async editDescription(payload) {
+    this.setLoading(true)
+    try {
+      const res  = await UserServices.editDescription(payload)
+      const email = payload.get("email");
+      if (this.user.email != email) {
+        await this.logout();
+        Swal.fire({
+          title: "Email Changed!",
+          text: `For continue, you must confirm your new email ${email}!`,
+          icon: "success"
+        });
+        //localStorage.removeItem("emailConfirm")
+      }
+      else {
+      Swal.fire({
+        title: "Great!",
+        text: `Succesfully changed!`,
+        icon: "success"
+      });
+      return res.data
+    }
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+    finally {this.setLoading(false)}
   }
 }
 

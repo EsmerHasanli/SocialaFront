@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -6,29 +6,39 @@ import { useFormik } from "formik";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 import Swal from "sweetalert2";
+import { FollowContext } from "../../../context";
 
-const SocialLinks = () => {
+const SocialLinks = ({photo}) => {
   const {store} = useContext(Context)
+  const {setUserAvatar} = useContext(FollowContext)
+  const [values, setValues] = useState({})
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await store.getSocialLinks();
+      console.log(res)
+      if (res.facebookLink == null) res.facebookLink = ""
+      if (res.instagramLink == null) res.instagramLink = ""
+      if (res.githubLink == null) res.githubLink = ""
+      setValues(res);
+    }
+    fetchData();
+  },[])
+  
 
   const formik = useFormik({
-    initialValues: {
-      facebookLink:  store.user?.facebookLink,
-      instagramLink: store.user?.instagramLink,
-      githubLink: store.user?.githubLink,
-    },
+    initialValues:  values,
+    enableReinitialize:true,
     // validationSchema: 
     onSubmit: async (values, actions) => {
-      Swal.fire("Your info updated succesfully!");
-      console.log(values);
-
       const editedData = new FormData()
+      if (photo) editedData.append("photo", photo);
       editedData.append('facebookLink', values.facebookLink)
       editedData.append('instagramLink', values.instagramLink)
       editedData.append('githubLink', values.githubLink)
 
-      const res = await store.editSocialLinks(editedData)
-      // console.log(res);
-      await store.checkAuth()
+      const url = await store.editSocialLinks(editedData)
+      if (url) setUserAvatar(url)
     }
   })
   return (
@@ -46,7 +56,7 @@ const SocialLinks = () => {
               <FacebookOutlinedIcon />
             </div>
 
-            <input type="text" placeholder={store.user?.facebookLink} id='facebookLink' name='facebookLink' value={formik.facebookLink} onChange={formik.handleChange} />
+            <input type="text" placeholder={store.user?.facebookLink} id='facebookLink' name='facebookLink' value={formik.values.facebookLink} onChange={formik.handleChange} />
           </li>
 
           <li>
@@ -54,7 +64,7 @@ const SocialLinks = () => {
               <InstagramIcon />
             </div>
 
-            <input type="text" placeholder={store.user?.instagramLink} id='instagramLink' name='instagramLink' value={formik.instagramLink} onChange={formik.handleChange} />
+            <input type="text" placeholder={store.user?.instagramLink} id='instagramLink' name='instagramLink' value={formik.values.instagramLink} onChange={formik.handleChange} />
           </li>
 
           <li>
@@ -62,7 +72,7 @@ const SocialLinks = () => {
               <GitHubIcon />
             </div>
 
-            <input type="text" placeholder={store.user?.githubLink} id='githubLink' name='githubLink' value={formik.githubLink} onChange={formik.handleChange} />
+            <input type="text" placeholder={store.user?.githubLink} id='githubLink' name='githubLink' value={formik.values.githubLink} onChange={formik.handleChange} />
           </li>
         </ul>
 
