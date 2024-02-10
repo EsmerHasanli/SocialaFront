@@ -46,7 +46,7 @@ export default class UserServices {
   static async getNotificationsSettings() {
     return await $api.get(`${API_BASE_URL}/settings/notification`)
   }
-  static async editLikePhoto(payload) {
+  static async likeAvatar(payload) {
     return await $api.put(`${API_BASE_URL}/settings/likePhoto`, payload)
   }
 }
