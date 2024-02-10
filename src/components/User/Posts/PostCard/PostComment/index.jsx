@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import CommentReply from "./CommentReply";
-function PostComment({ comment }) {
+function PostComment({ comment, setCommentsCount }) {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
   const [isLiked, setIsLiked] = useState(
@@ -59,6 +59,7 @@ function PostComment({ comment }) {
     setReplies([{ ...reply }, ...replies]);
     setShowReplyInput(false);
     setRepliesCount(repliesCount + 1);
+    setCommentsCount(prev => prev+1)
   }
   // useEffect(() => console.log(replies), [replies]);
   async function likeComment(commentId) {

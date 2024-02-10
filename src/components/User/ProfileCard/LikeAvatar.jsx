@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 
 import { Avatar } from "@mui/material";
 import { FollowContext } from "../../../context";
+import { Howl } from "howler";
 
 const LikeAvatar = () => {
     const { store } = useContext(Context);
@@ -12,6 +13,13 @@ const LikeAvatar = () => {
   const [isLiked, setIsLiked] = useState(
     store.user?.likedAvatarsUsernames.find(x=>x.userName == fetchedUser.userName) ? true : false
   )
+
+  const sound = new Howl({
+    src: ["/src/assets/sounds/like-sound2.mp3"],
+    volume: 0.5, // Уровень громкости от 0 до 1
+    loop: false, // true, если хотите, чтобы аудио повторялось
+  });
+
   const handleLikeAvatar = async () => {
     setSparkVisible(true);
     setTimeout(() => setSparkVisible(false), 1000);
@@ -23,6 +31,8 @@ const LikeAvatar = () => {
    console.log(res);
 
    setIsLiked(!isLiked)
+
+   sound.play()
   }
 
   return (

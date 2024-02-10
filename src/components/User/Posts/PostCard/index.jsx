@@ -26,7 +26,8 @@ const PostCard = ({ post }) => {
   const [showMoreBtn, setShowMoreBtn] = useState(
       post.comments.length == 5 ? true : false
       );
-      
+  const [commentsCount, setCommentsCount] = useState(comments?.commentsCount)
+
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
   async function showMoreComments() {
@@ -124,14 +125,14 @@ const PostCard = ({ post }) => {
           <IconButton className="comment-btn">
             <MapsUgcIcon />
           </IconButton>
-          <p>{post?.comments?.length}</p>
+          <p>{commentsCount}</p>
         </div>
       </div>
       <Divider />
       <div className="comments">
         <ul>
           {comments.map((comment) => (
-            <PostComment key={comment.id} post={post} comment={comment} />
+            <PostComment key={comment.id} post={post} comment={comment} setCommentsCount={setCommentsCount} />
           ))}
         </ul>
         {showMoreBtn && (
@@ -145,7 +146,7 @@ const PostCard = ({ post }) => {
       <Divider />
 
       <div className="my-comment">
-        <AddComment comments={comments} setComments={setComments} post={post} />
+        <AddComment comments={comments} setComments={setComments} post={post} commentsCount={commentsCount} setCommentsCount={setCommentsCount} />
       </div>
     </div>
   );

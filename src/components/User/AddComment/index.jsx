@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import CommentvalidationSchema from "../../../validations/CommentvalidationSchema";
 import Swal from "sweetalert2";
 
-const AddComment = ({comments,setComments, post}) => {
+const AddComment = ({comments,setComments, post, commentsCount, setCommentsCount}) => {
     const {store} = useContext(Context)
     const formik = useFormik({
         initialValues: {
@@ -14,7 +14,7 @@ const AddComment = ({comments,setComments, post}) => {
         },
         // validationSchema: CommentvalidationSchema,
         onSubmit: async (values, actions) => {
-            if( values.text=== "" && values.text.trim() === ""){
+            if(!values.text?.trim()){
                 console.log(values.text); 
                 Swal.fire({
                     icon: "error",
@@ -27,7 +27,8 @@ const AddComment = ({comments,setComments, post}) => {
                     text: values.text
                 }
                 const res = await store.postComment(newData);
-                setComments([{...res}, ...comments]);
+                setComments([...comments,{...res}]);
+                setCommentsCount(commentsCount+1)
                 //const comments = await store.getPostComments(postId)
                 
             }
@@ -41,7 +42,7 @@ const AddComment = ({comments,setComments, post}) => {
       <form onSubmit={formik.handleSubmit}>
         <div>
         <Avatar src={store.user.imageUrl} />
-        <input className="com-inp" id='text' name='text' value={formik.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
+        <input className="com-inp" id='text' name='text' value={formik.values.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
         </div>
         <button type='submit'>Comment</button>
       </form>

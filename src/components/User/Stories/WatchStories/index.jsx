@@ -25,7 +25,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible }) => {
               float: "right",
               width: "30px",
               height: "30px",
-              backgroundColor: "white",
+              backgroundColor: "antiquewhite",
             }}
           >
             <CloseIcon style={{ color: "rgba(0,0,0,0.7)" }} />
