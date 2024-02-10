@@ -5,6 +5,7 @@ import NotFound from "../pages/NotFound";
 import UserDetailsPage from "../pages/User/UserDetailsPage";
 import EmailConfirmationPage from "../pages/User/EmailConfirmationPage";
 import UserSettings from "../pages/User/UserSettings";
+import ForgetPassword from "../pages/User/ForgetPassword";
 
 export const privateRoutes = [
   { 
@@ -33,5 +34,9 @@ export const publicRoutes = [
   {
     path: '/confirm',
     element: <EmailConfirmationPage/>
+  },
+  {
+    path: '/forget-password',
+    element: <ForgetPassword/>
   }
 ];

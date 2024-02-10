@@ -64,10 +64,21 @@
         font-weight: 400;
       }
       .icons-wrapper {
+        p{
+          width: 10px;
+        }
         display: flex;
+        justify-content: start;
         align-items: center;
         gap: 10px;
         margin-top: 16px;
+        .comment-btn{
+          display: flex;
+          justify-content: start;
+          align-items: center;
+          background-color:rgb(235,239,244);
+          color:rgb(75,85,99);
+        }
       }
     }
     .comments {

@@ -15,6 +15,7 @@ import AddComment from "../../AddComment";
 import PostComment from "./PostComment";
 import PostLike from "./PostLike";
 import { FollowContext } from "../../../../context";
+import MapsUgcIcon from '@mui/icons-material/MapsUgc';
 
 const PostCard = ({ post }) => {
     // console.log("post", post);
@@ -26,7 +27,6 @@ const PostCard = ({ post }) => {
       post.comments.length == 5 ? true : false
       );
       
-  
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
   async function showMoreComments() {
@@ -121,6 +121,10 @@ const PostCard = ({ post }) => {
         <p>{post?.description}</p>
         <div className="icons-wrapper">
           <PostLike post={post} fetchedUser={fetchedUser} />
+          <IconButton className="comment-btn">
+            <MapsUgcIcon />
+          </IconButton>
+          <p>{post?.comments?.length}</p>
         </div>
       </div>
       <Divider />
