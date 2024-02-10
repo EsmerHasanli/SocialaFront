@@ -93,7 +93,7 @@ const ProfileDropdown = () => {
           <MenuItem onClick={handleClose}>
             <Link style={{display:'flex', alignItems:'center', gap:'16px'}} to={`/users/${store.user.userName}`}>
               <div>
-                <Avatar src={store.user.imageUrl}/> 
+                <Avatar src={userAvatar}/> 
               </div>
               <div>
                 <h5>{store.user.name}{" "}{store.user.surname}</h5>

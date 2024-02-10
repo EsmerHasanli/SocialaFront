@@ -14,7 +14,7 @@ function App() {
   const navigate = useNavigate();
   const [fetchedUser, setFetchedUser] = useState({});
   const [currentUserFollows, setCurrentUserFollows] = useState([]);
-  const [userAvatar, setUserAvatar] = useState();
+  const [userAvatar, setUserAvatar] = useState(store.user?.imageUrl);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -29,6 +29,8 @@ function App() {
       navigate("/login");
     }
   }, []);
+
+  useEffect(() => setUserAvatar(store.user.imageUrl), [store.user])
 
   if (store.isLoading) {
     return (

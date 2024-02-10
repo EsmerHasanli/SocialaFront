@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 import Swal from "sweetalert2";
 import { FollowContext } from "../../../context";
 
-const SocialLinks = ({photo}) => {
+const SocialLinks = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
   const {setUserAvatar} = useContext(FollowContext)
   const [values, setValues] = useState({})
@@ -38,7 +38,10 @@ const SocialLinks = ({photo}) => {
       editedData.append('githubLink', values.githubLink)
 
       const url = await store.editSocialLinks(editedData)
-      if (url) setUserAvatar(url)
+      if (url){
+        setPreviewUrl(null)
+        setUserAvatar(url)
+      }
     }
   })
   return (

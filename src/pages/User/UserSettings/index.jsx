@@ -143,16 +143,16 @@ const UserSettings = () => {
                   <Tab label="Notifications" id="tab-3" />
                 </Tabs>
                 <TabPanel style={{padding:'48px 80px'}} id='user-info-form' value={value} index={0}>
-                  <UserInfoForm photo={photo}/>
+                  <UserInfoForm photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-social-links' value={value} index={1}>
-                  <SocialLinks photo={photo}/>
+                  <SocialLinks photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-password-form' value={value} index={2}>
-                  <PasswordReset photo={photo}/>
+                  <PasswordReset photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
                 <TabPanel style={{padding:'48px 80px'}} id='user-notifications-form' value={value} index={3}>
-                  <Notifications photo={photo}/>
+                  <Notifications photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
               </Box>
             </div>

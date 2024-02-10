@@ -4,7 +4,7 @@ import { Context } from "../../../main";
 import { useFormik } from "formik";
 import { FollowContext } from "../../../context";
 
-const Notifications = ({photo}) => {
+const Notifications = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
   const [values, setValues] = useState({})
   const {setUserAvatar} = useContext(FollowContext)
@@ -31,7 +31,10 @@ const Notifications = ({photo}) => {
       console.log(values)
       const url = await store.putNotificationSettings(editedData);
       console.log(url)
-      if (url) setUserAvatar(url)
+      if (url){
+        setPreviewUrl(null)
+        setUserAvatar(url)
+      }
     },
     
     

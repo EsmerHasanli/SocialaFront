@@ -380,6 +380,11 @@ export default class Store {
   async putNotificationSettings(payload) {
     try {
       const res = await UserServices.editNotifications(payload)
+      Swal.fire({
+        title: "Great!",
+        text: `Succesfully changed!`,
+        icon: "success"
+      }); 
       return res.data;
     } catch (e) {
       Swal.fire({

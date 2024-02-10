@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { FollowContext } from "../../../context";
 import { Checkbox } from "@mui/material";
 
-const UserInfoForm = ({photo}) => {
+const UserInfoForm = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
   const [values, setValues] = useState({})
   const {setUserAvatar} = useContext(FollowContext)
@@ -37,7 +37,10 @@ const UserInfoForm = ({photo}) => {
       console.log(values)
       const url = await store.editDescription(editedData)
       console.log(url)
-      if (url) setUserAvatar(url)
+      if (url){
+        setPreviewUrl(null)
+        setUserAvatar(url)
+      }
     },
     
     
