@@ -3,6 +3,7 @@ import AuthService from "../services/AuthService";
 import Swal from "sweetalert2";
 import UserServices from "../services/UserServices";
 import PostService from "../services/PostService";
+import StoriesServices from "../services/StoriesServices";
 
 export default class Store {
   user = {};
@@ -24,7 +25,7 @@ export default class Store {
     this.isLoading = bool;
   }
 
-  
+  //auth service
   async register(payload) {
     this.setLoading(true);
     try {
@@ -160,6 +161,7 @@ export default class Store {
     }
   }
 
+  //user info
   async getByUsername(username) {
     // this.setLoading(true)
     try {
@@ -189,6 +191,7 @@ export default class Store {
     }
   }
 
+  //posts
   async createPost(payload) {
     try {
       const res = await PostService.createPost(payload);
@@ -206,6 +209,7 @@ export default class Store {
     }
   }
   
+  //post comments
   async postComment(payload) {
     try {
       const res = await PostService.postComment(payload);
@@ -262,6 +266,7 @@ export default class Store {
     }
   }
 
+  //post likes
   async likePost(postId){
     try {
       const res = await PostService.likePost(postId);
@@ -280,6 +285,8 @@ export default class Store {
       console.log("error in getting post's likes", e);
     }
   }
+
+  //follow unfollow
   async followUser (username) {
     try {
       const res = await UserServices.followUser(username);
@@ -296,18 +303,7 @@ export default class Store {
     }
   }
 
-
-  async checkAccountPrivate(username) {
-    try {
-      const res = await UserServices.checkAccountPrivate(username);
-      console.log('store', res);
-      return res;
-    } catch (e) {
-      console.log("error in follow user", e);
-    }
-  }
-
-
+  //user settings
   async checkAccountPrivate(username) {
     try {
       const res = await UserServices.checkAccountPrivate(username);
@@ -316,8 +312,6 @@ export default class Store {
       console.log("error in follow user", e);
     }
   }
-
-  
   async editSocialLinks(paylaod){
     this.setLoading(true)
     try {
@@ -374,38 +368,6 @@ export default class Store {
       return res;
     } catch(e){
       console.log('error in like avatar', e);
-    }
-  }
-
-  async putNotificationSettings(payload) {
-    try {
-      const res = await UserServices.editNotifications(payload)
-      Swal.fire({
-        title: "Great!",
-        text: `Succesfully changed!`,
-        icon: "success"
-      }); 
-      return res.data;
-    } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
-    }
-  }
-  async getNotifySettings() {
-    try {
-      const res = await UserServices.getNotificationsSettings()
-      return res.data;
-    } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
     }
   }
   async getSocialLinks() {
@@ -465,6 +427,75 @@ export default class Store {
       console.log("error in editing description", e);
     }
     finally {this.setLoading(false)}
+  }
+  async putNotificationSettings(payload) {
+    try {
+      const res = await UserServices.editNotifications(payload)
+      Swal.fire({
+        title: "Great!",
+        text: `Succesfully changed!`,
+        icon: "success"
+      }); 
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+  async getNotifySettings() {
+    try {
+      const res = await UserServices.getNotificationsSettings()
+      return res.data;
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+      console.log("error in editing description", e);
+    }
+  }
+
+  //stories
+  async createStory(payload) {
+    try {
+      const res = await StoriesServices.createStory(payload)
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log('error creating story', e);
+    }
+  }
+  async getStories() {
+    try {
+      const res = await StoriesServices.getStories()
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log('error in getting stories', e);
+    }
+  }
+  async getCurrentUserItems() {
+    try {
+      const res = await StoriesServices.getCurrentUserItems()
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log('error in getting story items', e);
+    }
+  }
+  async deleteStory(storyId) {
+    try {
+      const res = await StoriesServices.deleteStory(storyId)
+      console.log(res);
+      return res;
+    } catch (e) {
+      console.log('error in deleting story', e);
+    }
   }
 }
 
