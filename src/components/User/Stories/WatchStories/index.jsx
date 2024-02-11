@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./index.scss";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,8 +13,12 @@ import { Avatar, IconButton } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Context } from "../../../../main";
+import { observer } from "mobx-react-lite";
 
-const WatchStories = ({ storiesVisible, setStoriesVisible }) => {
+const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) => {
+  console.log('story', story);
+  const {store} = useContext(Context)
   return (
     <>
       {storiesVisible && (
@@ -46,175 +50,72 @@ const WatchStories = ({ storiesVisible, setStoriesVisible }) => {
             modules={[EffectCoverflow, Navigation]}
             className="stori-swiper"
           >
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-1.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
+            {
+              storyItems && storyItems.map(storyItem => (
+                storyItem.type == 'Image' ?
+                <SwiperSlide
+                  className="swiper-slide"
+                  style={{
+                    backgroundImage:
+                      `url(${storyItem.sourceUrl})`,
+                  }}
+                >
+                  <div className="header">
+                    <div>
+                      <Avatar className="avatar" src={story?.ownerImageUrl} />
+                      <p>{story?.ownerUserName}</p>
+                    </div>
+                    {
+                      story.ownerUserName == store.user.userName &&
+                      <IconButton>
+                        <MoreHorizIcon style={{ color: "antiquewhite" }} />
+                      </IconButton>
+                    }
+                  </div>
 
-                <IconButton>
-                  <MoreHorizIcon style={{ color: "antiquewhite" }} />
-                </IconButton>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-
-                <button className="watch-wrapper">
-                  <RemoveRedEyeIcon />
-                  <span>222</span>
-                </button>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-2.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-3.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-4.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-5.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-6.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-7.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-8.jpg")',
-              }}
-            >
-              <div className="header">
-                <div>
-                  <Avatar className="avatar" />
-                  <p>username</p>
-                </div>
-              </div>
-
-              <div className="footer">
-                <p>Lorem ipsum dolor sit.</p>
-              </div>
-            </SwiperSlide>
-
-            <SwiperSlide
-              className="swiper-slide"
-              style={{
-                backgroundImage:
-                  'url("https://swiperjs.com/demos/images/nature-9.jpg")',
-              }}
-            >
-            </SwiperSlide>
+                  <div className="footer">
+                    <p>{storyItem?.text}</p>
+                    {
+                      story.ownerUserName == store.user.userName && 
+                        <button className="watch-wrapper">
+                          <RemoveRedEyeIcon />
+                          <span>222</span>
+                        </button>
+                    }
+                  </div>
+                </SwiperSlide> :
+                  <SwiperSlide
+                  className="swiper-slide"
+                >
+                  <div className="header">
+                    <div>
+                      <Avatar className="avatar" src={story?.ownerImageUrl} />
+                      <p>{story?.ownerUserName}</p>
+                    </div>
+                    {
+                      story.ownerUserName == store.user.userName &&
+                      <IconButton>
+                        <MoreHorizIcon style={{ color: "antiquewhite" }} />
+                      </IconButton>
+                    }
+                  </div>
+                  <video controls>
+                    <source src={storyItem.sourceUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                  <div className="footer">
+                    <p>{storyItem?.text}</p>
+                    {
+                      story.ownerUserName == store.user.userName && 
+                        <button className="watch-wrapper">
+                          <RemoveRedEyeIcon />
+                          <span>222</span>
+                        </button>
+                    }
+                  </div>
+                </SwiperSlide> 
+              ))
+            }
           </Swiper>
         </div>
       )}
@@ -222,4 +123,4 @@ const WatchStories = ({ storiesVisible, setStoriesVisible }) => {
   );
 };
 
-export default WatchStories;
+export default observer(WatchStories);

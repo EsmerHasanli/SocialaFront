@@ -8,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FollowContext } from "./context";
 import { useState } from "react";
+import WebSockets from "./components/WebSockets/WebSockets";
 
 function App() {
   const { store } = useContext(Context);
@@ -59,6 +60,7 @@ function App() {
       }}
     >
       <AppRouter />
+      <WebSockets/>
     </FollowContext.Provider>
   );
 }

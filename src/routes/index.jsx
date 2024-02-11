@@ -7,6 +7,7 @@ import EmailConfirmationPage from "../pages/User/EmailConfirmationPage";
 import UserSettings from "../pages/User/UserSettings";
 import ForgetPassword from "../pages/User/ForgetPassword";
 import RessetPassword from '../pages/User/ResetPassword'
+import Messages from "../pages/User/Messages";
 
 export const privateRoutes = [
   { 
@@ -20,6 +21,10 @@ export const privateRoutes = [
   {
     path: '/settings',
     element: <UserSettings/>
+  },
+  {
+    path: '/messages',
+    element: <Messages/>
   },
 ];
 

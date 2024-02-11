@@ -79,13 +79,7 @@ const ProfileCard = () => {
                    }
                 </ul>
                 {
-                fetchedUser?.userName == store.user.userName ?
-                    <ul className='feautures'>
-                        <li>
-                            <span><AddIcon style={{fontSize:'14px',}} /> </span><p>Add Your Story</p>
-                        </li>
-                    </ul>
-                    :
+                fetchedUser?.userName != store.user.userName &&
                     <ul className='feautures'>
                         <li onClick={handleFollow} style={!currentUserFollows?.find(f => f.userName == fetchedUser?.userName && f.isConfirmed) ? { backgroundColor: 'rgb(59, 130, 246)', color:'white'} :  {backgroundColor: 'white', color:'rgb(59, 130, 246)'} }>
                             <p>{currentUserFollows?.find(f => f.userName == fetchedUser?.userName) 

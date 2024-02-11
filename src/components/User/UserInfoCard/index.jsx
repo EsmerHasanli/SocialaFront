@@ -10,14 +10,19 @@ import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import RssFeedOutlinedIcon from "@mui/icons-material/RssFeedOutlined";
 import { FollowContext } from "../../../context";
 import { Link } from "react-router-dom";
+import { Context } from "../../../main";
+import { observer } from "mobx-react-lite";
 
 const UserInfoCard = () => {
   const { fetchedUser } = useContext(FollowContext);
+  const { store } = useContext(Context);
   return (
     <div id="user-info-card">
       <div className="header">
         <h3>Intro</h3>
-        <Link to='/settings'>Edit</Link>
+        {store.user.userName === fetchedUser.userName && (
+          <Link to="/settings">Edit</Link>
+        )}
       </div>
       <div className="info">
         <ul>
@@ -90,4 +95,4 @@ const UserInfoCard = () => {
   );
 };
 
-export default UserInfoCard;
+export default observer(UserInfoCard);

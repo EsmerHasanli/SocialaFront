@@ -482,7 +482,7 @@ export default class Store {
     try {
       const res = await StoriesServices.getStories();
       console.log(res);
-      return res;
+      return res.data;
     } catch (e) {
       console.log("error in getting stories", e);
     }
@@ -492,6 +492,15 @@ export default class Store {
       const res = await StoriesServices.getCurrentUserItems();
       console.log(res);
       return res;
+    } catch (e) {
+      console.log("error in getting story items", e);
+    }
+  }
+  async getStoryItems(storyId) {
+    try {
+      const res = await StoriesServices.getStoryItems(storyId);
+      console.log(res);
+      return res.data;
     } catch (e) {
       console.log("error in getting story items", e);
     }
@@ -506,6 +515,7 @@ export default class Store {
     }
   }
 
+  //reset-password
   async resetPassword(payload) {
     try {
       await AuthService.resetPassword(payload);

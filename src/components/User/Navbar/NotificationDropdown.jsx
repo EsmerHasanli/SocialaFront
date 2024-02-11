@@ -4,16 +4,9 @@ import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import WavingHandIcon from '@mui/icons-material/WavingHand';
-import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 import { Context } from '../../../main';
 import { observer } from 'mobx-react-lite';
 import { FollowContext } from '../../../context';
@@ -44,7 +37,7 @@ const NotificationDropdown = () => {
               aria-expanded={open ? 'true' : undefined}
             >
               
-              <Avatar sx={{ width: 32, height: 32 }}><NotificationsActiveIcon /></Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}><NotificationsActiveIcon style={{color:"rgb(88,80,236)"}} /></Avatar>
             </IconButton>
           </Tooltip>
         </Box>
