@@ -6,6 +6,7 @@ import { Checkbox, Input } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
+import LoginValidationSchema from "../../../validations/LoginValidationSchema";
 
 const LoginForm = () => {
   const { store } = useContext(Context);
@@ -16,6 +17,7 @@ const LoginForm = () => {
       password: "",
       isPersistence: false,
     },
+    validationSchema: LoginValidationSchema,
     onSubmit: async (values, actions) => {
       console.log("Form submitted", values);
       const formData = new FormData();

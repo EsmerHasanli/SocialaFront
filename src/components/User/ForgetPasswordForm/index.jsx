@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../../main";
+import ForgetPasswordValidationSchema from "../../../validations/ForgetPasswordValidationSchema";
 
 const ForgetPasswordForm = () => {
   const {store} = useContext(Context)
@@ -12,7 +13,7 @@ const ForgetPasswordForm = () => {
     initialValues: {
       email: "",
     },
-  
+    validationSchema: ForgetPasswordValidationSchema,
     onSubmit: async (values, actions) => {
       console.log(values);
       const formData = new FormData()
@@ -38,9 +39,9 @@ const ForgetPasswordForm = () => {
           onBlur={formik.handleBlur}
           value={formik.values.email}
         />
-        {/* {formik.touched.email && formik.errors.email ? (
+        {formik.touched.email && formik.errors.email ? (
               <div className="error">{formik.errors.email}</div>
-            ) : null} */}
+            ) : null}
         <button type="submit">Send login link</button>
       </form>
 

@@ -6,6 +6,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useFormik } from "formik";
 import {Context} from '../../../../main'
 import { observer } from "mobx-react-lite";
+import Swal from "sweetalert2";
 
 const AddStories = () => {
   const {store} = useContext(Context)
@@ -27,13 +28,27 @@ const AddStories = () => {
     },
     // validationSchema:
     onSubmit: async (values, actions) => {
-      console.log(values);
-      const formData = new FormData();
-      formData.append('file', values.storyFile)
-      formData.append('text', values.storyDescr)
-      const res = await store.createStory(formData)
-
-      console.log(res);
+      if ( values.storyDescr == "" && values.storyFile==null) {
+        Swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "You can not post empty story !",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }else{
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Story added successfully !",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        const formData = new FormData();
+        formData.append('file', values.storyFile)
+        formData.append('text', values.storyDescr)
+        const res = await store.createStory(formData)
+      }
     }
   })
 

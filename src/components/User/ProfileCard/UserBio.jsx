@@ -4,6 +4,7 @@ import { Context } from "../../../main";
 import { FollowContext } from "../../../context";
 
 import { useFormik } from "formik";
+import Swal from "sweetalert2";
 
 const UserBio = () => {
   const { store } = useContext(Context);
@@ -18,15 +19,21 @@ const UserBio = () => {
     },
     // validationSchema: 
     onSubmit: async (values, actions) => {
-      console.log(values);
-
-      const editedData = new FormData()
-      editedData.append('bio', values.bio)
-      setFetchedUser({...fetchedUser, bio: values.bio})
-      const res = await store.editBio(editedData)
-      console.log(res);
-      actions.resetForm()
-      setShowInput(false)
+      if(values.bio == store.user?.bio){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Bio did not change!",
+        });
+      }else{
+        const editedData = new FormData()
+        editedData.append('bio', values.bio)
+        setFetchedUser({...fetchedUser, bio: values.bio})
+        const res = await store.editBio(editedData)
+        console.log(res);
+        actions.resetForm()
+        setShowInput(false)
+      }
     }
   });
 

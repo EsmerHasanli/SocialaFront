@@ -8,39 +8,46 @@ import { Checkbox } from "@mui/material";
 
 const UserInfoForm = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
-  const [values, setValues] = useState({})
+  const [initialValues, setInitialValues] = useState({})
   const {setUserAvatar} = useContext(FollowContext)
   useEffect(() => {
     async function fetchData() {
       const res = await store.getDescription();
       console.log(res)
       if (res.bio == null) res.bio = ""
-      setValues(res);
+      setInitialValues(res);
     }
     fetchData();
   },[])
   const formik = useFormik({
-    initialValues: values,
+    initialValues: initialValues,
     enableReinitialize:true,
-    // validationSchema: 
+    // validationSchema: ,
     onSubmit: async (values, actions) => {
-    
-      const editedData = new FormData()
-      if (photo) editedData.append("photo", photo)
-      editedData.append('name', values.name)
-      editedData.append('surname', values.surname)
-      editedData.append('bio', values.bio)
-      editedData.append("email", values.email)
-      editedData.append('gender', values.gender)
-      editedData.append('isPrivate', values.isPrivate)
-      
-      console.log(values)
-      const url = await store.editDescription(editedData)
-      console.log(url)
-      if (url){
-        setPreviewUrl(null)
-        setUserAvatar(url)
-      }
+      // if(initialValues == values){
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Oops...",
+      //     text: "Yoou did not have changes!",
+      //   });
+      // } else{
+        const editedData = new FormData()
+        if (photo) editedData.append("photo", photo)
+        editedData.append('name', values.name)
+        editedData.append('surname', values.surname)
+        editedData.append('bio', values.bio)
+        editedData.append("email", values.email)
+        editedData.append('gender', values.gender)
+        editedData.append('isPrivate', values.isPrivate)
+        
+        console.log(values)
+        const url = await store.editDescription(editedData)
+        console.log(url)
+        if (url){
+          setPreviewUrl(null)
+          setUserAvatar(url)
+        }
+      // }
     },
     
     

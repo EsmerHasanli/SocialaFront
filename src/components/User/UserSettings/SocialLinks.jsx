@@ -11,7 +11,7 @@ import { FollowContext } from "../../../context";
 const SocialLinks = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
   const {setUserAvatar} = useContext(FollowContext)
-  const [values, setValues] = useState({})
+  const [initialValues, setInitialValues] = useState({})
 
   useEffect(() => {
     async function fetchData() {
@@ -20,28 +20,36 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
       if (res.facebookLink == null) res.facebookLink = ""
       if (res.instagramLink == null) res.instagramLink = ""
       if (res.githubLink == null) res.githubLink = ""
-      setValues(res);
+      setInitialValues(res);
     }
     fetchData();
   },[])
   
 
   const formik = useFormik({
-    initialValues:  values,
+    initialValues:  initialValues,
     enableReinitialize:true,
     // validationSchema: 
     onSubmit: async (values, actions) => {
-      const editedData = new FormData()
-      if (photo) editedData.append("photo", photo);
-      editedData.append('facebookLink', values.facebookLink)
-      editedData.append('instagramLink', values.instagramLink)
-      editedData.append('githubLink', values.githubLink)
-
-      const url = await store.editSocialLinks(editedData)
-      if (url){
-        setPreviewUrl(null)
-        setUserAvatar(url)
-      }
+      // if(values == initialValues){
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Oops...",
+      //     text: "Yoou did not have changes!",
+      //   });
+      // } else{
+        const editedData = new FormData()
+        if (photo) editedData.append("photo", photo);
+        editedData.append('facebookLink', values.facebookLink)
+        editedData.append('instagramLink', values.instagramLink)
+        editedData.append('githubLink', values.githubLink)
+  
+        const url = await store.editSocialLinks(editedData)
+        if (url){
+          setPreviewUrl(null)
+          setUserAvatar(url)
+        }
+      // }
     }
   })
   return (

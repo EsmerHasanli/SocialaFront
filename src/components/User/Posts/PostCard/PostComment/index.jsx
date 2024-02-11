@@ -6,6 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import CommentReply from "./CommentReply";
+import Swal from "sweetalert2";
 function PostComment({ comment, setCommentsCount }) {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
@@ -55,11 +56,19 @@ function PostComment({ comment, setCommentsCount }) {
     setReplySkip(replySkip + 10);
   }
   async function addCommentReply(commentId) {
-    const reply = await store.replyComment(commentId, value);
-    setReplies([{ ...reply }, ...replies]);
-    setShowReplyInput(false);
-    setRepliesCount(repliesCount + 1);
-    setCommentsCount(prev => prev+1)
+    if(value.trim()==''){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: 'Comment can not be blank'
+    });
+    }else{
+      const reply = await store.replyComment(commentId, value);
+      setReplies([{ ...reply }, ...replies]);
+      setShowReplyInput(false);
+      setRepliesCount(repliesCount + 1);
+      setCommentsCount(prev => prev+1)
+    }
   }
   // useEffect(() => console.log(replies), [replies]);
   async function likeComment(commentId) {
