@@ -26,7 +26,7 @@ const PostCard = ({ post }) => {
   const [showMoreBtn, setShowMoreBtn] = useState(
       post.comments.length == 5 ? true : false
       );
-  const [commentsCount, setCommentsCount] = useState(comments?.commentsCount)
+  const [commentsCount, setCommentsCount] = useState(post?.commentsCount)
 
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);

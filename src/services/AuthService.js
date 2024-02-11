@@ -21,4 +21,12 @@ export default class AuthService {
   static async checkAuth() {
     return $api.get(`${API_BASE_URL}/auth`);
   }
+
+  static async resetPassword(payload) {
+    return axios.post(`${API_BASE_URL}/auth/reset`, payload);
+  }
+  
+  static async setNewPassword(payload) {
+    return axios.put(`${API_BASE_URL}/auth/newPassword`, payload);
+  }
 }

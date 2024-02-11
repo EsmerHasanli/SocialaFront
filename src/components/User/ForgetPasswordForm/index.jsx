@@ -1,17 +1,24 @@
 import { Divider } from "@mui/material";
 import { Input } from "antd";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../../main";
 
-const index = () => {
+const ForgetPasswordForm = () => {
+  const {store} = useContext(Context)
+
   const formik = useFormik({
     initialValues: {
       email: "",
     },
-    // validationSchema:
+  
     onSubmit: async (values, actions) => {
       console.log(values);
+      const formData = new FormData()
+      formData.append("email", values.email)
+      await store.resetPassword(formData);
+
     },
   });
 
@@ -22,7 +29,7 @@ const index = () => {
         Enter your email and we'll send you a link to get back into your
         account.
       </p>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <Input
           id="email"
           name="email"
@@ -34,7 +41,7 @@ const index = () => {
         {/* {formik.touched.email && formik.errors.email ? (
               <div className="error">{formik.errors.email}</div>
             ) : null} */}
-        <button>Send login link</button>
+        <button type="submit">Send login link</button>
       </form>
 
 
@@ -48,4 +55,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ForgetPasswordForm;

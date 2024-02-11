@@ -11,7 +11,7 @@ import AddStories from "./AddStoriForm";
 import WatchStories from "./WatchStories";
 
 const Stories = () => {
-    const [storiesVisible, setStoriesVisible] = useState(false)
+  const [storiesVisible, setStoriesVisible] = useState(false)
   return (
     <>
         <div className="stories-icons-wrapper">

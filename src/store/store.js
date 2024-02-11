@@ -33,7 +33,7 @@ export default class Store {
       Swal.fire({
         icon: "success",
         title: "Account created!",
-        text: "Please, check your email and confirm your account!"
+        text: "Please, check your email and confirm your account!",
       });
     } catch (e) {
       Swal.fire({
@@ -45,12 +45,12 @@ export default class Store {
       this.setLoading(false);
     }
   }
-  async confirmEmail(payload){
+  async confirmEmail(payload) {
     this.setLoading(true);
     try {
       const res = await AuthService.confirmEmail(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
+      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`;
       await this.checkAuth();
       return res.data.username;
     } catch (e) {
@@ -69,7 +69,7 @@ export default class Store {
     try {
       const res = await AuthService.login(payload);
       localStorage.setItem("token", JSON.stringify(res.data.accessToken));
-      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`
+      document.cookie = `RefreshToken=${res.data.refreshToken};expires=${res.data.expiresAt};path=/;`;
       await this.checkAuth();
       return res.data.username;
     } catch (e) {
@@ -106,15 +106,14 @@ export default class Store {
             clearInterval(timerInterval);
           },
         });
-      }
-      else if (e.response.data.statusCode == 400) {
+      } else if (e.response.data.statusCode == 400) {
         Swal.fire({
           icon: "error",
           title: "Oops, something went wrong!",
           text: e.response.data?.message,
         });
       }
-    } finally{
+    } finally {
       this.setLoading(false);
     }
   }
@@ -145,9 +144,10 @@ export default class Store {
       if (token) {
         try {
           await AuthService.logout(token);
-        }
-        catch (e) {
-          console.log(e.response)
+        } catch (e) {
+          this.showErrorAlertWithSound(
+            e.response.data.message || "Something went wrong!"
+          );
         }
       }
 
@@ -155,7 +155,9 @@ export default class Store {
       this.setAuth(false);
       this.setUser({});
     } catch (e) {
-      console.log(e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     } finally {
       this.setLoading(false);
     }
@@ -166,11 +168,11 @@ export default class Store {
     // this.setLoading(true)
     try {
       const res = await UserServices.getByUsername(username);
-      console.log(res.data)
+      console.log(res.data);
       return res;
     } catch (e) {
-      return e.response.data
-    }finally{
+      return e.response.data;
+    } finally {
       // this.setLoading(false)
     }
   }
@@ -179,7 +181,9 @@ export default class Store {
       const res = await UserServices.getFollowers(this.user.userName);
       return res.data;
     } catch (e) {
-      console.log("error in data fetch", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getFollows() {
@@ -187,7 +191,9 @@ export default class Store {
       const res = await UserServices.getFollows(this.user.userName);
       return res.data;
     } catch (e) {
-      console.log("error in data fetch", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
 
@@ -197,63 +203,75 @@ export default class Store {
       const res = await PostService.createPost(payload);
       return res.data;
     } catch (e) {
-      console.log("error in post", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async getPosts(username){
-    try{
+  async getPosts(username) {
+    try {
       const res = await PostService.getPosts(username);
-      return res.data
-    }catch (e) {
-      console.log('error in getting posts', e);
+      return res.data;
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  
+
   //post comments
   async postComment(payload) {
     try {
       const res = await PostService.postComment(payload);
       return res.data;
     } catch (e) {
-      console.log("error in post", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async likeComment(id) {
     try {
-      const res  = await PostService.likeComment(id);
-      return res
+      const res = await PostService.likeComment(id);
+      return res;
     } catch (e) {
-      
-      console.log("error in post", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async replyComment(id, text) {
     try {
-      const paylaod = {id, text}
-      const res  = await PostService.replyComment(paylaod);
-      return res.data
+      const paylaod = { id, text };
+      const res = await PostService.replyComment(paylaod);
+      return res.data;
     } catch (e) {
-      
-      console.log("error in post", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getPostComments(postId, skip) {
     try {
       const res = await PostService.getComments(postId, skip);
-      console.log(res.data)
+      console.log(res.data);
       return res.data;
     } catch (e) {
-      console.log("error in getting comments", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getCommentReplies(commentId, skip) {
     try {
-      console.log(commentId)
+      console.log(commentId);
       const res = await PostService.getCommentReplies(commentId, skip);
-      console.log(res)
+      console.log(res);
       return res.data;
     } catch (e) {
-      console.log("error in getting replies", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async likeCommentReply(replyId) {
@@ -262,44 +280,54 @@ export default class Store {
       console.log(res);
       return res;
     } catch (e) {
-      console.log("error in like reply", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
 
   //post likes
-  async likePost(postId){
+  async likePost(postId) {
     try {
       const res = await PostService.likePost(postId);
       console.log(res);
       return res;
     } catch (e) {
-      console.log("error in like post", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async getPostLikes(postId){
+  async getPostLikes(postId) {
     try {
       const res = await PostService.getPostLikes(postId);
-      console.log(res.data)
+      console.log(res.data);
       return res.data;
     } catch (e) {
-      console.log("error in getting post's likes", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
 
   //follow unfollow
-  async followUser (username) {
+  async followUser(username) {
     try {
       const res = await UserServices.followUser(username);
       return res.data;
     } catch (e) {
-      console.log("error in follow user", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async unfollowUser (username) {
+  async unfollowUser(username) {
     try {
       await UserServices.unfollowUser(username);
     } catch (e) {
-      console.log("error in follow user", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
 
@@ -309,193 +337,215 @@ export default class Store {
       const res = await UserServices.checkAccountPrivate(username);
       return res.data;
     } catch (e) {
-      console.log("error in follow user", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async editSocialLinks(paylaod){
-    this.setLoading(true)
+  async editSocialLinks(paylaod) {
+    this.setLoading(true);
     try {
       const res = await UserServices.editSocialLinks(paylaod);
-      Swal.fire({
-        title: "Great!",
-        text: `Succesfully changed!`,
-        icon: "success"
-      });
+      this.showSuccessAlert(`Successfully changed!`);
       return res.data;
-    } catch(e){
-      console.log('error in editing social media links', e);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
+    } finally {
+      this.setLoading(false);
     }
-    finally {this.setLoading(false)}
   }
-  async editBio(paylaod){
-    console.log('paylaod',paylaod);
+  async editBio(paylaod) {
+    console.log("paylaod", paylaod);
     try {
       const res = await UserServices.editBio(paylaod);
       // console.log(res);
-      Swal.fire({
-        title: "Great!",
-        text: `Succesfully changed!`,
-        icon: "success"
-      });
+      this.showSuccessAlert(`Successfully changed!`);
       return res.data;
-    } catch(e){
-      console.log('error in editing bio', e);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async editAvatar(paylaod){
+  async editAvatar(paylaod) {
     try {
       const res = await UserServices.editAvatar(paylaod);
       // console.log(res);
       return res.data;
-    } catch(e){
-      console.log('error in editing avatar', e);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async editBackground(paylaod){
+  async editBackground(paylaod) {
     try {
       const res = await UserServices.editBackground(paylaod);
       // console.log(res);
       return res.data;
-    } catch(e){
-      console.log('error in editing bg', e);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
-  async likeAvatar(username){
-    console.log('username', username);
+  async likeAvatar(username) {
+    console.log("username", username);
     try {
       const res = await UserServices.likeAvatar(username);
       console.log(res);
       return res;
-    } catch(e){
-      console.log('error in like avatar', e);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getSocialLinks() {
     try {
-      const res = await UserServices.getSocialLinks()
+      const res = await UserServices.getSocialLinks();
       return res.data;
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getDescription() {
     try {
-      const res = await UserServices.getDescription()
+      const res = await UserServices.getDescription();
       return res.data;
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async editDescription(payload) {
-    this.setLoading(true)
+    this.setLoading(true);
     try {
-      const res  = await UserServices.editDescription(payload)
+      const res = await UserServices.editDescription(payload);
       const email = payload.get("email");
       if (this.user.email != email) {
         await this.logout();
-        Swal.fire({
-          title: "Email Changed!",
-          text: `For continue, you must confirm your new email ${email}!`,
-          icon: "success"
-        });
+        this.showErrorAlertWithSound(
+          `For continue, you must confirm your new email ${email}!`
+        );
         //localStorage.removeItem("emailConfirm")
+      } else {
+        this.showSuccessAlert(`Succesfully changed!`);
+        return res.data;
       }
-      else {
-      Swal.fire({
-        title: "Great!",
-        text: `Succesfully changed!`,
-        icon: "success"
-      });
-      return res.data
-    }
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
+    } finally {
+      this.setLoading(false);
     }
-    finally {this.setLoading(false)}
   }
   async putNotificationSettings(payload) {
     try {
-      const res = await UserServices.editNotifications(payload)
-      Swal.fire({
-        title: "Great!",
-        text: `Succesfully changed!`,
-        icon: "success"
-      }); 
+      const res = await UserServices.editNotifications(payload);
+      this.showSuccessAlert(`Succesfully changed!`);
       return res.data;
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
   async getNotifySettings() {
     try {
-      const res = await UserServices.getNotificationsSettings()
+      const res = await UserServices.getNotificationsSettings();
       return res.data;
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
-      console.log("error in editing description", e);
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
     }
   }
 
   //stories
   async createStory(payload) {
     try {
-      const res = await StoriesServices.createStory(payload)
+      const res = await StoriesServices.createStory(payload);
       console.log(res);
       return res;
     } catch (e) {
-      console.log('error creating story', e);
+      console.log("error creating story", e);
     }
   }
   async getStories() {
     try {
-      const res = await StoriesServices.getStories()
+      const res = await StoriesServices.getStories();
       console.log(res);
       return res;
     } catch (e) {
-      console.log('error in getting stories', e);
+      console.log("error in getting stories", e);
     }
   }
   async getCurrentUserItems() {
     try {
-      const res = await StoriesServices.getCurrentUserItems()
+      const res = await StoriesServices.getCurrentUserItems();
       console.log(res);
       return res;
     } catch (e) {
-      console.log('error in getting story items', e);
+      console.log("error in getting story items", e);
     }
   }
   async deleteStory(storyId) {
     try {
-      const res = await StoriesServices.deleteStory(storyId)
+      const res = await StoriesServices.deleteStory(storyId);
       console.log(res);
       return res;
     } catch (e) {
-      console.log('error in deleting story', e);
+      console.log("error in deleting story", e);
     }
   }
-}
 
+  async resetPassword(payload) {
+    try {
+      await AuthService.resetPassword(payload);
+      const email = payload.get("email");
+      this.showSuccessAlert(`We sent to your ${email} reset link!`);
+    } catch (e) {
+      this.showErrorAlertWithSound(e.response.data.errors.email);
+    }
+  }
+  async setNewPassword(payload) {
+    try {
+      const res = await AuthService.setNewPassword(payload);
+
+      return res;
+    } catch (e) {
+      console.log("error in set new pass", e);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: e.response.data.message,
+      });
+    }
+  }
+
+  showErrorAlertWithSound(message, alternativeMessage = null) {
+    var audio = new Audio("/src/assets/sounds/err_sound.mp3");
+    audio.play();
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: message || alternativeMessage,
+    });
+  }
+  showSuccessAlert(message, alternativeMessage = null) {
+    var audio = new Audio("/src/assets/sounds/success_alert.wav");
+    audio.play();
+    Swal.fire({
+      title: "Great!",
+      text: message || alternativeMessage,
+      icon: "success",
+    });
+  }
+}

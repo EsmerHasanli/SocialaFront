@@ -15,9 +15,9 @@ const LikeAvatar = () => {
   )
 
   const sound = new Howl({
-    src: ["/src/assets/sounds/like-sound2.mp3"],
-    volume: 0.5, // Уровень громкости от 0 до 1
-    loop: false, // true, если хотите, чтобы аудио повторялось
+    src: ["/src/assets/sounds/like-sound.mp3"],
+    volume: 0.5, 
+    loop: false, 
   });
 
   const handleLikeAvatar = async () => {

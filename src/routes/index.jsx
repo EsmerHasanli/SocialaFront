@@ -6,6 +6,7 @@ import UserDetailsPage from "../pages/User/UserDetailsPage";
 import EmailConfirmationPage from "../pages/User/EmailConfirmationPage";
 import UserSettings from "../pages/User/UserSettings";
 import ForgetPassword from "../pages/User/ForgetPassword";
+import RessetPassword from '../pages/User/ResetPassword'
 
 export const privateRoutes = [
   { 
@@ -38,5 +39,9 @@ export const publicRoutes = [
   {
     path: '/forget-password',
     element: <ForgetPassword/>
-  }
+  },
+  {
+    path: '/reset',
+    element: <RessetPassword/>
+  },
 ];

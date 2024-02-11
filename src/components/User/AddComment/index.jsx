@@ -5,13 +5,15 @@ import { Context } from "../../../main";
 import { useFormik } from "formik";
 import CommentvalidationSchema from "../../../validations/CommentvalidationSchema";
 import Swal from "sweetalert2";
+import { values } from "mobx";
 
-const AddComment = ({comments,setComments, post, commentsCount, setCommentsCount}) => {
+const AddComment = ({comments,setComments, post,commentsCount, setCommentsCount}) => {
     const {store} = useContext(Context)
     const formik = useFormik({
         initialValues: {
-            text: "", 
+            text: "" 
         },
+        
         // validationSchema: CommentvalidationSchema,
         onSubmit: async (values, actions) => {
             if(!values.text?.trim()){
@@ -27,10 +29,9 @@ const AddComment = ({comments,setComments, post, commentsCount, setCommentsCount
                     text: values.text
                 }
                 const res = await store.postComment(newData);
-                setComments([...comments,{...res}]);
-                setCommentsCount(commentsCount+1)
+                setComments([...comments, {...res}]);
                 //const comments = await store.getPostComments(postId)
-                
+                setCommentsCount(commentsCount + 1)
             }
             formik.resetForm();
             actions.resetForm()

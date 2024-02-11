@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import ForgetPasswordForm from '../../../components/User/ForgetPasswordForm'
 import './index.scss'
 
-const Login = () => {
+const ForgetPassword = () => {
   return (
     <>
       <Helmet>
@@ -48,4 +48,4 @@ const Login = () => {
   );
 };
 
-export default observer(Login);
+export default observer(ForgetPassword);
