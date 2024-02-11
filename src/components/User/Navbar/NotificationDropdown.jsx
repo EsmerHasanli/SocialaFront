@@ -15,52 +15,15 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 import { Context } from '../../../main';
-import * as signalR from '@microsoft/signalr';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import { FollowContext } from '../../../context';
 
 const NotificationDropdown = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const {store} = useContext(Context);
 
-    const [notifications, setNotifications] = useState([]);
-
-    useEffect(() => {
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl('https://localhost:7023/notificationHub', {
-                skipNegotiation: true,
-                transport: signalR.HttpTransportType.WebSockets
-            })
-            .withAutomaticReconnect()
-            .build();
-
-            connection.start().then(() => {
-                connection.invoke("Connect", store.user.userName)
-                .then(() => {
-                    console.log("Connected successfully and user connected.");
-                })
-                .catch((error) => {
-                    console.error(`Error connecting to hub: ${error}`);
-                });
-                
-            }).catch(err => console.error(err));
-            connection.onreconnected(() => {
-                console.log("reconnected")
-                connection.invoke("Connect", store.user.userName)
-            })
-            connection.onclose("Disconnect", store.user.userName)
-            connection.on('NewNotification', (message) => {
-                setNotifications( prev => [{...message}, ...prev]);
-            });
-            connection.on('LatestNotifications', (message) => {
-                setNotifications(message);
-            });
-            
-        return () => {
-            connection.stop();
-        };
-    }, []);
+    const {notifications, setNotifications} = useContext(FollowContext)
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -86,6 +49,7 @@ const NotificationDropdown = () => {
           </Tooltip>
         </Box>
         <Menu
+          
           anchorEl={anchorEl}
           id="account-menu"
           open={open}
@@ -120,8 +84,8 @@ const NotificationDropdown = () => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          {notifications?.map(notification =>
-            <MenuItem onClick={handleClose}>
+          {notifications?.map((notification,key) =>
+            <MenuItem key={key} onClick={handleClose}>
               <div>
                 <Avatar src={notification.sourceUrl} /> 
               </div>
