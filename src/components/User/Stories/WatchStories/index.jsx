@@ -1,10 +1,3 @@
-import React, { useContext, useEffect } from "react";
-import "./index.scss";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
 // import required modules
@@ -16,10 +9,25 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 
-const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) => {
-  console.log('story', story);
-  console.log('storyItems', storyItems);
+const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
+  function handleSlideChange(swiper) {
+    const watchedStory = watchedStories?.find(ws => ws.id == story?.id);
+    const slideIndex = swiper.realIndex
+    if (watchedStory) {
+        if (watchedStory?.lastWatchedStoryIndex < slideIndex) {
+          watchedStory.lastWatchedStoryCreateTime = storyItems[slideIndex].createdAt;
+          watchedStory.lastWatchedStoryIndex = swiper.realIndex
+
+          const changedArr = watchedStories.filter(ws => ws.id != story.id);
+          changedArr.push(watchedStory);
+          setWatchedStories([...changedArr]);
+          localStorage.setItem("watchedStories", JSON.stringify(changedArr))
+
+        }
+      }
+    }
+
   return (
     <>
       {storiesVisible && (
@@ -37,7 +45,9 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) 
           </IconButton>
           <Swiper
             effect={"coverflow"}
+            onSlideChange={handleSlideChange}
             grabCursor={true}
+            initialSlide={watchedStories.find(ws => ws.id == story?.id)?.lastWatchedStoryIndex || 0}
             centeredSlides={true}
             slidesPerView={"auto"}
             coverflowEffect={{
@@ -55,6 +65,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) 
               storyItems && storyItems.map(storyItem => (
                 storyItem.type == 'Image' ?
                 <SwiperSlide
+                  key={storyItem.key}
                   className="swiper-slide"
                   style={{
                     backgroundImage:
@@ -67,7 +78,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) 
                       <p>{story?.ownerUserName}</p>
                     </div>
                     {
-                      story.ownerUserName == store.user.userName &&
+                      story.ownerUsername == store.user.userName &&
                       <IconButton>
                         <MoreHorizIcon style={{ color: "antiquewhite" }} />
                       </IconButton>
@@ -86,6 +97,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) 
                   </div>
                 </SwiperSlide> :
                   <SwiperSlide
+                  key={storyItem.key}
                   className="swiper-slide"
                 >
                   <div className="header">

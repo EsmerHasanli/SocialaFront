@@ -11,11 +11,11 @@ const AppRouter = () => {
   const { store } = useContext(Context);
   const navigate  = useNavigate()
   
-  useEffect(()=>{
-    if(!localStorage.getItem('token')){
-      navigate('/login')
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(!localStorage.getItem('token')){
+  //     navigate('/login')
+  //   }
+  // },[])
   
   return (
     <>
@@ -31,7 +31,10 @@ const AppRouter = () => {
       ): (
         <Routes>
           {publicRoutes.map((route) => (
-            <Route path={route.path} element={route.element} key={route.path} />
+            <>
+              <Route path={route.path} element={route.element} key={route.path} />
+              <Route path="*" element={<Login />}></Route>
+            </>
           ))}
         </Routes>
       )}

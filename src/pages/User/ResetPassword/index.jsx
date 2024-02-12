@@ -5,8 +5,12 @@ import { observer } from "mobx-react-lite";
 
 import './index.scss'
 import ResetPasswordForm from "../../../components/User/ResetPasswordForm";
+import NotFound from "../../NotFound";
 
 const RessetPassword = () => {
+  const queryParams = new URLSearchParams(window.location.search);
+  if (!queryParams.get("email") || !queryParams.get("token")) return <NotFound text={"Login"}/>
+
     return (
         <>
           <Helmet>
@@ -19,7 +23,7 @@ const RessetPassword = () => {
                     <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo.png" alt="" />
                 </nav>
                 <Divider/>
-                <ResetPasswordForm />
+                <ResetPasswordForm  queryParams={queryParams} />
               </Grid>
               <Grid
                 item

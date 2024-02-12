@@ -12,6 +12,7 @@ import UserBackground from './UserBackground';
 import LikeAvatar from './LikeAvatar';
 import FollowsModal from './FollowsModal';
 import FollowersModal from './FollowersModal';
+import FollowsRequestsModal from './FollowsRequestsModal';
 
 const ProfileCard = () => {
     const { store } = useContext(Context);
@@ -67,9 +68,7 @@ const ProfileCard = () => {
                     <FollowersModal fetchedUser={fetchedUser} />
                     {store.user.userName == fetchedUser?.userName &&
                     <>
-                        <li>
-                            Follow Requests <span>{currentUserFollows?.filter(uf => uf.isConfirmed == false).length}</span>
-                        </li>
+                        <FollowsRequestsModal currentUserFollows={currentUserFollows} />
                         <li>
                             Follower Requests <span>{store.user?.followers?.filter(uf => uf.isConfirmed == false).length}</span>
                         </li>

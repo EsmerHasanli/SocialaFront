@@ -43,6 +43,7 @@ const UserDetailsPage = () => {
     if (username) {
       fetchUser();
     }
+    console.log('infinity loop');
   }, [username]);
 
   return (

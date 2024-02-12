@@ -4,12 +4,12 @@ import { Modal } from "antd";
 import { Button, IconButton } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useFormik } from "formik";
-import {Context} from '../../../../main'
+import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 import Swal from "sweetalert2";
 
 const AddStories = () => {
-  const {store} = useContext(Context)
+  const { store } = useContext(Context);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -24,33 +24,28 @@ const AddStories = () => {
   const formik = useFormik({
     initialValues: {
       storyFile: null,
-      storyDescr: ''
+      storyDescr: "",
     },
     // validationSchema:
     onSubmit: async (values, actions) => {
-      if ( values.storyDescr == "" && values.storyFile==null) {
+      console.log(values.storyFile);
+      if (!values.storyFile) {
         Swal.fire({
-          position: "top-end",
-          icon: "warning",
-          title: "You can not post empty story !",
+          position: "center",
+          icon: "error",
+          title: "Warning!",
+          text: "You cant post empty story",
           showConfirmButton: false,
           timer: 1500,
         });
-      }else{
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Story added successfully !",
-          showConfirmButton: false,
-          timer: 1500
-        });
+      } else {
         const formData = new FormData();
-        formData.append('file', values.storyFile)
-        formData.append('text', values.storyDescr)
-        const res = await store.createStory(formData)
+        formData.append("file", values.storyFile);
+        formData.append("text", values.storyDescr);
+        await store.createStory(formData);
       }
-    }
-  })
+    },
+  });
 
   return (
     <div className="add-story-form">
@@ -62,16 +57,37 @@ const AddStories = () => {
 
       <Modal
         footer={false}
-        title="Basic Modal"
+        title="Create Story"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <form onSubmit={formik.handleSubmit}>
-          <div style={{ display: "flex", flexDirection: "column",}}>
-            <textarea id='storyDescr' name='storyDescr' value={formik.values.storyDescr} onChange={formik.handleChange} style={{borderRadius:'8px', maxWidth:'100%', minHeight:'52px', padding:'8px'}} cols="30" rows="10" placeholder="What is on your mind?" />
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <input
+              id="storyDescr"
+              name="storyDescr"
+              value={formik.values.storyDescr}
+              onChange={formik.handleChange}
+              style={{
+                borderRadius: "8px",
+                maxWidth: "100%",
+                minHeight: "52px",
+                padding: "8px",
+              }}
+              cols="30"
+              rows="10"
+              placeholder="Story description here..."
+            />
 
-            <IconButton style={{ backgroundColor: "rgb(226,232,240)", width:'35px', height:'35px', marginTop: "10px", }}>
+            <IconButton
+              style={{
+                backgroundColor: "rgb(226,232,240)",
+                width: "35px",
+                height: "35px",
+                marginTop: "10px",
+              }}
+            >
               <label htmlFor="stori">
                 <AttachFileIcon style={{ rotate: "45deg" }} />
               </label>
@@ -81,7 +97,9 @@ const AddStories = () => {
               id="stori"
               name="stori"
               type="file"
-              onChange={(e)=>formik.setFieldValue('storyFile', e.currentTarget.files[0])}
+              onChange={(e) =>
+                formik.setFieldValue("storyFile", e.currentTarget.files[0])
+              }
             />
           </div>
           <div

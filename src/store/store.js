@@ -479,18 +479,18 @@ export default class Store {
 
   //stories
   async createStory(payload) {
+    this.setLoading(true)
     try {
       const res = await StoriesServices.createStory(payload);
-      console.log(res);
-      return res;
+      this.showSuccessAlert();
     } catch (e) {
-      console.log("error creating story", e);
+      this.showErrorAlertWithSound(e.response.data.message)
     }
+    this.setLoading(false)
   }
   async getStories() {
     try {
       const res = await StoriesServices.getStories();
-      console.log(res);
       return res.data;
     } catch (e) {
       console.log("error in getting stories", e);
@@ -499,10 +499,9 @@ export default class Store {
   async getCurrentUserItems() {
     try {
       const res = await StoriesServices.getCurrentUserItems();
-      console.log(res);
-      return res;
+      return res.data;
     } catch (e) {
-      console.log("error in getting story items", e);
+      this.showErrorAlertWithSound(e.response.message)
     }
   }
   async getStoryItems(storyId) {
@@ -511,7 +510,7 @@ export default class Store {
       console.log(res);
       return res.data;
     } catch (e) {
-      console.log("error in getting story items", e);
+      this.showErrorAlertWithSound(e.response.message)
     }
   }
   async deleteStory(storyId) {
@@ -526,26 +525,25 @@ export default class Store {
 
   //reset-password
   async resetPassword(payload) {
+    this.setLoading(true)
     try {
       await AuthService.resetPassword(payload);
       const email = payload.get("email");
       this.showSuccessAlert(`We sent to your ${email} reset link!`);
     } catch (e) {
       this.showErrorAlertWithSound(e.response.data.errors.email);
+    } finally{
+      this.setLoading(false);
     }
   }
   async setNewPassword(payload) {
     try {
       const res = await AuthService.setNewPassword(payload);
-
+      this.showSuccessAlert(`You succesfully changed your password!`);
       return res;
     } catch (e) {
       console.log("error in set new pass", e);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: e.response.data.message,
-      });
+      this.showErrorAlertWithSound(e.response.data.errors.email);
     }
   }
 

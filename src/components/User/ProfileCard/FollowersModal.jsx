@@ -40,7 +40,7 @@ const FollowersModal = ({ fetchedUser }) => {
       </li>
 
       <Modal
-        title="Follows"
+        title="Follower"
         open={isModalOpen}
         onCancel={handleCancel}
         footer={false}

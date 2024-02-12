@@ -6,9 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../../../main";
 import ResetPasswordValidationSchema from "../../../validations/ResetPasswordValidationSchema";
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = ({queryParams}) => {
   const { store } = useContext(Context);
-  const queryParams = new URLSearchParams(window.location.search);
+
   const navigate = useNavigate();
 
   const formik = useFormik({

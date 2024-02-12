@@ -3,7 +3,7 @@ import "./index.scss";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+const NotFound = ({text}) => {
   return (
     <>
       <Helmet>
@@ -20,7 +20,7 @@ const NotFound = () => {
           <h2>
             This is not a fault, just an accident that was not intentional.
           </h2>
-          <Link to='/'>Home</Link>
+          <Link to='/'>{text || "Home"}</Link>
         </div>
       </section>
     </>
