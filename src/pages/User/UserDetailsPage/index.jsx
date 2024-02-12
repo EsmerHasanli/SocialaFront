@@ -13,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FooterMobile from "../../../components/User/FooterMobile";
 import Posts from "../../../components/User/Posts";
 import { FollowContext } from "../../../context";
+import SideBarUpdated from "../../../components/UpdatedSideBar/SideBarUpdated";
 
 const UserDetailsPage = () => {
   const { store } = useContext(Context);
@@ -55,6 +56,7 @@ const UserDetailsPage = () => {
         <Grid container spacing={2}>
           <Grid item lg={2}>
             <SideBar />
+            {/* <SideBarUpdated/> */}
           </Grid>
           <Grid className="profile-wrapper" item lg={10} xs={12}>
             <ProfileCard />

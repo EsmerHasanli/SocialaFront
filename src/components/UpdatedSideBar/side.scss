@@ -1,0 +1,27 @@
+#side-bar-updated{
+    nav {
+        ul {
+        padding: 8px;
+        background-color: white !important;
+        width: 286px;
+        height: 100vh;
+  
+        li {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 16px;
+          img {
+            width: 24px;
+            height: 24px;
+          }
+  
+          &:hover{
+              border-radius: 8px;
+              background-color: rgb(241,245,249);
+              color: #0284C7;
+          }
+        }
+      }
+    }
+}

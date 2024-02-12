@@ -1,3 +1,10 @@
+import React, { useContext, useEffect } from "react";
+import "./index.scss";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
 // import required modules

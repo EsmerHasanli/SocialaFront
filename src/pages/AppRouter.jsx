@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../main";
 import Layout from "./Layout";
 import NotFound from "./NotFound";
+import Login from "./User/Login";
 
 const AppRouter = () => {
   const { store } = useContext(Context);
