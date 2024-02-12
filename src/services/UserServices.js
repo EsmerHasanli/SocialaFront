@@ -16,6 +16,9 @@ export default class UserServices {
   static async unfollowUser(username) {
     return await $api.delete(`${API_BASE_URL}/users/follows/cancel/${username}`)
   }
+  static async deleteFollower(username) {
+    return await $api.delete(`${API_BASE_URL}/users/followers/cancel/${username}`)
+  }
   static async checkAccountPrivate(username) {
     return await $api.get(`${API_BASE_URL}/users/checkPrivate/${username}`)
   }

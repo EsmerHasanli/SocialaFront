@@ -16,6 +16,8 @@ function App() {
   const [fetchedUser, setFetchedUser] = useState({});
   const [currentUserFollows, setCurrentUserFollows] = useState([]);
   const [userAvatar, setUserAvatar] = useState(store.user?.imageUrl);
+  const [notifications, setNotifications] = useState([])
+  const [onlineUsers, setOnlineUsers] = useState([])
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -56,7 +58,11 @@ function App() {
         currentUserFollows,
         setCurrentUserFollows,
         userAvatar,
-        setUserAvatar
+        setUserAvatar,
+        notifications,
+        setNotifications,
+        onlineUsers,
+        setOnlineUsers
       }}
     >
       <AppRouter />

@@ -18,6 +18,7 @@ import { observer } from "mobx-react-lite";
 
 const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems }) => {
   console.log('story', story);
+  console.log('storyItems', storyItems);
   const {store} = useContext(Context)
   return (
     <>

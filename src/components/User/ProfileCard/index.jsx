@@ -10,6 +10,8 @@ import UserBio from './UserBio';
 import UserAvatar from './UserAvatar';
 import UserBackground from './UserBackground';
 import LikeAvatar from './LikeAvatar';
+import FollowsModal from './FollowsModal';
+import FollowersModal from './FollowersModal';
 
 const ProfileCard = () => {
     const { store } = useContext(Context);
@@ -61,12 +63,8 @@ const ProfileCard = () => {
         <nav>
             <div className="wrapper">
                 <ul className='links'>
-                    <li>
-                        Follows <span>{fetchedUser?.followsCount}</span>
-                    </li>
-                    <li>
-                        Followers <span>{fetchedUser?.followersCount}</span>
-                    </li>
+                    <FollowsModal fetchedUser={fetchedUser} />
+                    <FollowersModal fetchedUser={fetchedUser} />
                     {store.user.userName == fetchedUser?.userName &&
                     <>
                         <li>

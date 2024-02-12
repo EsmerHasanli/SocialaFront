@@ -330,6 +330,15 @@ export default class Store {
       );
     }
   }
+  async deleteFollower(username) {
+    try {
+      await UserServices.deleteFollower(username);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
+    }
+  }
 
   //user settings
   async checkAccountPrivate(username) {
