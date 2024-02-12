@@ -8,6 +8,7 @@ import UserSettings from "../pages/User/UserSettings";
 import ForgetPassword from "../pages/User/ForgetPassword";
 import RessetPassword from '../pages/User/ResetPassword'
 import Messages from "../pages/User/Messages";
+import Archieve from "../pages/User/Archive";
 
 export const privateRoutes = [
   { 
@@ -25,6 +26,10 @@ export const privateRoutes = [
   {
     path: '/messages',
     element: <Messages/>
+  },
+  {
+    path: '/archive',
+    element: <Archieve/>
   },
 ];
 

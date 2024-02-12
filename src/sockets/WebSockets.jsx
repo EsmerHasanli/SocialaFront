@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { FollowContext } from '../../context';
+import { FollowContext } from '../context';
 import { observer } from 'mobx-react-lite';
 import * as signalR from '@microsoft/signalr';
-import { Context } from '../../main';
+import { Context } from '../main';
 
 const WebSockets = () => {
     const {notifications, setNotifications} = useContext(FollowContext);

@@ -4,7 +4,7 @@ import "./index.scss";
 import { Helmet } from "react-helmet";
 
 import Navigation from "../../../components/User/Chat/Navigation";
-import Users from "../../../components/User/Chat/Users";
+import ChatItem from "../../../components/User/Chat/ChatItem";
 import Chat from "../../../components/User/Chat/Chat";
 import Form from "../../../components/User/Chat/Form";
 
@@ -18,7 +18,7 @@ const Messages = () => {
         <Navigation />
 
         <section>
-          <Users />
+          <ChatItem />
           <div id="chat-wrapper">
             <Chat />
             <Form />

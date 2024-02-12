@@ -37,6 +37,17 @@ const SideBar = () => {
               <p>Messages</p>
             </li>
           </Link>
+
+          <Link to="/archive">
+            <li>
+              <img
+                style={{ width: "28px", height: "28px" }}
+                src="https://static.vecteezy.com/system/resources/previews/021/095/640/original/3d-render-illustration-of-archive-icon-office-material-png.png"
+                alt=""
+              />
+              <p>Archive</p>
+            </li>
+          </Link>
         </ul>
 
         <Divider />
@@ -44,12 +55,12 @@ const SideBar = () => {
         <ul className="functions">
           <Link to="/settings">
             <li>
-              <SettingsIcon style={{color:'rgb(41,51,66)'}} />
+              <SettingsIcon style={{ color: "rgb(41,51,66)" }} />
               <p>Settings</p>
             </li>
           </Link>
           <li onClick={handleLogout}>
-            <LogoutIcon style={{color:'rgb(41,51,66)'}} />
+            <LogoutIcon style={{ color: "rgb(41,51,66)" }} />
             <p>Logout</p>
           </li>
         </ul>

@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar } from "@mui/material";
 import { Input } from "antd";
 
-const Users = () => {
+const ChatItem = () => {
   return (
     <div id="users-wrapper">
       <div className="header">
@@ -118,4 +118,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default ChatItem;

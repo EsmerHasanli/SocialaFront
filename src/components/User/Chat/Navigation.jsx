@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Divider } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../../main";
 
 const Navigation = () => {
+  const { store } = useContext(Context);
+  const handleLogout = async () => {
+    await store.logout();
+    navigate("/login");
+  };
+
   return (
     <nav>
       <ul>
@@ -38,6 +46,16 @@ const Navigation = () => {
             Messages
           </li>
         </NavLink>
+        <NavLink to="/archive">
+          <li>
+            <img
+              style={{ width: "28px", height: "28px" }}
+              src="https://static.vecteezy.com/system/resources/previews/021/095/640/original/3d-render-illustration-of-archive-icon-office-material-png.png"
+              alt=""
+            />
+            <p>Archive</p>
+          </li>
+        </NavLink>
         <Divider style={{ margin: "8px 0", color: "rgb(229, 231, 235)" }} />
         <NavLink
           to="/"
@@ -51,7 +69,7 @@ const Navigation = () => {
             Settings
           </li>
         </NavLink>
-        <li>
+        <li onClick={handleLogout}>
           <LogoutIcon />
           Logout
         </li>
@@ -60,4 +78,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default observer(Navigation);
