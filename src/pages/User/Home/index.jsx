@@ -7,7 +7,6 @@ import Grid from "@mui/material/Grid";
 import SideBar from "../../../components/User/SideBar";
 import FooterMobile from "../../../components/User/FooterMobile";
 import Stories from "../../../components/User/Stories";
-import SideBarUpdated from "../../../components/UpdatedSideBar/SideBarUpdated";
 
 const UserHomePage = () => {
   return (
@@ -19,7 +18,6 @@ const UserHomePage = () => {
         <Grid container spacing={2}>
           <Grid item lg={2}>
             <SideBar />
-            {/* <SideBarUpdated /> */}
           </Grid>
           <Grid item lg={10} xs={12}>
             <Stories />
