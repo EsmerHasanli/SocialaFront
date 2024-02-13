@@ -3,8 +3,11 @@ import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 import { Button, Modal } from "antd";
 import { Avatar } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 
 const FollowsModal = ({ fetchedUser }) => {
+  const { username } = useParams()
+
   const { store } = useContext(Context);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [follows, setFollows] = useState([]);
@@ -26,17 +29,19 @@ const FollowsModal = ({ fetchedUser }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await store.getFollows();
+      const res = await store.getFollows(username);
       setFollows(res);
       console.log(res);
     }
     fetchData();
-  }, []);
+  }, [username]);
 
   return (
     <>
       <li onClick={showModal}>
-        Follows <span>{fetchedUser?.followsCount}</span>
+        Follows 
+        {/* <span>{fetchedUser?.followsCount}</span> */}
+        <span>{follows?.length}</span>
       </li>
 
       <Modal
@@ -58,21 +63,27 @@ const FollowsModal = ({ fetchedUser }) => {
                     marginTop: "8px",
                   }}
                 >
-                  <div
+                  <Link
+                  onClick={handleCancel}
+                    to={`/users/${follow.userName}`}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: "8px",
+                      color: '#4B5563'
                     }}
                   >
                     <Avatar src={follow?.imageUrl} />
                     <p>{follow?.userName}</p>
-                  </div>
+                  </Link>
+                  {
+                    username == store.user.userName && 
                   <div>
                     <Button onClick={() => handleUnfollow(follow?.userName)}>
                       unfollow
                     </Button>
                   </div>
+                  }
                 </li>
               ) : null
             )}

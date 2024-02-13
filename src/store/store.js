@@ -176,9 +176,9 @@ export default class Store {
       // this.setLoading(false)
     }
   }
-  async getFollowers() {
+  async getFollowers(username) {
     try {
-      const res = await UserServices.getFollowers(this.user.userName);
+      const res = await UserServices.getFollowers(username);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -186,9 +186,9 @@ export default class Store {
       );
     }
   }
-  async getFollows() {
+  async getFollows(username) {
     try {
-      const res = await UserServices.getFollows(this.user.userName);
+      const res = await UserServices.getFollows(username);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -333,6 +333,15 @@ export default class Store {
   async deleteFollower(username) {
     try {
       await UserServices.deleteFollower(username);
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
+    }
+  }
+  async confirmFollower(id) {
+    try {
+      await UserServices.confirmFollower(id);
     } catch (e) {
       this.showErrorAlertWithSound(
         e.response.data.message || "Something went wrong!"
