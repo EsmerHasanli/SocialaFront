@@ -1,121 +1,42 @@
-import React from "react";
-import { Avatar } from "@mui/material";
-import { Input } from "antd";
+import { Avatar } from 'antd';
+import React, { useContext } from 'react';
+import { Context } from '../../../main';
 
-const ChatItem = () => {
-  return (
-    <div id="users-wrapper">
-      <div className="header">
-        <div className="top">
-          <div className="left">
-            <h1>Chats</h1>
-          </div>
-          <div className="right"></div>
-        </div>
-        <div className="bottom">
-          <Input placeholder="Search" />
-        </div>
-      </div>
-
-      <div className="chatters">
-        <ul>
-          <li>
+const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
+    const {store} = useContext(Context);
+    return (
+        <li onClick={() => {
+            if (currentChatId) connection.disconnectFromChat(currentChatId)           
+            setCurrentChatId(chatItem.chatId)
+            localStorage.setItem("chatId", JSON.stringify(chatItem.chatId));
+            }}>
             <div className="avatar">
-              <Avatar
+            <Avatar
                 className="photo"
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
-              />
-              <div className="isOnline"></div>
+                src={chatItem.chatPartnerImageUrl}
+            />
+            <div className="isOnline"></div>
             </div>
-
             <div className="info">
-              <div className="top">
-                <h5>Jesse Steeve</h5>
+            <div className="top">
+                <h5>{chatItem.chatPartnerUserName}</h5>
                 <p>09:40AM</p>
-              </div>
-              <div className="bottom">
-                <p>Love your photos 😍</p>
-              </div>
             </div>
-          </li>
-          <li>
-            <div className="avatar">
-              <Avatar
-                className="photo"
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
-              />
-              <div className="isOnline"></div>
+            <div className="bottom">
+                <p>{chatItem.lastMessageSendedBy == store.user.userName && "You:"} {chatItem.sender == store} {chatItem.lastMessage}</p>
+                <span>{
+                chatItem.lastMessageSendedBy == store.user.userName 
+                    ? chatItem.lastMessageIsChecked
+                        ? "Просмотрено"
+                        : "Отправлено"
+                    : chatItem.lastMessageIsChecked
+                        ? "Просмотрено"
+                        : "Получено"}
+                </span>
             </div>
-
-            <div className="info">
-              <div className="top">
-                <h5>Jesse Steeve</h5>
-                <p>09:40AM</p>
-              </div>
-              <div className="bottom">
-                <p>Love your photos 😍</p>
-              </div>
             </div>
-          </li>
-          <li>
-            <div className="avatar">
-              <Avatar
-                className="photo"
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
-              />
-              <div className="isOnline"></div>
-            </div>
-
-            <div className="info">
-              <div className="top">
-                <h5>Jesse Steeve</h5>
-                <p>09:40AM</p>
-              </div>
-              <div className="bottom">
-                <p>Love your photos 😍</p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="avatar">
-              <Avatar
-                className="photo"
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
-              />
-            </div>
-
-            <div className="info">
-              <div className="top">
-                <h5>Jesse Steeve</h5>
-                <p>09:40AM</p>
-              </div>
-              <div className="bottom">
-                <p>Love your photos 😍</p>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div className="avatar">
-              <Avatar
-                className="photo"
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
-              />
-            </div>
-
-            <div className="info">
-              <div className="top">
-                <h5>Jesse Steeve</h5>
-                <p>09:40AM</p>
-              </div>
-              <div className="bottom">
-                <p>Love your photos 😍</p>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};
+      </li>
+    );
+}
 
 export default ChatItem;

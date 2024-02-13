@@ -121,11 +121,12 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.checkAuth();
-      console.log(res.data);
       this.setUser(res.data);
+      localStorage.setItem("userName", res.data.userName)
       this.setAuth(true);
     } catch (e) {
       localStorage.removeItem("token");
+      localStorage.removeItem("userName");
     } finally {
       this.setLoading(false);
     }

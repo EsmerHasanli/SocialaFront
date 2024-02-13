@@ -1,8 +1,10 @@
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Message } from "@mui/icons-material";
+import { observer } from "mobx-react-lite";
 
-const Chat = () => {
+const Chat = ({currentChat, chatMessages}) => {
   return (
     <div className="wrapper">
       <div className="header">
@@ -10,13 +12,13 @@ const Chat = () => {
           <div className="avatar">
             <Avatar
               className="photo"
-              src="https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-5.jpg"
+              src={currentChat.chatPartnerImageUrl}
             />
             <div className="isOnline"></div>
           </div>
 
           <div className="info">
-            <h5>Jesse Steeve</h5>
+            <h5>{currentChat.ChatPartnerUserName}</h5>
             <p>Online</p>
           </div>
         </div>
@@ -30,7 +32,7 @@ const Chat = () => {
       <div className="messages">
         <div className="chatter-info">
           <Avatar
-            src="	https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-6.jpg"
+            src=" https://demo.foxthemes.net/socialite-v3.0/assets/images/avatars/avatar-6.jpg"
             className="avatar"
           />
           <h2>Monroe Parker</h2>
@@ -39,37 +41,13 @@ const Chat = () => {
         </div>
 
         <div className="chat">
-          <div className="recieved">
-            <div className="avatar">
-              <Avatar className="photo" />
-            </div>
-            <div className="message">Hi, I’m John</div>
-          </div>
-
-          <div className="sended">
-            <div className="message">I’m Lisa. welcome John</div>
-            <div className="avatar">
-              <Avatar className="photo" />
-            </div>
-          </div>
-
-          <div className="recieved">
-            <div className="avatar">
-              <Avatar className="photo" />
-            </div>
-            <div className="message">Hi, I’m John</div>
-          </div>
-
-          <div className="sended">
-            <div className="message">I’m Lisa. welcome John</div>
-            <div className="avatar">
-              <Avatar className="photo" />
-            </div>
-          </div>
+          {chatMessages.map((message) => 
+            <Message message={message} chat={currentChat}/>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Chat;
+export default observer(Chat);

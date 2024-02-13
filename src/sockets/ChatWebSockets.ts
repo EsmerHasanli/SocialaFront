@@ -5,6 +5,8 @@ class Connector {
     public events: (
         onGetChatItems: (data : object[]) => void,
         onReceiveMessage: (data:object) => void,
+        onConnectChat: (data:object) => void,
+        onGetSearchUsers: (data: object[]) => void,
         ) => void;
 
     public store;
@@ -18,24 +20,79 @@ class Connector {
         })
             .withAutomaticReconnect()
             .build();
-        this.connection.start()
-        .then(() => this.connection.invoke("Connect", store.user.userName ))
-        .catch(err => document.write(err));
-
-        this.events = (onGetChatItems, onReceiveMessage) => {
+        
+            this.connection.onreconnected(()=> {
+                this.connection.invoke("Connect", this.store.user.userName)
+                console.log("recon chat")
+            })
+    
+        this.events = (onGetChatItems, onReceiveMessage, onConnectChat, onGetSearchUsers) => {
             this.connection.on("GetChatItems", (data) => {
                 onGetChatItems(data);
             });
-            this.connection.on("onReceiveMessage", (data) => {
-                onReceiveMessage(data);
+            this.connection.on("ReceiveMessage", (message) => {
+                onReceiveMessage(message);
+            });
+            this.connection.on("ChatConnectResponse", (chat) => {
+                onConnectChat(chat)
+            });
+            this.connection.on("GetSearchedUsers", (users) => {
+                onGetSearchUsers(users)
+            });
+            this.connection.on("SendMessageError", (err) => {
+                console.log(err)
             });
         };
-      
+   
     }
 
-    public newMessage = (messages: string) => {
-        this.connection.invoke("newMessage", "foo", messages).then(x => console.log("sent"))
+    public disconnectSockets = () => {
+        if (this.connection.state == signalR.HubConnectionState.Connected) {
+            this.connection.invoke("Disconnect", this.store.user.userName)
+                .then(() => {
+                    this.connection.stop();
+                })
+                .catch(err => console.error(err));
+            }
     }
+
+    public connectSockets = () => {
+        if (this.connection.state != signalR.HubConnectionState.Connected) {
+            this.connection.start()
+            .then(() => {
+                this.connection.invoke("Connect", this.store.user.userName)
+                console.log("CONNECTED")
+            })
+            .catch(err => console.log(err));
+
+        }
+    }
+    public searchChatUsers = (searchParam : string) => {
+        this.connection.invoke("SearchChatUsers", searchParam, this.store.user.userName)
+        .catch((err) => console.error("Error invoking SearchChatUsers:", err));
+    }
+    public sendMessageByUserName(payload : object) {
+        this.connection.invoke("SendMessageByUserName", payload)
+        .then(() => {
+            console.log("sended")
+        })
+        .catch(err => console.log(err));
+    }
+
+
+    public connectToChat = (chatId) => {
+        this.connection.invoke("ConnectToChat", chatId, this.store.user.userName)
+        .catch(err => console.log(err));
+    }
+    public disconnectFromChat = (chatId) => {
+        this.connection.invoke("DisconnectChat", chatId, localStorage.getItem("userName"))
+        .then(() => {
+            console.log("(^ OK")
+        })
+        .catch(err => console.log(err));
+    }
+
+
     public static getInstance(store): Connector {
         if (!Connector.instance)
             Connector.instance = new Connector(store);
