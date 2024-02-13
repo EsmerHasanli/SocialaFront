@@ -1,8 +1,8 @@
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { Message } from "@mui/icons-material";
 import { observer } from "mobx-react-lite";
+import Message from "./Message";
 
 const Chat = ({currentChat, chatMessages}) => {
   return (

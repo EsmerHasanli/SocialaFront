@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar } from "@mui/material";
 import { Input } from "antd";
-import ChatItem from "./ChatLeft";
+import ChatItem from "./ChatItem";
 import UserSearchItem from "./UserSearchItem";
 
 const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searchedUsers, setSearchedUsers}) => {
@@ -38,7 +38,7 @@ const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searc
       <div className="chatters">
         <ul>
             {chatItems.map(chatItem => 
-                <ChatItem  chatItem={chatItem} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection}/>
+              <ChatItem  chatItem={chatItem} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection}/>
             )}
         </ul>
       </div>

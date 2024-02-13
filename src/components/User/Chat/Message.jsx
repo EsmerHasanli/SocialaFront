@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
+import { Avatar } from "@mui/material";
 
 const Message = ({ message, chat }) => {
   const { store } = useContext(Context);
