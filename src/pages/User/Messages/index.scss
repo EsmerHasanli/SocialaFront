@@ -327,12 +327,10 @@
         bottom: 0;
         width: 100%;
         display: flex;
-        justify-content: space-between;
         align-items: center;
         padding: 12px;
         gap: 12px;
-        .icons-left,
-        .icons-right {
+        .icons{
           display: flex;
           align-items: center;
           gap: 8px;
@@ -342,11 +340,18 @@
         }
 
         .input-wrapper {
-          width: 100%;
+          position: relative;
+          display: flex;
+          align-items:center;
+          width: 56%;
+          button{
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
           input {
             width: 100%;
-
-            padding: 8px 16px;
+            padding:11.5px 16px;
             border: none;
             outline: none;
 
@@ -484,6 +489,9 @@
       }
     }
     #users-wrapper {
+      width: 100% !important;
+    }
+    .input-wrapper{
       width: 100% !important;
     }
     #chat-wrapper {

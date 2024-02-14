@@ -12,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { FollowContext } from '../../../context';
 import WebSockets from '../../../sockets/WebSockets';
 import { NotificationsOutlined } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const NotificationDropdown = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -103,13 +104,16 @@ const NotificationDropdown = () => {
               <div>
                 {notification.type == "Custom" ?
                 <Avatar src={notification.sourceUrl} /> 
-                : "🎊"
+                : notification.type == "Email" ? "🎊" :"🛠️"
                 }
               </div>
-              <div>
-                <p><b>{notification.userName}</b> {notification.text}</p>
+              <Link to={`users/${notification.userName}`}>
+                <p>{notification.text}</p>
                 <article>{notification.sendedAt}</article>
-              </div>
+              </Link>
+              {!notification.isChecked &&
+                <div style={{marginLeft:"50px", width:"10px",height:"10px", borderRadius:"50%", backgroundColor:"#0CD000"}}></div>
+              }
             </MenuItem>
           )}
 

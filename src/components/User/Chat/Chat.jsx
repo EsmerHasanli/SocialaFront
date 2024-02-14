@@ -47,8 +47,8 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
         </div>
 
         <div className="chat">
-          {chatMessages.map((message) => 
-            <Message message={message} chat={currentChat}/>
+          {chatMessages.slice().reverse().map((message) => 
+            <Message key={message.id} message={message} chat={currentChat}/>
           )}
         </div>
       </div>

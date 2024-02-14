@@ -19,7 +19,7 @@ const Notifications = ({photo, setPreviewUrl}) => {
   const formik = useFormik({
     initialValues: values,
     enableReinitialize:true,
-    // validationSchema: 
+    // validationSchema:
     onSubmit: async (values, actions) => {
       console.log(values)
       const editedData = new FormData()
@@ -27,6 +27,7 @@ const Notifications = ({photo, setPreviewUrl}) => {
       editedData.append('photoLikeNotify', values.photoLikeNotify)
       editedData.append('postLikeNotify', values.postLikeNotify)
       editedData.append('followerNotify', values.followerNotify)
+      editedData.append('postCommentNotify', values.postCommentNotify)
       if (photo) editedData.append("photo", photo);
       console.log(values)
       const url = await store.putNotificationSettings(editedData);
@@ -36,8 +37,8 @@ const Notifications = ({photo, setPreviewUrl}) => {
         setUserAvatar(url)
       }
     },
-    
-    
+
+
   })
   return (
     <section>
@@ -62,6 +63,10 @@ const Notifications = ({photo, setPreviewUrl}) => {
               <FormControlLabel
                 control={<input type="checkbox" checked={formik.values.postLikeNotify}  value={formik.values.postLikeNotify} onChange={formik.handleChange} id="postLikeNotify" name="postLikeNotify"  style={{marginRight:'10px'}} />}
                 label="Someone liked my posts"
+              />
+              <FormControlLabel
+              control={<input type="checkbox" checked={formik.values.postCommentNotify}  value={formik.values.postCommentNotify} onChange={formik.handleChange} id="postCommentNotify" name="postCommentNotify"  style={{marginRight:'10px'}} />}
+              label="Someone comment my posts"
               />
               {/* <FormControlLabel
                 control={<Checkbox defaultChecked />}

@@ -23,22 +23,22 @@ const AppRouter = () => {
       {store.isAuth ? (
         <Routes>
           <Route path='/' element={<Layout/>}>
-          {privateRoutes.map((route) => (
-            <Route path={route.path} element={route.element} key={route.path} />
+          {privateRoutes.map((route, key) => (
+            <Route key={key}  path={route.path} element={route.element} />
           ))}
           </Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
-      ): (
+      ): 
         <Routes>
-          {publicRoutes.map((route) => (
-            <>
-              <Route path={route.path} element={route.element} key={route.path} />
-              <Route path="*" element={<Login />}></Route>
-            </>
+          {publicRoutes.map((route, key) => (
+            <React.Fragment key={key}>
+              <Route  path={route.path} element={route.element}  />
+              <Route  path="*" element={<Login />}></Route>
+            </React.Fragment>
           ))}
         </Routes>
-      )}
+      }
     </>
   );
 };
