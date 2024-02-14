@@ -1,9 +1,13 @@
 import { Avatar } from 'antd';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../../../main';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
-const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
+const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
     const {store} = useContext(Context);
+    useEffect(()=>{
+        console.log('chattItem', chatItem);
+    },[chatItem])
     return (
         <li onClick={() => {
             if (currentChatId) connection.disconnectFromChat(currentChatId)           
@@ -27,11 +31,11 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
                 <span>{
                 chatItem.lastMessageSendedBy == store.user.userName 
                     ? chatItem.lastMessageIsChecked
-                        ? "Просмотрено"
-                        : "Отправлено"
+                        ? <DoneAllIcon style={{color:'rgb(88,80,236)', fontSize:'16px'}}/>
+                        : <DoneAllIcon style={{fontSize:'16px'}} />
                     : chatItem.lastMessageIsChecked
-                        ? "Просмотрено"
-                        : "Получено"}
+                        ? <DoneAllIcon style={{color:'rgb(88,80,236)', fontSize:'16px'}}/>
+                        : <DoneAllIcon style={{fontSize:'16px'}} />}
                 </span>
             </div>
             </div>

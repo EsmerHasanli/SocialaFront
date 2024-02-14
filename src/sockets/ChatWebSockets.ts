@@ -39,6 +39,9 @@ class Connector {
             this.connection.on("GetSearchedUsers", (users) => {
                 onGetSearchUsers(users)
             });
+            this.connection.on("OnRecieveChatMessages", (messages) => {
+                onGetSearchUsers(messages)
+            });
             this.connection.on("SendMessageError", (err) => {
                 console.log(err)
             });
@@ -69,6 +72,10 @@ class Connector {
     }
     public searchChatUsers = (searchParam : string) => {
         this.connection.invoke("SearchChatUsers", searchParam, this.store.user.userName)
+        .catch((err) => console.error("Error invoking SearchChatUsers:", err));
+    }
+    public getChatMessages = (chatId: number,userName:string, skip : Int32Array) => {
+        this.connection.invoke("SearchChatUsers", chatId, this.store.user.userName, skip)
         .catch((err) => console.error("Error invoking SearchChatUsers:", err));
     }
     public sendMessageByUserName(payload : object) {

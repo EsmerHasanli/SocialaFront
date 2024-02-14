@@ -19,7 +19,7 @@ const Messages = () => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const connection = Connector(store);
   useEffect(() => {
-    connection.connectSockets();
+    connection.connectSockets(true);
     localStorage.removeItem("chatId");
     function getChatItems(data) {
       console.log(data);
@@ -32,6 +32,9 @@ const Messages = () => {
     }
     function onRecieveMessage(message) {
       setChatMessages([...chatMessages, { ...message }]);
+    }
+    function onRecieveChatMessages(messages) {
+      setChatMessages([...messages, ...chatMessages])
     }
     function onGetSearchUsers(users) {
 
@@ -51,7 +54,8 @@ const Messages = () => {
       getChatItems,
       onRecieveMessage,
       onConnectChat,
-      onGetSearchUsers
+      onGetSearchUsers,
+      onRecieveChatMessages
     );
     return () => {
       window.removeEventListener("beforeunload", handleUserLogout);
@@ -83,12 +87,16 @@ const Messages = () => {
           />
           <div id="chat-wrapper">
             {currentChat ? (
-              <>
-                <Chat currentChat={currentChat} chatMessages={chatMessages} />
+              <div>
+                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} />
                 <Form />
-              </>
+              </div>
             ) : (
-              <h1>Choose chat...</h1>
+              <div className="empty-chat-wrapper" >
+                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chat-6823641-5602882.png?f=webp" alt="" />
+                <h2>Your messages</h2>
+                <h6>Send private messages to a friend </h6>
+              </div>
             )}
           </div>
         </section>

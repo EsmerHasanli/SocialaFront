@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -10,16 +10,37 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { Context } from '../../../main';
 import { observer } from 'mobx-react-lite';
 import { FollowContext } from '../../../context';
+import WebSockets from '../../../sockets/WebSockets';
+import { NotificationsOutlined } from '@mui/icons-material';
 
 const NotificationDropdown = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const {notifications, setNotifications} = useContext(FollowContext)
+    const [hasNewNotifications, setHasNewNotifications] = useState(notifications.find(n => n.isChecked == false)? true : false);
     const open = Boolean(anchorEl);
     const {store} = useContext(Context);
 
-    const {notifications, setNotifications} = useContext(FollowContext)
-
-    const handleClick = (event) => {
+    useEffect(() => {
+      console.log(notifications)
+      if (notifications.find(n => n.isChecked == false)) {
+        setHasNewNotifications(true);
+      }
+      else setHasNewNotifications(false);
+    }, [notifications])
+    
+    const handleClick = async (event) => {
       setAnchorEl(event.currentTarget);
+      if (hasNewNotifications) {
+        const notificationsIds = notifications.map(obj => obj.id);
+        const formData = new FormData();
+        console.log(notificationsIds)
+        for (let i = 0; i < notificationsIds.length; i++) {
+          formData.append("notifications", notificationsIds[i]);
+        }
+        await store.checkNotifications(formData)
+
+      }
+      setHasNewNotifications(false);
     };
     const handleClose = () => {
       setAnchorEl(null);
@@ -37,7 +58,7 @@ const NotificationDropdown = () => {
               aria-expanded={open ? 'true' : undefined}
             >
               
-              <Avatar sx={{ width: 32, height: 32 }}><NotificationsActiveIcon style={{color:"rgb(88,80,236)"}} /></Avatar>
+              <Avatar sx={{ width: 32, height: 32 }}><NotificationsOutlined style={{color:"rgb(88,80,236)"}} /></Avatar>
             </IconButton>
           </Tooltip>
         </Box>
@@ -80,7 +101,10 @@ const NotificationDropdown = () => {
           {notifications?.map((notification,key) =>
             <MenuItem key={key} onClick={handleClose}>
               <div>
+                {notification.type == "Custom" ?
                 <Avatar src={notification.sourceUrl} /> 
+                : "🎊"
+                }
               </div>
               <div>
                 <p><b>{notification.userName}</b> {notification.text}</p>

@@ -1,14 +1,22 @@
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { observer } from "mobx-react-lite";
 import Message from "./Message";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import UserInfoBar from "./UserInfoBar";
 
-const Chat = ({currentChat, chatMessages}) => {
+const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connection, setCurrentChatId}) => {
   return (
     <div className="wrapper">
       <div className="header">
         <div className="left">
+        <IconButton onClick={()=>{
+          if (currentChatId) connection.disconnectFromChat(currentChatId)
+          setCurrentChatId(null)
+          setCurrentChat(null)
+        }}>
+          <KeyboardArrowLeftIcon/>
+        </IconButton>
           <div className="avatar">
             <Avatar
               className="photo"
@@ -24,9 +32,7 @@ const Chat = ({currentChat, chatMessages}) => {
         </div>
 
         <div className="right">
-          <IconButton>
-            <InfoOutlinedIcon />
-          </IconButton>
+          <UserInfoBar/>
         </div>
       </div>
       <div className="messages">

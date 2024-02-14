@@ -575,4 +575,13 @@ export default class Store {
       icon: "success",
     });
   }
+
+  async checkNotifications(payload) {
+    try {
+      const res = await UserServices.checkNotifications(payload);
+      console.log(res)
+    }
+    catch (e) {
+      console.log("error in checking notifications", e);}
+  }
 }

@@ -1,6 +1,9 @@
-import { Avatar, Modal } from "antd";
+import { Input, Modal,Button } from "antd";
 import React, { useContext, useState } from "react";
 import { Context } from "../../../main";
+import { Avatar, IconButton } from "@mui/material";
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 
 const UserSearchItem = ({ user, connection }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,22 +29,28 @@ const UserSearchItem = ({ user, connection }) => {
   return (
     <>
       <Modal
-        title="Follower"
+        title="Message"
         open={isModalOpen}
         onCancel={handleCancel}
         footer={false}
         style={{ overflow: "hidden" }}
       >
-        <input value={value} onChange={(e) => setValue(e.target.value)} />
-        <button onClick={sendMessage}>Send</button>
+        <div style={{display:'flex', gap:'10px'}}>
+          <Input value={value} onChange={(e) => setValue(e.target.value)} />
+          <Button onClick={sendMessage}>Send</Button>
+        </div>
       </Modal>
-      <li key={user.userName} style={{ display: "flex", alignItems: "center" }}>
-        <Avatar src={user.imageUrl} />
-        <h4>
-          {user.name} {user.surname}
-        </h4>
-        <button onClick={showModal}>Send message</button>
-        {user.chatId && <button>Go chat</button>}
+      <li key={user.userName} style={{ display: "flex", alignItems: "center", justifyContent:'space-between', flexWrap:'wrap', marginTop:'16px' }}>
+        <div style={{display: "flex", alignItems: "center", gap:'10px'}}>
+          <Avatar src={user.imageUrl} />
+          <h5 style={{fontSize: '14px',fontWeight: '500'}}>
+            {user.userName}
+          </h5>
+        </div>
+        <div style={{display: "flex", alignItems: "center", gap:'10px'}}>
+          <IconButton style={{ border:'1px solid rgb(88,80,236)', backgroundColor:'rgb(88,80,236)', color:'white'}} variant='contained' onClick={showModal}><SendOutlinedIcon style={{rotate:'45deg'}}/></IconButton>
+          {user.chatId && <IconButton style={{border:'1px solid rgb(88,80,236)', color:'rgb(88,80,236)'}} variant='outlined'><QuestionAnswerRoundedIcon/></IconButton>}
+        </div>
       </li>
     </>
   );

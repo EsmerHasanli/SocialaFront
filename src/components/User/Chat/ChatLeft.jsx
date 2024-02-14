@@ -38,7 +38,7 @@ const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searc
       <div className="chatters">
         <ul>
             {chatItems.map(chatItem => 
-              <ChatItem  chatItem={chatItem} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection}/>
+              <ChatItem  chatItem={chatItem} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection} />
             )}
         </ul>
       </div>

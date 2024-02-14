@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { FollowContext } from '../context';
 import { observer } from 'mobx-react-lite';
 import * as signalR from '@microsoft/signalr';
@@ -16,7 +16,6 @@ const WebSockets = () => {
             })
             .withAutomaticReconnect()
             .build();
-
             connection.start().then(() => {
                 connection.invoke("Connect", store.user.userName)
                 .then(() => {
@@ -35,11 +34,16 @@ const WebSockets = () => {
             //   connection.invoke("Disconnect", store.user.userName)
             // })
             connection.on('NewNotification', (message) => {
+                var audio = new Audio("/src/assets/sounds/success_alert.wav");
+                audio.play();
                 setNotifications( prev => [{...message}, ...prev]);
             });
             connection.on('LatestNotifications', (message) => {
                 setNotifications(message);
             });
+            // connection.on('GetNewMessagesCountRes', (count) => {
+            //     console.log(count);
+            // });
             connection.on('OnlineUsers', (message) => {
                 console.log(message)
               setOnlineUsers([...message]);
