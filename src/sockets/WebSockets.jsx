@@ -51,10 +51,10 @@ const WebSockets = () => {
             function handleUserLogout() {
               connection.invoke("Disconnect", store.user.userName)
             }
-            window.addEventListener("beforeunload", handleUserLogout);
+            window.addEventListener("unload", handleUserLogout);
             
         return () => {
-            window.removeEventListener("beforeunload", handleUserLogout);
+            window.removeEventListener("unload", handleUserLogout);
             connection.stop();
         };
     }, []);

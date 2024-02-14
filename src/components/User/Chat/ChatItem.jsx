@@ -2,8 +2,30 @@ import React, { useContext } from 'react';
 import { Avatar } from 'antd';
 import { Context } from '../../../main';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
+import { format, differenceInDays } from 'date-fns';
+import { FollowContext } from '../../../context';
+
+const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
     const {store} = useContext(Context);
+    const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
+
+    const formatDate = (dateString) => {
+        const currentDate = new Date();
+        const inputDate = new Date(dateString);
+        const timeDifference = differenceInDays(currentDate, inputDate);
+        if (timeDifference < 1) {
+            const formattedTime = format(inputDate, 'HH:mm');
+            return formattedTime;
+          } else if (timeDifference < 7) {
+            const formattedDayOfWeek = format(inputDate, 'EEE');
+            return formattedDayOfWeek;
+          } else {
+            const formattedDate = format(inputDate, 'dd.MM.yyyy');
+            return formattedDate;
+          }
+      };
+
+    
     return (
         <li onClick={() => {
             if (currentChatId) connection.disconnectFromChat(currentChatId)           
@@ -15,12 +37,13 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
                 className="photo"
                 src={chatItem.chatPartnerImageUrl}
             />
-            <div className="isOnline"></div>
+            {onlineUsers.find(u => u == chatItem.chatPartnerUserName) &&
+            <div className="isOnline"></div>}
             </div>
             <div className="info">
             <div className="top">
                 <h5>{chatItem.chatPartnerUserName}</h5>
-                <p>09:40AM</p>
+                <p>{formatDate(chatItem.lastMessageSendedAt)}</p>
             </div>
             <div className="bottom">
                 <div style={{display:'flex', alignItems:'center', gap:'6px', justifyContent:'center'}}>
@@ -29,9 +52,8 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection}) => {
                     ? chatItem.lastMessageIsChecked
                     ? <DoneAllIcon style={{color:'rgb(88,80,236)', fontSize:'16px'}}/>
                     : <DoneAllIcon style={{fontSize:'16px'}} />
-                    : chatItem.lastMessageIsChecked
-                    ? <DoneAllIcon style={{color:'rgb(88,80,236)', fontSize:'16px'}}/>
-                    : <DoneAllIcon style={{fontSize:'16px'}} />}
+                    : null
+                }
                 </span>
                     <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage}</p>
                 </div>

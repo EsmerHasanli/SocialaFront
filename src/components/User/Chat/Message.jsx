@@ -11,13 +11,13 @@ const Message = ({ message, chat }) => {
         <div className="sended">
           <div className="message">{message.text}</div>
           <div className="avatar">
-            <Avatar src={store.user.userImageUrl} className="photo" />
+            <Avatar src={store.user?.imageUrl} className="photo" style={{zIndex:'1'}} />
           </div>
         </div>
       ) : (
         <div className="recieved">
           <div className="avatar">
-            <Avatar className="photo" src={chat.partnerImageUrl} />
+            <Avatar className="photo" src={chat.chatPartnerImageUrl} style={{zIndex:'1'}} />
           </div>
           <div className="message">{message.text}</div>
         </div>

@@ -4,7 +4,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Link } from "react-router-dom";
 
-const UserInfoBar = () => {
+const UserInfoBar = ({currentChat}) => {
+  console.log(currentChat);
   const [userInfoBar, setShowUserInfoBar] = useState(false);
 
   return (
@@ -22,9 +23,9 @@ const UserInfoBar = () => {
                 <CloseOutlinedIcon/>
             </IconButton>
             <div className="profile">
-                <Avatar className="avatar"/>
-                <h2>Monroe Parker</h2>
-                <h6>@username</h6>
+                <Avatar src={currentChat.chatPartnerImageUrl} className="avatar"/>
+                <h2>{currentChat?.chatPartnerName} {currentChat?.chatPartnerSurname}</h2>
+                <h6>@{currentChat?.chatPartnerUserName}</h6>
                 <Link>View profile</Link>
             </div>
             <ul>
