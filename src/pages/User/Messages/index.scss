@@ -150,11 +150,13 @@
       width: 75%;
       background-color: white;
       .wrapper {
+        width: 100%;
         height: 81vh;
         overflow-y: auto;
         .header {
-          position: fixed;
           width: 100%;
+          position: sticky;
+          top: 0;
           z-index: 5;
           backdrop-filter: blur(10px);
           background-color: rgba(256, 256, 256, 0.5);
@@ -191,26 +193,15 @@
                 background-color: rgb(20, 184, 166);
               }
             }
-            .info {
-              h5 {
-                font-size: 16px;
-                font-weight: 700;
-                color: rgb(75, 85, 99);
-                margin-bottom: 2px;
-              }
-              p {
-                margin-top: 2px;
-                color: rgb(34, 197, 94);
-                font-size: 12px;
-                font-weight: 600;
-              }
-            }
+           button{
+            float: right;
+           }
           }
         }
         .messages {
           margin-top: 10px;
           .chat {
-            padding: 40px 20px;
+            padding:0 20px;
 
             .recieved {
               margin-top: 24px;
@@ -238,14 +229,25 @@
                 }
               }
               .message {
-                max-width: 770px;
+                display: flex;
+                align-items:end;
+                gap: 5px;
+                max-width: 770px!important;
+                overflow-wrap:break-word ;
                 word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
                 background-color: rgb(241, 245, 249);
-                color: rgb(75, 85, 99);
-                font-size: 14px;
-                font-weight: 500;
+                p{
+                  word-wrap: break-word;
+                  color: rgb(75, 85, 99);
+                  font-size: 14px;
+                  font-weight: 500;
+                }
+                span{
+                  font-size: 12px;
+                  font-weight: 300;
+                }
               }
             }
 
@@ -270,22 +272,35 @@
                 }
               }
               .message {
-                max-width: 770px;
+                display: flex;
+                justify-content: center;
+                align-items:end;
+                gap: 5px;
+                max-width: 770px!important;
+                overflow-wrap:break-word ;
                 word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
-                font-size: 14px;
-                font-weight: 500;
                 background-image: linear-gradient(
                   to right top,
                   rgb(14, 165, 233),
                   rgb(59, 130, 246)
-                );
-                box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  );
+                  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
                   rgba(0, 0, 0, 0) 0px 0px 0px 0px,
                   rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
                   rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
                 color: white;
+                p{
+                  max-width: 700px!important;
+                  word-wrap: break-word;
+                  font-size: 14px;
+                  font-weight: 500;
+                }
+                span{
+                  font-size: 12px;
+                  font-weight: 300;
+                }
               }
             }
           }
@@ -293,6 +308,8 @@
       }
       .message-input {
         position: fixed;
+        z-index: 6;
+        background-color: white;
         bottom: 0;
         width: 100%;
         display: flex;
@@ -316,6 +333,7 @@
           background-color:white;
           button{
             position: absolute;
+            z-index: 90;
             top: 0;
             right: 0;
           }

@@ -4,9 +4,10 @@ class Connector {
     private connection: signalR.HubConnection;
     public events: (
         onGetChatItems: (data : object[]) => void,
-        onReceiveMessage: (data:object) => void,
         onConnectChat: (data:object) => void,
         onGetSearchUsers: (data: object[]) => void,
+        onRecieveChatMessages: (data: object[]) => void,
+        onRecieveMessage: (data: object) => void,
         ) => void;
 
     public store;
@@ -26,12 +27,9 @@ class Connector {
                 console.log("recon chat")
             })
     
-        this.events = (onGetChatItems, onReceiveMessage, onConnectChat, onGetSearchUsers) => {
+        this.events = (onGetChatItems, onConnectChat, onGetSearchUsers,onRecieveMessages,onRecieveMessage) => {
             this.connection.on("GetChatItems", (data) => {
                 onGetChatItems(data);
-            });
-            this.connection.on("ReceiveMessage", (message) => {
-                onReceiveMessage(message);
             });
             this.connection.on("ChatConnectResponse", (chat) => {
                 onConnectChat(chat)
@@ -39,12 +37,16 @@ class Connector {
             this.connection.on("GetSearchedUsers", (users) => {
                 onGetSearchUsers(users)
             });
-            this.connection.on("OnRecieveChatMessages", (messages) => {
-                onGetSearchUsers(messages)
+            this.connection.on("RecieveChatMessages", (messages) => {
+                onRecieveMessages(messages)
+            });
+            this.connection.on("RecieveMessage", (message) => {
+                onRecieveMessage(message)
             });
             this.connection.on("SendMessageError", (err) => {
                 console.log(err)
             });
+            
         };
    
     }
@@ -82,6 +84,13 @@ class Connector {
         this.connection.invoke("SendMessageByUserName", payload)
         .then(() => {
             console.log("sended")
+        })
+        .catch(err => console.log(err));
+    }
+    public sendMessageById(payload : object) {
+        this.connection.invoke("SendMessageByChatId", payload)
+        .then(() => {
+            console.log("sended by chat id")
         })
         .catch(err => console.log(err));
     }

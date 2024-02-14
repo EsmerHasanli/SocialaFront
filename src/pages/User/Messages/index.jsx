@@ -31,13 +31,14 @@ const Messages = () => {
       setChatMessages([...chat.messages]);
     }
     function onRecieveMessage(message) {
-      setChatMessages([...chatMessages, { ...message }]);
+      console.log(message)
+      console.log(chatMessages)
+      setChatMessages(prev => [{ ...message }, ...prev]);
     }
     function onRecieveChatMessages(messages) {
-      setChatMessages([...messages, ...chatMessages])
+      setChatMessages(prev => [...prev, ...messages])
     }
     function onGetSearchUsers(users) {
-
       console.log('users', users);
       setSearchedUsers([...users]);
     }
@@ -48,17 +49,17 @@ const Messages = () => {
 
       connection.disconnectSockets();
     }
-    window.addEventListener("beforeunload", handleUserLogout);
+    window.addEventListener("unload", handleUserLogout);
 
     connection.events(
       getChatItems,
-      onRecieveMessage,
       onConnectChat,
       onGetSearchUsers,
-      onRecieveChatMessages
+      onRecieveChatMessages,
+      onRecieveMessage
     );
     return () => {
-      window.removeEventListener("beforeunload", handleUserLogout);
+      window.removeEventListener("unload", handleUserLogout);
       connection.disconnectSockets();
     };
   }, []);
@@ -89,7 +90,7 @@ const Messages = () => {
             {currentChat ? (
               <div>
                 <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} />
-                <Form />
+                <Form connection={connection} currentChatId={currentChatId} />
               </div>
             ) : (
               <div className="empty-chat-wrapper" >

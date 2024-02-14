@@ -54,4 +54,4 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
   );
 };
 
-export default observer(Chat);
+export default observer(Chat);    

@@ -22,7 +22,6 @@ const NotificationDropdown = () => {
     const {store} = useContext(Context);
 
     useEffect(() => {
-      console.log(notifications)
       if (notifications.find(n => n.isChecked == false)) {
         setHasNewNotifications(true);
       }
