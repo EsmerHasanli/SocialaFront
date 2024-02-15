@@ -9,6 +9,7 @@ import ForgetPassword from "../pages/User/ForgetPassword";
 import RessetPassword from '../pages/User/ResetPassword'
 import Messages from "../pages/User/Messages";
 import Archieve from "../pages/User/Archive";
+import Dashboard from '../pages/Admin/Dashboard';
 
 export const privateRoutes = [
   { 
@@ -31,6 +32,10 @@ export const privateRoutes = [
     path: '/archive',
     element: <Archieve/>
   },
+  {
+    path: '/admin',
+    element: <Dashboard/>
+  }
 ];
 
 export const publicRoutes = [

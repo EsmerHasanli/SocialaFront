@@ -208,6 +208,9 @@
               display: flex;
               justify-content: flex-start;
               align-items: start;
+              max-width: 770px!important;
+              overflow-wrap:break-word;
+              word-wrap: break-word;
               gap: 12px;
               .avatar {
                 width: 36px;
@@ -232,14 +235,15 @@
                 display: flex;
                 align-items:end;
                 gap: 5px;
-                max-width: 770px!important;
-                overflow-wrap:break-word ;
+                overflow-wrap:break-word;
                 word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
                 background-color: rgb(241, 245, 249);
                 p{
-                  word-wrap: break-word;
+                  max-width: 740px!important;
+                overflow-wrap:break-word;
+                word-wrap: break-word;
                   color: rgb(75, 85, 99);
                   font-size: 14px;
                   font-weight: 500;
@@ -277,7 +281,7 @@
                 align-items:end;
                 gap: 5px;
                 max-width: 770px!important;
-                overflow-wrap:break-word ;
+                overflow-wrap:break-word;
                 word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
@@ -331,24 +335,30 @@
           align-items:center;
           width: 56%;
           background-color:white;
-          button{
-            position: absolute;
-            z-index: 90;
-            top: 0;
-            right: 0;
-          }
-          input {
+          .send-message-wrapper{
             width: 100%;
-            padding:11.5px 16px;
-            border: none;
-            outline: none;
-
             background-color: rgb(241, 245, 249);
-            color: rgb(75, 85, 99);
-            font-size: 14px;
-            font-weight: 500;
-
+            
             border-radius: 20px;
+            button{
+              position: absolute;
+              z-index: 90;
+              top: 0;
+              right: 0;
+            }
+            input {
+              padding:11.5px 16px;
+              width: 95%;
+              border: none;
+              outline: none;
+    
+              background-color: rgb(241, 245, 249);
+              color: rgb(75, 85, 99);
+              font-size: 14px;
+              font-weight: 500;
+    
+              border-radius: 20px;
+            }
           }
         }
       }
@@ -357,10 +367,10 @@
 
   #user-info-bar {
     position: absolute;
-    z-index: 110;
+    z-index: 9999;
     top: 75px;
     bottom:0;
-    left: 0;
+    right:  0;
     height: 100vh;
     width: 100%;
     backdrop-filter: blur(10px);
@@ -368,10 +378,11 @@
     padding: 30px;
     .wrapper {
       position: absolute;
+      z-index: 100000;
       top: 0;
       right: 0;
       background-color: white;
-      width: 320px;
+      width: 320px!important;
       height: 100%;
 
       .gradient {

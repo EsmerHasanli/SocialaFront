@@ -27,10 +27,12 @@ const Form = ({connection, currentChatId}) => {
         <EmojiEmotionsOutlinedIcon />
       </div>
       <form className="input-wrapper">
-        <input placeholder="Write your message" type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-        <IconButton onClick={(e)=>sendMessage(e)}>
-          <SendIcon/>
-        </IconButton>
+        <div className="send-message-wrapper">
+          <input placeholder="Write your message" type="text" value={value} onChange={(e) => setValue(e.target.value)} />
+          <IconButton onClick={(e)=>sendMessage(e)}>
+            <SendIcon/>
+          </IconButton>
+        </div>
       </form>
     </div>
   );
