@@ -35,7 +35,7 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
           <div className="info">
             <h5>{currentChat?.chatPartnerUserName}</h5>
             {onlineUsers.find(u => u == currentChat.chatPartnerUserName) &&
-            <p>Online</p>}
+            <p style={{color:'rgb(34, 197, 94)'}}>Online</p>}
           </div>
         </div>
 
