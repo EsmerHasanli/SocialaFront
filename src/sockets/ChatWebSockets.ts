@@ -11,6 +11,7 @@ class Connector {
         ) => void;
 
     public store;
+    public loading : boolean;
     static instance: Connector;
     constructor(store) {
         this.store = store;
@@ -23,7 +24,8 @@ class Connector {
             .build();
         
             this.connection.onreconnected(()=> {
-                this.connection.invoke("Connect", this.store.user.userName)
+            this.loading = true;
+            this.connection.invoke("Connect", this.store.user.userName)
                 console.log("recon chat")
             })
     
@@ -50,7 +52,7 @@ class Connector {
         };
    
     }
-
+    
     public disconnectSockets = () => {
         if (this.connection.state == signalR.HubConnectionState.Connected) {
             this.connection.invoke("Disconnect", this.store.user.userName)
@@ -72,12 +74,15 @@ class Connector {
 
         }
     }
+
+
     public searchChatUsers = (searchParam : string) => {
         this.connection.invoke("SearchChatUsers", searchParam, this.store.user.userName)
         .catch((err) => console.error("Error invoking SearchChatUsers:", err));
     }
-    public getChatMessages = (chatId: number,userName:string, skip : Int32Array) => {
-        this.connection.invoke("SearchChatUsers", chatId, this.store.user.userName, skip)
+    public getChatMessages = (chatId: number, skip : Int32Array) => {
+        this.connection.invoke("GetChatMessages", chatId, this.store.user.userName, skip)
+        .then(() => console.log("Succeeed"))
         .catch((err) => console.error("Error invoking SearchChatUsers:", err));
     }
     public sendMessageByUserName(payload : object) {

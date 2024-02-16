@@ -5,7 +5,7 @@ import { Avatar, IconButton } from "@mui/material";
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 
-const UserSearchItem = ({ user, connection }) => {
+const UserSearchItem = ({ user, connection, currentChatId, setCurrentChatId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [value, setValue] = useState("");
   const { store } = useContext(Context);
@@ -48,8 +48,15 @@ const UserSearchItem = ({ user, connection }) => {
           </h5>
         </div>
         <div style={{display: "flex", alignItems: "center", gap:'10px'}}>
-          <IconButton style={{ border:'1px solid rgb(88,80,236)', backgroundColor:'rgb(88,80,236)', color:'white'}} variant='contained' onClick={showModal}><SendOutlinedIcon style={{rotate:'45deg'}}/></IconButton>
-          {user.chatId && <IconButton style={{border:'1px solid rgb(88,80,236)', color:'rgb(88,80,236)'}} variant='outlined'><QuestionAnswerRoundedIcon/></IconButton>}
+          {user.chatId ?
+            <IconButton onClick={() => {
+              if (currentChatId) connection.disconnectFromChat(currentChatId)           
+              setCurrentChatId(user.chatId)
+              localStorage.setItem("chatId", JSON.stringify(user.chatId));
+            }} style={{border:'1px solid rgb(88,80,236)', color:'rgb(88,80,236)'}} variant='outlined'><QuestionAnswerRoundedIcon/></IconButton>
+            :
+            <IconButton style={{ border:'1px solid rgb(88,80,236)', backgroundColor:'rgb(88,80,236)', color:'white'}} variant='contained' onClick={showModal}><SendOutlinedIcon style={{rotate:'45deg'}}/></IconButton>
+            }
         </div>
       </li>
     </>

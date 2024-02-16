@@ -79,7 +79,7 @@ const LoginForm = () => {
           </div>
 
           <div className="checkboxWrapper">
-            <Checkbox onChange={formik.handleChange}>Remember me</Checkbox>
+            <Checkbox id="isPersistence" name="isPersistence" value={formik.values.isPersistence} onChange={formik.handleChange}>Remember me</Checkbox>
             <Link to="/forget-password">Forgot Password</Link>
           </div>
 

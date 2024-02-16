@@ -4,13 +4,14 @@ import { observer } from "mobx-react-lite";
 import { Button, Modal } from "antd";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+import { FollowContext } from "../../../context";
 
-const FollowsRequestsModal = ({ currentUserFollows }) => {
+const FollowsRequestsModal = () => {
 
   const { store } = useContext(Context);
-  console.log("store", store.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [followRequests, setFollowRequests] = useState([]);
+  const {currentUserFollows} = useContext(FollowContext)
+  const [followRequests, setFollowRequests] = useState(currentUserFollows?.filter(f => !f.isConfirmed));
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -20,27 +21,24 @@ const FollowsRequestsModal = ({ currentUserFollows }) => {
   };
 
   const handleCancelRequest = async (userName) => {
-    await store.unfollowUser(userName);
-    const filteredArr = followRequests?.filter(x => x.userName != userName);
-    setFollowRequests(filteredArr);
+   
+      const followItem = followRequests?.find(fi => fi.userName == userName)
+      if (followItem) 
+      {
+          await store.unfollowUser(userName);
+          const filteredArr = followRequests?.filter(x => x.userName != userName);
+          setFollowRequests(filteredArr);
+          
+      }
 
   };
-
-  useEffect(() => {
-    async function fetchData() {
-      const allFollows = store.user?.follows;
-      const requests = allFollows?.filter((x) => !x.isConfirmed);
-      setFollowRequests(requests);
-    }
-    fetchData();
-  }, []);
+    
 
   return (
     <>
       <li onClick={showModal}>
         Follow Requests{" "}
         <span>
-          {/* {currentUserFollows?.filter((uf) => uf.isConfirmed == false).length} */}
           {followRequests?.length}
         </span>
       </li>

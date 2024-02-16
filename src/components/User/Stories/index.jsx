@@ -89,7 +89,7 @@ const Stories = () => {
           <SwiperSlide className="swiper-slide">
             <AddStories />
           </SwiperSlide>
-          {userStoryItems && (
+          {userStoryItems.length>0 && (
             <SwiperSlide className="swiper-slide" onClick={showMyHistoryItems}>
               <div className="story">
                 <div

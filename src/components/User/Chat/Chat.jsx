@@ -1,5 +1,5 @@
 import { Avatar, IconButton } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
 import Message from "./Message";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -10,9 +10,41 @@ import { FollowContext } from "../../../context";
 const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connection, setCurrentChatId}) => {
   const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
 
+  const [skip, setSkip] = useState(0); 
+  const [messsagesGetted, setMessagesGetted] = useState(false)
+  const chatContainerRef = useRef(null);
+  
+  const prevScrollRef = useRef(0);
+  useEffect(() => {
+    console.log("worked")
+    if (messsagesGetted) {
+      setMessagesGetted(false)
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight - prevScrollRef.current
+      console.log(" высота  после получения" + chatContainerRef.current.scrollHeight)
+    }
+    else {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
+    chatContainerRef.current.addEventListener('scroll', getMessages);
+  
+    return () => {
+      chatContainerRef.current?.removeEventListener('scroll', getMessages);
+    };
+  }, [chatMessages])
+  
+  function getMessages() {
+    if (chatContainerRef.current.scrollTop == 0) {
+      console.log("текущая высота " + chatContainerRef.current.scrollHeight)
+      prevScrollRef.current = chatContainerRef.current.scrollHeight
+      setSkip(skip + 20)
+      setMessagesGetted(true)
+      connection.getChatMessages(currentChat.id, skip + 20)
+
+    }
+  }
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" ref={chatContainerRef}>
       <div className="header">
         <div className="left">
         <IconButton onClick={()=>{

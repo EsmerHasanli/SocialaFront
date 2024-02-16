@@ -4,11 +4,11 @@ import AppRouter from "./pages/AppRouter";
 import { Context } from "./main";
 import { useContext, useEffect } from "react";
 import * as React from "react";
-import { CircularProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FollowContext } from "./context";
 import { useState } from "react";
-import WebSockets from './sockets/WebSockets'
+import WebSockets from "./sockets/WebSockets";
 
 function App() {
   const { store } = useContext(Context);
@@ -16,8 +16,8 @@ function App() {
   const [fetchedUser, setFetchedUser] = useState({});
   const [currentUserFollows, setCurrentUserFollows] = useState([]);
   const [userAvatar, setUserAvatar] = useState(store.user?.imageUrl);
-  const [notifications, setNotifications] = useState([])
-  const [onlineUsers, setOnlineUsers] = useState([])
+  const [notifications, setNotifications] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -33,20 +33,13 @@ function App() {
     }
   }, []);
 
-  useEffect(() => setUserAvatar(store.user.imageUrl), [store.user])
+  useEffect(() => setUserAvatar(store.user.imageUrl), [store.user]);
 
   if (store.isLoading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "50px",
-        }}
-      >
-        <CircularProgress />
-      </div>
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>
     );
   }
 
@@ -62,11 +55,11 @@ function App() {
         notifications,
         setNotifications,
         onlineUsers,
-        setOnlineUsers
+        setOnlineUsers,
       }}
     >
       <AppRouter />
-      <WebSockets/>
+      <WebSockets />
     </FollowContext.Provider>
   );
 }

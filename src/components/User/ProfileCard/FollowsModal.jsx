@@ -4,44 +4,68 @@ import { observer } from "mobx-react-lite";
 import { Button, Modal } from "antd";
 import { Avatar } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
+import { FollowContext } from "../../../context";
+import Swal from "sweetalert2";
 
-const FollowsModal = ({ fetchedUser }) => {
-  const { username } = useParams()
+const FollowsModal = () => {
 
+  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
   const { store } = useContext(Context);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [follows, setFollows] = useState([]);
+  const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext)
 
   const showModal = () => {
-    setIsModalOpen(true);
+    if(currentUserFollows.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
+    else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "This account is private, follow first!"
+      });
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const handleUnfollow = async (userName) => {
-    await store.unfollowUser(userName);
-    const updatedFollows = follows.filter(
-      (follow) => follow.userName !== userName
-    );
+  const removeFollower = async () => {
+    await store.deleteFollower(fetchedUser.userName);
+    const updatedFollows = follows.filter((follow) => follow.userName !== store.user.userName);
     setFollows(updatedFollows);
+    const count = fetchedUser?.followsCount - 1
+    setFetchedUser(prev => ({...prev,followsCount:count }))
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await store.getFollows(username);
-      setFollows(res);
-      console.log(res);
+  const handleUnfollow = async (userName) => {
+    const followItem = currentUserFollows?.find(fi => fi.userName == userName && fi.isConfirmed)
+    if (followItem) 
+    {
+        await store.unfollowUser(userName);
+        const filteredArr = currentUserFollows?.filter(f => f.userName != userName)
+        const count = fetchedUser?.followsCount - 1
+        setFetchedUser(prev => ({...prev,followsCount:count }))
+        setCurrentUserFollows([...filteredArr]);
+        const updatedFollows = follows.filter((follow) => follow.userName !== userName);
+        setFollows(updatedFollows);
     }
-    fetchData();
-  }, [username]);
+  };
+  async function fetchData() {
+    const res = await store.getFollows(fetchedUser.userName);
+    console.log(res);
+    setFollows(res);
+  }
+
+  useEffect(() => {
+    if (isModalOpen) {
+      fetchData();
+    }
+  }, [isModalOpen]);
 
   return (
     <>
       <li onClick={showModal}>
         Follows 
-        {/* <span>{fetchedUser?.followsCount}</span> */}
-        <span>{follows?.length}</span>
+        <span>{fetchedUser.followsCount}</span>
       </li>
 
       <Modal
@@ -76,14 +100,16 @@ const FollowsModal = ({ fetchedUser }) => {
                     <Avatar src={follow?.imageUrl} />
                     <p>{follow?.userName}</p>
                   </Link>
-                  {
-                    username == store.user.userName && 
                   <div>
+                    {fetchedUser.userName == store.user.userName &&
                     <Button onClick={() => handleUnfollow(follow?.userName)}>
                       unfollow
-                    </Button>
+                    </Button>}
                   </div>
-                  }
+                  {follow.userName == store.user.userName &&
+                  <Button onClick={() => removeFollower()}>
+                    remove
+                </Button>}
                 </li>
               ) : null
             )}

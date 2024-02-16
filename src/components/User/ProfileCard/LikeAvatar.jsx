@@ -11,7 +11,7 @@ const LikeAvatar = () => {
   const { fetchedUser, setFetchedUser } = useContext(FollowContext);
   const [sparkVisible, setSparkVisible] = useState(false);
   const [isLiked, setIsLiked] = useState(
-    store.user?.likedAvatarsUsernames.find(x=>x.userName == fetchedUser.userName) ? true : false
+    store.user?.likedAvatarsUsernames.find(x=>x == fetchedUser.userName) ? true : false
   )
 
   const sound = new Howl({

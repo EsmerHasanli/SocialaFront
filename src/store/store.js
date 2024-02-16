@@ -7,7 +7,7 @@ import StoriesServices from "../services/StoriesServices";
 
 export default class Store {
   user = {};
-  isLoading = false;
+  isLoading = true;
   isAuth = false;
 
   constructor() {
@@ -121,8 +121,9 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.checkAuth();
-      this.setUser(res.data);
+      console.log(res.data)
       localStorage.setItem("userName", res.data.userName)
+      this.setUser(res.data);
       this.setAuth(true);
     } catch (e) {
       localStorage.removeItem("token");
@@ -166,18 +167,20 @@ export default class Store {
 
   //user info
   async getByUsername(username) {
-    // this.setLoading(true)
+    //this.setLoading(true)
     try {
       const res = await UserServices.getByUsername(username);
       console.log(res.data);
       return res;
     } catch (e) {
-      return e.response.data;
+      console.log(e.response)
+      //return e.response.data;
     } finally {
-      // this.setLoading(false)
+     //this.setLoading(false)
     }
   }
   async getFollowers(username) {
+    //this.setLoading(true)
     try {
       const res = await UserServices.getFollowers(username);
       return res.data;
@@ -186,16 +189,20 @@ export default class Store {
         e.response.data.message || "Something went wrong!"
       );
     }
+    //finally {this.setLoading(false)}
   }
   async getFollows(username) {
+    // this.setLoading(true)
     try {
       const res = await UserServices.getFollows(username);
       return res.data;
-    } catch (e) {
+    } 
+    catch (e) {
       this.showErrorAlertWithSound(
         e.response.data.message || "Something went wrong!"
       );
     }
+    // finally {this.setLoading(false)}
   }
 
   //posts

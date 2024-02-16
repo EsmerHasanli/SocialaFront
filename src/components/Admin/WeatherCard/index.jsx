@@ -1,5 +1,6 @@
-import React from "react";
+import React from 'react';
 import "./index.scss";
+
 
 const WeatherCard = () => {
   return (
@@ -34,6 +35,7 @@ const WeatherCard = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 

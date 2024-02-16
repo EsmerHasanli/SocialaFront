@@ -184,15 +184,6 @@ const Navigation = () => {
             <MenuIcon />
           </IconButton>
             <img src="https://demo.foxthemes.net/socialite-v3.0/assets/images/logo-mobile-light.png" alt="" />
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">

@@ -5,12 +5,13 @@ import { Modal } from "antd";
 import { Avatar, IconButton, Button } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { Link, json } from "react-router-dom";
+import { FollowContext } from "../../../context";
 
 const FollowersRequestsmodal = () => {
   const { store } = useContext(Context);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [followersRequests, setFollowersRequests] = useState([]);
-
+  const [followersRequests, setFollowersRequests] = useState(store.user.followers.filter(f => !f.isConfirmed));
+  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -20,11 +21,13 @@ const FollowersRequestsmodal = () => {
 
   const handleConfirm = async (obj) => {
     const findedUser = followersRequests?.find(x => x.userName === obj.userName)
-    findedUser.isConfirmed = true;
-    await store.confirmFollower(obj.id)
-
-    const newArr = followersRequests?.filter(x => x.userName !== obj.userName)
-    setFollowersRequests(newArr)
+    if (findedUser) {
+      await store.confirmFollower(obj.id)
+      const newArr = followersRequests?.filter(x => x.userName !== obj.userName)
+      setFollowersRequests(newArr)
+      let count = fetchedUser?.followersCount + 1
+      setFetchedUser(prev => ({...prev,followersCount:count }))
+    }
 
   }
 
@@ -34,24 +37,11 @@ const FollowersRequestsmodal = () => {
     setFollowersRequests(newArr)
   }
 
-  useEffect(() => {
-    async function fetchData() {
-        const allFollowers = store.user?.followers;
-        const requests = allFollowers?.filter((x) => !x.isConfirmed);
-        setFollowersRequests(requests);
-    }
-    fetchData()
-  },[])
-
   return (
     <>
       <li onClick={showModal}>
         Follower Requests{" "}
         <span>
-          {/* {
-            store.user?.followers?.filter((uf) => uf.isConfirmed == false)
-              .length
-          } */}
           {
             followersRequests?.length
           }
@@ -91,10 +81,10 @@ const FollowersRequestsmodal = () => {
                     <p>{followersRequest?.userName}</p>
                   </Link>
                   <div style={{display:'flex', gap:'10px'}}>
-                    <Button variant="contained" onClick={() => handleConfirm(followersRequest?.userName)}>
+                    <Button variant="contained" onClick={() => handleConfirm(followersRequest)}>
                       Confirm
                     </Button>
-                    <IconButton onClick={() => handleDeny(followersRequest)}>
+                    <IconButton onClick={() => handleDeny(followersRequest?.userName)}>
                         <CloseIcon/>
                     </IconButton>
                   </div>

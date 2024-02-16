@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Context } from "../../../main";
 import { Helmet } from "react-helmet";
 import "./index.scss";
@@ -13,38 +13,40 @@ import { useNavigate, useParams } from "react-router-dom";
 import FooterMobile from "../../../components/User/FooterMobile";
 import Posts from "../../../components/User/Posts";
 import { FollowContext } from "../../../context";
+import { observer } from "mobx-react-lite";
+import { Box, LinearProgress } from "@mui/material";
 
 const UserDetailsPage = () => {
   const { store } = useContext(Context);
-  const { username } = useParams();
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const { fetchedUser, setFetchedUser } = useContext(FollowContext);
   const [visible, setVisible] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const { username } = useParams();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const fetchedUserData = await store.getByUsername(username);
-      if (fetchedUserData.status == 200) {
-        const findedUser = fetchedUserData.data;
-        if (findedUser.userName == store.user.userName || !findedUser.isPrivate)
-          setVisible(true);
-        else if (
-          store.user.follows.find(
-            (f) => f.userName == findedUser.userName && f.isConfirmed
-          )
-        )
-          setVisible(true);
-        setFetchedUser(fetchedUserData.data);
-      } else {
-        navigate("/not-found");
-      }
-    };
-    if (username) {
-      fetchUser();
+  async function fetchDetailUser()  {
+    const res = await store.getByUsername(username);
+    if (res.status == 200) {
+      const findedUser = res.data;
+      setFetchedUser(findedUser);
+      setLoader(false)
+    } 
+    else {
+      navigate("/not-found");
     }
-    console.log('infinity loop');
-  }, [username]);
+  };
+  useEffect(() => {
+    if (username) {
+      fetchDetailUser()
+    }}
+  , [username])
+ 
+    if (loader)  return (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress/>
+      </Box>
+    );
 
   return (
     <>
@@ -61,19 +63,19 @@ const UserDetailsPage = () => {
 
             <Grid container spacing={4}>
               <Grid item lg={8}  xs={12}>
-                {visible ? (
+                {fetchedUser.userName == store.user.userName || !fetchedUser.isPrivate
+                || store.user.follows.find((f) => f.userName == fetchedUser.userName && f.isConfirmed)
+                 ? 
                   <>
-                    {store.user.userName == fetchedUser.userName && (
-                      <AddPost posts={posts} setPosts={setPosts} />
-                    )}
-
+                  {fetchedUser.userName == store.user.userName && <AddPost posts={posts} setPosts={setPosts} />}
+                    
                     <Posts
                       posts={posts}
                       setPosts={setPosts}
                       fetchedUser={fetchedUser}
                     />
-                  </>
-                ) : (
+                  </>    
+                 : 
                   <div className="locked-account-bg">
                     <img
                       src="https://static.thenounproject.com/png/2259534-200.png"
@@ -81,7 +83,7 @@ const UserDetailsPage = () => {
                     />
                     <h2>This account is private</h2>
                   </div>
-                )}
+                }
               </Grid>
 
               <Grid item lg={4} xs={12}>
@@ -96,4 +98,4 @@ const UserDetailsPage = () => {
   );
 };
 
-export default UserDetailsPage;
+export default observer(UserDetailsPage);

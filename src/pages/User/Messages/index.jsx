@@ -89,7 +89,7 @@ const Messages = () => {
           <div id="chat-wrapper">
             {currentChat ? (
               <div>
-                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} />
+                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
                 <Form connection={connection} currentChatId={currentChatId} />
               </div>
             ) : (

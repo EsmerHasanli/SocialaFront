@@ -31,7 +31,7 @@ const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searc
           <Input placeholder="Search" onChange={handleSearchChange} />
         </div>
         {searchedUsers.map(user =>
-          <UserSearchItem user={user} connection={connection}/>
+          <UserSearchItem user={user} connection={connection} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} />
           )}
       </div>
 
