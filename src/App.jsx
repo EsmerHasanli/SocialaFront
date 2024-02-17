@@ -25,12 +25,9 @@ function App() {
       setCurrentUserFollows(store.user.follows);
       setUserAvatar(store.user.imageUrl);
     };
-    if (document.cookie.includes("RefreshToken")) {
+
       fetchCurrentUser();
-    }
-    if (!store.isAuth && !document.cookie.includes("RefreshToken")) {
-      navigate("/login");
-    }
+
   }, []);
 
   useEffect(() => setUserAvatar(store.user.imageUrl), [store.user]);

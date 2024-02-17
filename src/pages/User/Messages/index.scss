@@ -54,6 +54,7 @@
             h1 {
               font-size: 24px;
               font-weight: 700;
+              color:rgb(37,47,63);
             }
           }
         }
@@ -232,18 +233,22 @@
                 }
               }
               .message {
+                min-width: 40px!important;
+                max-width: 770px!important;
+                overflow-wrap:break-word!important;
+                word-wrap: break-word!important;
                 display: flex;
                 align-items:end;
                 gap: 5px;
-                overflow-wrap:break-word;
-                word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
                 background-color: rgb(241, 245, 249);
                 p{
-                  max-width: 740px!important;
-                overflow-wrap:break-word;
-                word-wrap: break-word;
+                  min-width: 40px!important;
+                  max-width: 770px!important;
+                  overflow-wrap:break-word!important;
+                  word-wrap: break-word!important;
+                  word-wrap: break-word;
                   color: rgb(75, 85, 99);
                   font-size: 14px;
                   font-weight: 500;
@@ -276,13 +281,14 @@
                 }
               }
               .message {
+                min-width: 40px!important;
+                max-width: 770px!important;
+                overflow-wrap:break-word!important;
+                word-wrap: break-word!important;
                 display: flex;
                 justify-content: center;
                 align-items:end;
                 gap: 5px;
-                max-width: 770px!important;
-                overflow-wrap:break-word;
-                word-wrap: break-word;
                 padding: 8px 16px;
                 border-radius: 20px;
                 background-image: linear-gradient(
@@ -296,8 +302,10 @@
                   rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
                 color: white;
                 p{
-                  max-width: 700px!important;
-                  word-wrap: break-word;
+                  min-width: 40px!important;
+                  max-width: 770px!important;
+                  overflow-wrap:break-word!important;
+                  word-wrap: break-word!important;
                   font-size: 14px;
                   font-weight: 500;
                 }
@@ -508,6 +516,12 @@
         max-width: 266px!important;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 320px){
+  #messages-page section  #users-wrapper .chatters {
+    height: 50vh!important;
   }
 }
 

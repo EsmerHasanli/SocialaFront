@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.scss";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { EffectCoverflow, Navigation } from "swiper/modules";
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem, } from "@mui/material";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -17,7 +17,12 @@ import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 
 const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, watchedStories, setWatchedStories }) => {
+  console.log('story', story);
+
   const {store} = useContext(Context)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedStoryId, setSelectedStoryId] = useState(null);
+
   function handleSlideChange(swiper) {
     const watchedStory = watchedStories?.find(ws => ws.id == story?.id);
     const slideIndex = swiper.realIndex
@@ -33,6 +38,21 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
 
         }
       }
+    }
+
+    function handleShowDeleteMenu(storyId) {
+      if(selectedStoryId == storyId) {
+        if(!menuOpen){
+          setMenuOpen(true);
+        }else{
+          setMenuOpen(false);
+        }
+      }
+    }
+  
+    async function handleDeleteStory() {
+     await store.deleteStory(selectedStoryId);
+      setMenuOpen(false);
     }
 
   return (
@@ -84,12 +104,23 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                       <Avatar className="avatar" src={story?.ownerImageUrl} />
                       <p>{story?.ownerUserName}</p>
                     </div>
-                    {
-                      story.ownerUsername == store.user.userName &&
-                      <IconButton>
+                    {story.ownerUserName == store.user.userName &&
+                    <div className="menu">
+                      <IconButton className="menu-button" onClick={() => {
+                        handleShowDeleteMenu(storyItem.id)
+                        setSelectedStoryId(storyItem.id)
+                      }}>
                         <MoreHorizIcon style={{ color: "antiquewhite" }} />
                       </IconButton>
+                      {
+                        menuOpen && 
+                        <ul>
+                          <li onClick={handleDeleteStory}>Delete</li>
+                        </ul>
+                      }
+                    </div>
                     }
+
                   </div>
 
                   <div className="footer">
@@ -98,7 +129,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                       story.ownerUserName == store.user.userName && 
                         <button className="watch-wrapper">
                           <RemoveRedEyeIcon />
-                          <span>222</span>
+                          <span>{storyItem?.watchCount}</span>
                         </button>
                     }
                   </div>
@@ -112,11 +143,23 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                       <Avatar className="avatar" src={story?.ownerImageUrl} />
                       <p>{story?.ownerUserName}</p>
                     </div>
-                    {
-                      story.ownerUserName == store.user.userName &&
-                      <IconButton>
+                    {story.ownerUserName == store.user.userName &&
+                    <>
+                    <div className="menu">
+                      <IconButton className="menu-button" onClick={() => {
+                        handleShowDeleteMenu(storyItem.id)
+                        setSelectedStoryId(storyItem.id)
+                      }}>
                         <MoreHorizIcon style={{ color: "antiquewhite" }} />
                       </IconButton>
+                      {
+                        menuOpen && 
+                        <ul>
+                          <li onClick={handleDeleteStory}>Delete</li>
+                        </ul>
+                      }
+                    </div>
+                    </>
                     }
                   </div>
                   <video controls>
@@ -129,7 +172,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                       story.ownerUserName == store.user.userName && 
                         <button className="watch-wrapper">
                           <RemoveRedEyeIcon />
-                          <span>222</span>
+                          <span>{storyItem?.watchCount}</span>
                         </button>
                     }
                   </div>

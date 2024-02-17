@@ -55,7 +55,8 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
                     : null
                 }
                 </span>
-                    <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage}</p>
+                    {/* <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage}</p> */}
+                    <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage.length > 10 ? `${chatItem.lastMessage.substring(0, 10)}...` : chatItem.lastMessage  }</p>
                 </div>
                 <div>
                     {chatItem.unreadedMessagesCount > 0 &&

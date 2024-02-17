@@ -4,7 +4,7 @@ import { Context } from "../../../main";
 import { Modal } from "antd";
 import { Avatar, IconButton, Button } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import { Link, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FollowContext } from "../../../context";
 
 const FollowersRequestsmodal = () => {

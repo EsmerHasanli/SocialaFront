@@ -5,7 +5,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Link } from "react-router-dom";
 
 const UserInfoBar = ({currentChat}) => {
-  console.log(currentChat);
+  console.log('currentChat', currentChat);
   const [userInfoBar, setShowUserInfoBar] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ const UserInfoBar = ({currentChat}) => {
                 <Avatar src={currentChat.chatPartnerImageUrl} className="avatar"/>
                 <h2>{currentChat?.chatPartnerName} {currentChat?.chatPartnerSurname}</h2>
                 <h6>@{currentChat?.chatPartnerUserName}</h6>
-                <Link>View profile</Link>
+                <Link to={`/users/${currentChat.chatPartnerUserName}`}>View profile</Link>
             </div>
             <ul>
                 <li>
