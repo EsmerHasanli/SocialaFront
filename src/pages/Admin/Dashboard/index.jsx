@@ -9,6 +9,8 @@ import TasksCount from "../../../components/Admin/TasksCount";
 import ModeratorsCount from "../../../components/Admin/ModeratorsCount";
 import RequestsTable from "../../../components/Admin/Table";
 import { Helmet } from "react-helmet";
+import { Typography } from "@mui/material";
+import RolesTable from "../../../components/Admin/RolesTable";
 
 
 
@@ -32,10 +34,17 @@ const Dashboard = () => {
           <ModeratorsCount/>
           <TasksCount/>
         </div>
-        <div id="work-space">
-
-          <Chart/>
+        <div id="work-space-chart">
+          <Typography variant="h3">Gender Distribution</Typography>
+          <Chart/>  
+        </div>
+        <div id="work-space-verify">
+          <Typography variant="h3">Vefirfy Requests</Typography>
           <RequestsTable/>
+        </div>
+        <div id="work-space-roles">
+          <Typography variant="h3">Set Roles</Typography>
+          <RolesTable/>
         </div>
       </div>
     </>

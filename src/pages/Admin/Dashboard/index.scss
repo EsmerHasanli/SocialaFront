@@ -31,13 +31,24 @@
         flex-wrap: wrap;
     }
     #work-space{
-        padding: 50px;
-        display: flex;
-        justify-content: center;
-        align-items:center;
-        gap: 50px;
         .recharts-responsive-container{
             width: 50%!important;
+        }
+        &-chart, &-verify, &-roles{
+            padding: 50px;
+            h3{
+                text-align: center;
+                margin-bottom: 25px;
+                color: rgb(37, 47, 63);
+            }
+            .search-input-wrapper{
+                margin: 0 auto;
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                align-items:center;
+                margin-bottom: 25px;
+            }
         }
     }
 }

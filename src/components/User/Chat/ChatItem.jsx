@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Avatar } from 'antd';
 import { Context } from '../../../main';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { format, differenceInDays } from 'date-fns';
 import { FollowContext } from '../../../context';
+import { Avatar } from '@mui/material';
 
 const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
     const {store} = useContext(Context);
