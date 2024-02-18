@@ -654,4 +654,18 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
+
+  //feed
+  async getFeedPostsAsync(skip) {
+    //this.setLoading(true);
+    try {
+      const res = await PostService.getFeedPostsAsync(skip)
+      console.log(res.data)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message || "Error occured!")
+    }
+    //finally {this.setLoading(false)}
+  }
 }

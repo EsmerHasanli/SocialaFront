@@ -9,6 +9,20 @@ import FooterMobile from "../../../components/User/FooterMobile";
 import Stories from "../../../components/User/Stories";
 
 const UserHomePage = () => {
+
+  const [feedPosts, setFeedPosts] = React.useState([])
+  const {store} = React.useContext(Context)
+  const [skip, setSkip] = React.useState(0);
+  async function getFeedPostsAsync() {
+    const posts = await store.getFeedPostsAsync(skip)
+    
+    setSkip(skip+10);
+    setFeedPosts(posts);
+  }
+  React.useEffect(() => {
+    getFeedPostsAsync()
+  },[])
+
   return (
     <>
       <Helmet>
@@ -21,6 +35,12 @@ const UserHomePage = () => {
           </Grid>
           <Grid item lg={10} xs={12}>
             <Stories />
+            <div id="home-page-posts-wrapper">
+              {feedPosts.map(post => 
+              
+                  <PostCard key={post.id} post={post}/>
+                  )}
+            </div>
           </Grid>
         </Grid>
         <FooterMobile />

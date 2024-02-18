@@ -29,7 +29,7 @@ const Stories = () => {
     async function getMyHistoryItems() {
       const items = await store.getCurrentUserItems();
       console.log(items);
-      if (items.length) {
+      if (items?.length) {
           setUserStoryItems(items);
           const myStory = {
             id: store.user.storyId,

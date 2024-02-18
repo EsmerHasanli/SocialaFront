@@ -15,18 +15,18 @@ import AddComment from "../../AddComment";
 import PostComment from "./PostComment";
 import PostLike from "./PostLike";
 import { FollowContext } from "../../../../context";
-import MapsUgcIcon from '@mui/icons-material/MapsUgc';
+import MapsUgcIcon from "@mui/icons-material/MapsUgc";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
-    // console.log("post", post);
+  // console.log("post", post);
   const { store } = useContext(Context);
-  const {fetchedUser, setFetchedUser} = useContext(FollowContext)
   const [comments, setComments] = useState(post.comments);
   const [commentSkip, setCommentSkip] = useState(-5);
   const [showMoreBtn, setShowMoreBtn] = useState(
-      post.comments.length == 5 ? true : false
-      );
-  const [commentsCount, setCommentsCount] = useState(post?.commentsCount)
+    post.comments.length == 5 ? true : false
+  );
+  const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
 
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
@@ -63,20 +63,36 @@ const PostCard = ({ post }) => {
     <div key={post.id} id="user-post-card">
       <div className="header">
         <ul>
-          <li>
-            <Avatar src={fetchedUser.imageUrl} />
-            <p>
-              <span>
-                {fetchedUser.name} {fetchedUser.surname}
-              </span>
-              <span>{timeAgoString}</span>
-            </p>
-          </li>
-          <li>
-            <IconButton>
-              <MoreHorizIcon />
-            </IconButton>
-          </li>
+          {post.appUserUserName == store.user.userName ? (
+            <li>
+              <Avatar src={post.appUserImageUrl.imageUrl} />
+              <p>
+                <span>
+                  {post.appUserName} {post.appUserSurname}
+                </span>
+                <span>{timeAgoString}</span>
+              </p>
+            </li>
+          ) : (
+            <Link to={`users/${post.appUserUserName}`}>
+              <li>
+                <Avatar src={post.appUserImageUrl.imageUrl} />
+                <p>
+                  <span>
+                    {post.appUserName} {post.appUserSurname}
+                  </span>
+                  <span>{timeAgoString}</span>
+                </p>
+              </li>
+            </Link>
+          )}
+          {post.appUserUserName == store.user.userName && (
+            <li>
+              <IconButton>
+                <MoreHorizIcon />
+              </IconButton>
+            </li>
+          )}
         </ul>
       </div>
       <Divider />
@@ -121,7 +137,7 @@ const PostCard = ({ post }) => {
         </Swiper>
         <p>{post?.description}</p>
         <div className="icons-wrapper">
-          <PostLike post={post} fetchedUser={fetchedUser} />
+          <PostLike post={post} />
           <IconButton className="comment-btn">
             <MapsUgcIcon />
           </IconButton>
@@ -132,7 +148,12 @@ const PostCard = ({ post }) => {
       <div className="comments">
         <ul>
           {comments.map((comment) => (
-            <PostComment key={comment.id} post={post} comment={comment} setCommentsCount={setCommentsCount} />
+            <PostComment
+              key={comment.id}
+              post={post}
+              comment={comment}
+              setCommentsCount={setCommentsCount}
+            />
           ))}
         </ul>
         {showMoreBtn && (
@@ -146,7 +167,13 @@ const PostCard = ({ post }) => {
       <Divider />
 
       <div className="my-comment">
-        <AddComment comments={comments} setComments={setComments} post={post} commentsCount={commentsCount} setCommentsCount={setCommentsCount} />
+        <AddComment
+          comments={comments}
+          setComments={setComments}
+          post={post}
+          commentsCount={commentsCount}
+          setCommentsCount={setCommentsCount}
+        />
       </div>
     </div>
   );

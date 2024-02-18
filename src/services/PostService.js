@@ -33,6 +33,9 @@ export default class PostService{
         return await $api.get(`${API_BASE_URL}/posts/${postId}/likes`)
     }
     static async likeCommentReply(replyId){
-        return await $api.post(`${API_BASE_URL}/posts/comment/${replyId}/like`)
+        return await $api.post(`${API_BASE_URL}/posts/reply/${replyId}/like`)
+    }
+    static async getFeedPostsAsync(skip){
+        return await $api.get(`${API_BASE_URL}/posts/feed/${skip}`)
     }
 }
