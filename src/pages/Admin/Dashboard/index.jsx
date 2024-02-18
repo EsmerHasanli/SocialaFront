@@ -11,10 +11,22 @@ import RequestsTable from "../../../components/Admin/Table";
 import { Helmet } from "react-helmet";
 import { Typography } from "@mui/material";
 import RolesTable from "../../../components/Admin/RolesTable";
-
+import { Context } from "../../../main";
+import { observer } from "mobx-react-lite";
 
 
 const Dashboard = () => {
+  const { store } = React.useContext(Context)
+  const [genderStatistic, setGenderStatistic] = React.useState({})
+
+  React.useEffect(()=>{
+    async function fetchData() {
+      const res = await store.getManage()
+      setGenderStatistic(res.registeredUsersCountByGender)
+    }
+    fetchData()
+  },[])
+
   return (
     <>
       <Helmet>
@@ -36,7 +48,7 @@ const Dashboard = () => {
         </div>
         <div id="work-space-chart">
           <Typography variant="h3">Gender Distribution</Typography>
-          <Chart/>  
+          <Chart genderStatistic={genderStatistic} />  
         </div>
         <div id="work-space-verify">
           <Typography variant="h3">Vefirfy Requests</Typography>
@@ -51,4 +63,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default observer(Dashboard);

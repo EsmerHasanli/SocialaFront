@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import UserServices from "../services/UserServices";
 import PostService from "../services/PostService";
 import StoriesServices from "../services/StoriesServices";
+import AdminService from "../services/AdminService";
 
 export default class Store {
   user = {};
@@ -548,7 +549,7 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
-  
+
   //reset-password
   async resetPassword(payload) {
     this.setLoading(true)
@@ -599,5 +600,58 @@ export default class Store {
     }
     catch (e) {
       console.log("error in checking notifications", e);}
+  }
+
+  //admin
+  async getManage() {
+    try {
+      const res = await AdminService.getManage();
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async getSearchedUser(searchTerm, skip) {
+    try {
+      const res = await AdminService.getSearchedUser(searchTerm, skip);
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async setRole(userName, role) {
+    try {
+      const res = await AdminService.setRole(userName, role);
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      console.log(e);
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async setRoles(userName, roles) {
+    try {
+      const res = await AdminService.setRoles(userName, roles);
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async deleteRole(userName, role) {
+    try {
+      const res = await AdminService.deleteRole(userName, role);
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
   }
 }

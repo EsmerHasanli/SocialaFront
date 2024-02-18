@@ -1,27 +1,8 @@
 import * as React from "react";
 import Searchusers from "./Searchusers";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import { styled, useTheme } from "@mui/material/styles";
+import {Card, CardHeader, CardContent, CardActions, Collapse, Avatar, IconButton, Typography, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { Button } from "@mui/material";
 
 const RolesTable = () => {
   const [expanded, setExpanded] = React.useState(false);
@@ -42,13 +23,13 @@ const RolesTable = () => {
   }));
 
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [roles, setRoles] = React.useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setRoles(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
@@ -65,49 +46,38 @@ const RolesTable = () => {
     },
   };
 
-  const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
+  const roleList = ['User', 'Verified user', 'Moderator', 'Admin'];
 
-  function getStyles(name, personName, theme) {
+  function getStyles(name, roles, theme) {
     return {
       fontWeight:
-        personName.indexOf(name) === -1
+        roles.indexOf(name) === -1
           ? theme.typography.fontWeightRegular
           : theme.typography.fontWeightMedium,
     };
   }
 
+  const [searchedUsers, setSearchedUsers] = React.useState([])
+
   return (
     <>
-      <Searchusers />
+      <Searchusers searchedUsers={searchedUsers} setSearchedUsers={setSearchedUsers} />
       <div className="cards-wrapper">
         <Card sx={{ maxWidth: 345 }}>
           <CardHeader
             avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                E
-              </Avatar>
+              <Avatar aria-label="recipe"/>
             }
-            // action={
-            //   <IconButton aria-label="settings">
-            //     <MoreVertIcon />
-            //   </IconButton>
-            // }
             title="Name Surname"
             subheader="@username"
           />
           <CardContent>
-          <p>User, Verified User, Moderator</p>
+            User
+            {roles.map((role, index) => (
+              <Typography key={index} variant="body2" color="text.secondary">
+                {role}
+              </Typography>
+            ))}
           </CardContent>
           <CardActions disableSpacing>
             <ExpandMore
@@ -123,23 +93,23 @@ const RolesTable = () => {
             <CardContent>
               <Typography paragraph>Roles:</Typography>
               <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+                <InputLabel id="demo-multiple-name-label">Roles</InputLabel>
                 <Select
                   labelId="demo-multiple-name-label"
                   id="demo-multiple-name"
                   multiple
-                  value={personName}
+                  value={roles}
                   onChange={handleChange}
-                  input={<OutlinedInput label="Name" />}
+                  input={<OutlinedInput label="Roles" />}
                   MenuProps={MenuProps}
                 >
-                  {names.map((name) => (
+                  {roleList.map((role) => (
                     <MenuItem
-                      key={name}
-                      value={name}
-                      style={getStyles(name, personName, theme)}
+                      key={role}
+                      value={role}
+                      style={getStyles(role, roles, theme)}
                     >
-                      {name}
+                      {role}
                     </MenuItem>
                   ))}
                 </Select>
