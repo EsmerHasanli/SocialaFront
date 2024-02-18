@@ -3,10 +3,22 @@ import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
 import { Link } from "react-router-dom";
-import { AppBar, Box, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Avatar, Typography, Divider, } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Avatar,
+  Typography,
+  Divider,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const Navigation = () => {
   const drawerWidth = 240;
@@ -70,8 +82,8 @@ const Navigation = () => {
           },
         }}
       >
-        <Link to='/admin'>
         <List>
+          <Link to="/admin">
             <ListItem button>
               <ListItemIcon>
                 <img
@@ -82,10 +94,20 @@ const Navigation = () => {
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
-          </List>
-        </Link>
-        <Link to="/">
-          <List>
+          </Link>
+          <Link to="/roles">
+            <ListItem button>
+              <ListItemIcon>
+                <img
+                  style={{ width: "26px", height: "26px" }}
+                  src="https://cdn-icons-png.flaticon.com/512/6713/6713086.png"
+                  alt=""
+                />
+              </ListItemIcon>
+              <ListItemText primary="Roles" />
+            </ListItem>
+          </Link>
+          <Link to="/">
             <ListItem button>
               <ListItemIcon>
                 <img
@@ -96,10 +118,8 @@ const Navigation = () => {
               </ListItemIcon>
               <ListItemText primary="Feed" />
             </ListItem>
-          </List>
-        </Link>
-        <Link to="/messages">
-          <List>
+          </Link>
+          <Link to="/messages">
             <ListItem button>
               <ListItemIcon>
                 <img
@@ -110,17 +130,15 @@ const Navigation = () => {
               </ListItemIcon>
               <ListItemText primary="Chat" />
             </ListItem>
-          </List>
-        </Link>
-        <Divider/>
-        <List onClick={handleLogout}>
-          <ListItem button>
+          </Link>
+          <Divider />
+          <ListItem button onClick={handleLogout}>
             <ListItemIcon>
-              <SettingsIcon/>
+              <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>
-          </List>
+        </List>
       </Drawer>
       <Box
         component="main"

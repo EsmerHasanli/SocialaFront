@@ -1,7 +1,6 @@
 import UserHomePage from "../pages/User/Home";
 import Register from "../pages/User/Register";
 import Login from "../pages/User/Login";
-import NotFound from "../pages/NotFound";
 import UserDetailsPage from "../pages/User/UserDetailsPage";
 import EmailConfirmationPage from "../pages/User/EmailConfirmationPage";
 import UserSettings from "../pages/User/UserSettings";
@@ -9,7 +8,6 @@ import ForgetPassword from "../pages/User/ForgetPassword";
 import RessetPassword from '../pages/User/ResetPassword'
 import Messages from "../pages/User/Messages";
 import Archieve from "../pages/User/Archive";
-import Dashboard from '../pages/Admin/Dashboard';
 
 export const privateRoutes = [
   { 
@@ -32,10 +30,6 @@ export const privateRoutes = [
     path: '/archive',
     element: <Archieve/>
   },
-  {
-    path: '/admin',
-    element: <Dashboard/>
-  }
 ];
 
 export const publicRoutes = [

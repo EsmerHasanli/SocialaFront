@@ -65,7 +65,7 @@ const PostCard = ({ post }) => {
         <ul>
           {post.appUserUserName == store.user.userName ? (
             <li>
-              <Avatar src={post.appUserImageUrl.imageUrl} />
+              <Avatar src={post.appUserImageUrl} />
               <p>
                 <span>
                   {post.appUserName} {post.appUserSurname}
@@ -76,7 +76,7 @@ const PostCard = ({ post }) => {
           ) : (
             <Link to={`users/${post.appUserUserName}`}>
               <li>
-                <Avatar src={post.appUserImageUrl.imageUrl} />
+                <Avatar src={post.appUserImageUrl} />
                 <p>
                   <span>
                     {post.appUserName} {post.appUserSurname}

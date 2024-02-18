@@ -613,9 +613,9 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
-  async getSearchedUser(searchTerm, skip) {
+  async getSearchedUsers(searchTerm, skip) {
     try {
-      const res = await AdminService.getSearchedUser(searchTerm, skip);
+      const res = await AdminService.getSearchedUsers(searchTerm, skip);
       console.log(res)
       return res.data
     }

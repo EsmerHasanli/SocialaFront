@@ -129,7 +129,7 @@ const Stories = () => {
                     className="avatar-border"
                     style={
                       store.user.watchedStoryItemsIds.find(id => id == story.lastStoryItemId)
-                        ? null
+                        ? { borderColor: "rgb(203,213,225)" }
                         : { borderColor: "rgb(255,15,103)" }
                     }
                   >

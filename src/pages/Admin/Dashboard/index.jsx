@@ -10,7 +10,6 @@ import ModeratorsCount from "../../../components/Admin/ModeratorsCount";
 import RequestsTable from "../../../components/Admin/Table";
 import { Helmet } from "react-helmet";
 import { Typography } from "@mui/material";
-import RolesTable from "../../../components/Admin/RolesTable";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 
@@ -53,10 +52,6 @@ const Dashboard = () => {
         <div id="work-space-verify">
           <Typography variant="h3">Vefirfy Requests</Typography>
           <RequestsTable/>
-        </div>
-        <div id="work-space-roles">
-          <Typography variant="h3">Set Roles</Typography>
-          <RolesTable/>
         </div>
       </div>
     </>

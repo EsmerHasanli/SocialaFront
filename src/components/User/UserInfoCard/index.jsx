@@ -16,6 +16,8 @@ import { observer } from "mobx-react-lite";
 const UserInfoCard = () => {
   const { fetchedUser } = useContext(FollowContext);
   const { store } = useContext(Context);
+  console.log('fetchedUser', fetchedUser);
+
   return (
     <div id="user-info-card">
       <div className="header">
@@ -50,17 +52,17 @@ const UserInfoCard = () => {
               </span>
             </li>
           )}
-          {fetchedUser && fetchedUser?.followers && (
+          {fetchedUser && fetchedUser?.followersCount > 0 && (
             <li>
               <RssFeedOutlinedIcon />
-              <span>Followed By {fetchedUser?.followers.length} People</span>
+              <span>Followed By {fetchedUser?.followersCount} People</span>
             </li>
           )}
           {fetchedUser && fetchedUser?.facebookLink && (
             <li>
               <InstagramIcon />
               <span>
-                Instagram{" "}
+                Instagram:{" "}
                 <a href={fetchedUser?.instagramLink}>
                   <b>{fetchedUser?.instagramLink}</b>
                 </a>
@@ -82,7 +84,7 @@ const UserInfoCard = () => {
             <li>
               <GitHubIcon />
               <span>
-                GitHub{" "}
+                GitHub:{" "}
                 <a href={fetchedUser?.githubLink}>
                   <b>{fetchedUser?.githubLink}</b>
                 </a>

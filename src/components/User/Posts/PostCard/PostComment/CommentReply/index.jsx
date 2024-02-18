@@ -1,7 +1,7 @@
-import { Avatar } from "antd"
 import { observer } from "mobx-react-lite"
 import { useContext, useState } from "react"
 import { Context } from "../../../../../../main"
+import { Avatar } from "@mui/material"
 
 const CommentReply = ({reply}) => {
     const {store} = useContext(Context)

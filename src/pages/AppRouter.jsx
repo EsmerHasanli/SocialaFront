@@ -7,10 +7,28 @@ import { Context } from "../main";
 import Layout from "./Layout";
 import NotFound from "./NotFound";
 import Login from "./User/Login";
+import Dashboard from './Admin/Dashboard'
+import Roles from './Admin/Roles';
 
 const AppRouter = () => {
   const { store } = useContext(Context);
   const navigate  = useNavigate()
+
+  if (store.user?.roles?.includes("Admin")) {
+    privateRoutes?.push({
+      path: '/admin',
+      element: <Dashboard/>
+    },
+    {
+      path: '/roles',
+      element: <Roles/>
+    })
+  }else if (store.user?.roles?.includes("Moderator")){
+    privateRoutes?.push({
+      path: '/admin',
+      element: <Dashboard/>
+    })
+  }
   
   // useEffect(()=>{
   //   if(!localStorage.getItem('token')){

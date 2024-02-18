@@ -11,7 +11,6 @@ import { PhotoCamera } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import UserInfoForm from "../../../components/User/UserSettings/UserInfoForm";
 import SocialLinks from "../../../components/User/UserSettings/SocialLinks";
-import PasswordReset from "../../../components/User/UserSettings/PasswordReset";
 import Notifications from "../../../components/User/UserSettings/Notification";
 import { FollowContext } from "../../../context";
 
@@ -139,8 +138,7 @@ const UserSettings = () => {
                 <Tabs value={value} onChange={handleChange} aria-label="tabs">
                   <Tab label="User" id="tab-0" />
                   <Tab label="Social Media" id="tab-1" />
-                  <Tab label="Password" id="tab-2" />
-                  <Tab label="Notifications" id="tab-3" />
+                  <Tab label="Notifications" id="tab-2" />
                 </Tabs>
                 <TabPanel style={{padding:'48px 80px'}} id='user-info-form' value={value} index={0}>
                   <UserInfoForm photo={photo} setPreviewUrl={setPreviewUrl} />
@@ -148,10 +146,7 @@ const UserSettings = () => {
                 <TabPanel style={{padding:'48px 80px'}} id='user-social-links' value={value} index={1}>
                   <SocialLinks photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
-                <TabPanel style={{padding:'48px 80px'}} id='user-password-form' value={value} index={2}>
-                  <PasswordReset photo={photo} setPreviewUrl={setPreviewUrl} />
-                </TabPanel>
-                <TabPanel style={{padding:'48px 80px'}} id='user-notifications-form' value={value} index={3}>
+                <TabPanel style={{padding:'48px 80px'}} id='user-notifications-form' value={value} index={2}>
                   <Notifications photo={photo} setPreviewUrl={setPreviewUrl} />
                 </TabPanel>
               </Box>

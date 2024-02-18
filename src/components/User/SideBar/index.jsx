@@ -20,21 +20,50 @@ const SideBar = () => {
         <ul className="pages">
           {
             store.user?.roles.length && store.user?.roles.includes('Admin') && 
-            <Link to="/admin">
+            <>
+              <Link to="/admin">
+              <li>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
+                  alt=""
+                />
+                <p>Dashboard</p>
+              </li>
+            </Link>
+            <Link to='/roles'>
             <li>
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                alt=""
-              />
-              <p>Dashboard</p>
+                <img
+                  src=" https://cdn-icons-png.flaticon.com/512/6713/6713086.png"
+                  alt=""
+                />
+                <p>Roles</p>
+              </li>   
+            </Link>
+            </>
+          }
+          {
+            store.user?.roles.length && store.user?.roles.includes('Moderator') &&
+            <Link to="/admin">
+              <li>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
+                  alt=""
+                />
+                <p>Dashboard</p>
+              </li>
+            </Link>
+          }
+          <Link to={`/users/${store.user.userName}`}>
+            <li>
+              <img src="https://cdn-icons-png.flaticon.com/512/7382/7382094.png" alt="user" />
+              <p>My page</p>
             </li>
           </Link>
-          }
           <Link to="/">
             <li>
               <img
                 src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
-                alt=""
+                alt="home"
               />
               <p>Feed</p>
             </li>
@@ -44,7 +73,7 @@ const SideBar = () => {
             <li>
               <img
                 src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/message.png"
-                alt=""
+                alt="chat"
               />
               <p>Messages</p>
             </li>
@@ -55,7 +84,7 @@ const SideBar = () => {
               <img
                 style={{ width: "28px", height: "28px" }}
                 src="https://static.vecteezy.com/system/resources/previews/021/095/640/original/3d-render-illustration-of-archive-icon-office-material-png.png"
-                alt=""
+                alt="archive"
               />
               <p>Archive</p>
             </li>

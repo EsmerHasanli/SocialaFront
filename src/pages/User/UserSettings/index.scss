@@ -195,65 +195,6 @@
         }
       }
     }
-    #user-password-form {
-      div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        form {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          .form-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            div:first-child {
-              display: flex;
-              justify-content: center;
-              align-items: end;
-              flex-direction: column;
-            }
-            div:nth-child(2) {
-              display: flex;
-              flex-direction: column;
-              input {
-                padding: 7px 10px;
-                border: none;
-                background-color: rgb(241, 245, 249);
-                border-radius: 8px;
-                transition: width 0.5s, height 0.5s, background-color 0.5s;
-                &:focus {
-                  outline: 2px solid rgb(37, 99, 235);
-                }
-              }
-            }
-          }
-          .button-wrapper {
-            margin-top: 26px;
-            display: flex;
-            gap: 26px;
-            button {
-              padding: 6px 24px;
-              border: none;
-              border-radius: 8px;
-              font-size: 12px;
-              font-weight: 500;
-              cursor: pointer;
-            }
-            .white {
-              background-color: rgb(241, 245, 249);
-            }
-            .blue {
-              background-color: rgb(37, 99, 235);
-              color: white;
-            }
-          }
-        }
-      }
-    }
     #user-notifications-form{
       div{
         display: flex;

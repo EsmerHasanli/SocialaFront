@@ -5,8 +5,8 @@ export default class AdminService {
     return $api.get(`${API_BASE_URL}/manage`);
   }
 
-  static async getSearchedUser(searchTerm, skip) {
-    return $api.get(`${API_BASE_URL}/manage/users`, searchTerm, skip);
+  static async getSearchedUsers(searchTerm, skip) {
+    return $api.get(`${API_BASE_URL}/manage/users?searchTerm=${searchTerm}&skip=${skip}`);
   }
 
   static async setRole(userName, role) {

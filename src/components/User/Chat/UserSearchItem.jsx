@@ -25,6 +25,7 @@ const UserSearchItem = ({ user, connection, currentChatId, setCurrentChatId }) =
       };
       connection.sendMessageByUserName(payload);
     }
+    setValue("")
   }
   return (
     <>
