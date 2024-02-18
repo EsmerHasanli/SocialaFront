@@ -9,7 +9,7 @@ import { observer } from "mobx-react-lite";
 
 const SideBar = () => {
   const { store } = useContext(Context);
-
+  
   const handleLogout = async () => {
     await store.logout();
     navigate("/login");
@@ -18,6 +18,18 @@ const SideBar = () => {
     <>
       <div id="side-bar">
         <ul className="pages">
+          {
+            store.user?.roles.length && store.user?.roles.includes('Admin') && 
+            <Link to="/admin">
+            <li>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
+                alt=""
+              />
+              <p>Dashboard</p>
+            </li>
+          </Link>
+          }
           <Link to="/">
             <li>
               <img

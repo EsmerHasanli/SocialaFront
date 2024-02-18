@@ -17,11 +17,10 @@ const Stories = () => {
   const [storiesVisible, setStoriesVisible] = useState(false);
   const [stories, setStories] = useState([]);
   const [story, setStory] = useState([]);
+  const [currentUserStory, setCurrentUserStory] = useState({});
   const [storyItems, setStoryItems] = useState([]);
   const [userStoryItems, setUserStoryItems] = useState([]);
-  const [watchedStories, setWatchedStories] = useState(
-    JSON.parse(localStorage.getItem("watchedStories")) || []
-  );
+ 
   useEffect(() => {
     async function fetchAllStoriesDatas() {
       const allStories = await store.getStories();
@@ -30,7 +29,17 @@ const Stories = () => {
     async function getMyHistoryItems() {
       const items = await store.getCurrentUserItems();
       console.log(items);
-      setUserStoryItems(items);
+      if (items.length) {
+          setUserStoryItems(items);
+          const myStory = {
+            id: store.user.storyId,
+            ownerUserName: store.user.userName,
+            ownerImageUrl: store.user.imageUrl,
+            lastStoryPostedAt: store.user.lastStoryPostedAt,
+            lastStoryItemId:items[items.length-1].id
+          };
+          setCurrentUserStory(myStory);
+      }
     }
     fetchAllStoriesDatas();
     getMyHistoryItems();
@@ -41,67 +50,63 @@ const Stories = () => {
     setStory(storyy);
     const res = await store.getStoryItems(storyy.id);
     setStoryItems(res);
-    const itemFromLocal = watchedStories.find(
-      (watchedStory) => watchedStory.id == storyy.id
-    );
-    if (!itemFromLocal) {
-      const newArr = watchedStories;
-      const newObj = {
-        id: storyy.id,
-        lastWatchedStoryCreateTime: res[0].createdAt,
-        lastWatchedStoryIndex: 0,
-      };
-      setWatchedStories([...watchedStories, { ...newObj }]);
-      newArr.push(newObj);
-      localStorage.setItem("watchedStories", JSON.stringify(newArr));
+    if (!store.user.watchedStoryItemsIds.find(id => id ==  res[0].id)) {
+      let storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
+      if (!storyCurrentSlides) {
+        storyCurrentSlides = []
+      }
+      const currentItem = storyCurrentSlides.find(obj => obj.id == storyy.id);
+      console.log(currentItem)
+      if (currentItem) {
+        storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != storyy.id);
+      }
+      storyCurrentSlides.push({id:storyy.id, index:0})
+      localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
+      await store.watchStory(res[0].id)
+      const oldUser = store.user;
+      oldUser.watchedStoryItemsIds.push(res[0].id)
+      store.setUser(oldUser);
     }
+   
   };
-  function showMyHistoryItems() {
+  async function showMyHistoryItems() {
     setStoriesVisible(true);
-    const myStory = {
-      id: store.user.storyId,
-      ownerUserName: store.user.userName,
-      ownerImageUrl: store.user.imageUrl,
-      lastStoryPostedAt: store.user.lastStoryPostedAt,
-    };
-    setStory(myStory);
-    setStoryItems(userStoryItems);
-    const itemFromLocal = watchedStories.find(
-      (watchedStory) => watchedStory.id == myStory.id
-    );
-    if (!itemFromLocal) {
-      const newArr = watchedStories;
-      const newObj = {
-        id: store.user.storyId,
-        lastWatchedStoryCreateTime: userStoryItems[0].createdAt,
-        lastWatchedStoryIndex: 0,
-      };
-      setWatchedStories([...watchedStories, { ...newObj }]);
-      newArr.push(newObj);
-      localStorage.setItem("watchedStories", JSON.stringify(newArr));
+    const oldUser = store.user;
+    if (!oldUser.watchedStoryItemsIds.find(id => id == userStoryItems[0].id)) {
+      let storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
+      if (!storyCurrentSlides) {
+        storyCurrentSlides = []
+      }
+      const currentItem = storyCurrentSlides.find(obj => obj.id == currentUserStory.id);
+      console.log(currentItem)
+      if (currentItem) {
+        storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != currentUserStory.id);
+      }
+      storyCurrentSlides.push({id:currentUserStory.id, index:0})
+      localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
+      await store.watchStory(userStoryItems[0].id)
+      oldUser.watchedStoryItemsIds.push(userStoryItems[0].id)
+      store.setUser(oldUser);
     }
+    setStory(currentUserStory)
+    setStoryItems(userStoryItems);
   }
 
   return (
     <>
       <div className="stories-icons-wrapper">
         <Swiper className="mySwiper" spaceBetween={10}>
-          <SwiperSlide className="swiper-slide">
+          <SwiperSlide style={{cursor:'pointer'}} className="swiper-slide">
             <AddStories />
           </SwiperSlide>
           {userStoryItems.length>0 && (
-            <SwiperSlide className="swiper-slide" onClick={showMyHistoryItems}>
+            <SwiperSlide  style={{cursor:'pointer'}} className="swiper-slide" onClick={showMyHistoryItems}>
               <div className="story">
                 <div
                   className="avatar-border"
                   style={
-                    watchedStories.find(
-                      (watchedStory) =>
-                        watchedStory.id == store.user.storyId &&
-                        watchedStory.lastWatchedStoryCreateTime ==
-                          userStoryItems[userStoryItems.length - 1]?.createdAt
-                    )
-                      ? null
+                    store.user?.watchedStoryItemsIds?.find(id => id == currentUserStory.lastStoryItemId)
+                      ? { borderColor: "rgb(203,213,225)" }
                       : { borderColor: "rgb(255,15,103)" }
                   }
                 >
@@ -123,12 +128,7 @@ const Stories = () => {
                   <div
                     className="avatar-border"
                     style={
-                      watchedStories.find(
-                        (watchedStory) =>
-                          watchedStory.id == story.id &&
-                          watchedStory.lastWatchedStoryCreateTime ==
-                            story.lastStoryPostedAt
-                      )
+                      store.user.watchedStoryItemsIds.find(id => id == story.lastStoryItemId)
                         ? null
                         : { borderColor: "rgb(255,15,103)" }
                     }
@@ -147,8 +147,8 @@ const Stories = () => {
         setStoriesVisible={setStoriesVisible}
         story={story}
         storyItems={storyItems}
-        watchedStories={watchedStories}
-        setWatchedStories={setWatchedStories}
+        setStoryItems={setStoryItems}
+        setUserStoryItems={setUserStoryItems}
       />
     </>
   );

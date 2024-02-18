@@ -16,43 +16,46 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 
-const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, watchedStories, setWatchedStories }) => {
-  console.log('story', story);
-
+const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, story, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedStoryId, setSelectedStoryId] = useState(null);
 
-  function handleSlideChange(swiper) {
-    const watchedStory = watchedStories?.find(ws => ws.id == story?.id);
+  async function handleSlideChange(swiper) {
+    console.log(swiper)
     const slideIndex = swiper.realIndex
-    if (watchedStory) {
-        if (watchedStory?.lastWatchedStoryIndex < slideIndex) {
-          watchedStory.lastWatchedStoryCreateTime = storyItems[slideIndex].createdAt;
-          watchedStory.lastWatchedStoryIndex = swiper.realIndex
-
-          const changedArr = watchedStories.filter(ws => ws.id != story.id);
-          changedArr.push(watchedStory);
-          setWatchedStories([...changedArr]);
-          localStorage.setItem("watchedStories", JSON.stringify(changedArr))
-
-        }
+    const storyItemId = storyItems[slideIndex].id
+    if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
+      const storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
+      const currentItem = storyCurrentSlides.find(obj => obj.id == story.id);
+      console.log(currentItem)
+      
+      if (currentItem?.index < slideIndex) {
+        currentItem.index++;
+        console.log("index uvelichen")
+        localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
       }
-    }
+      const oldUser = store.user;
+      await store.watchStory(storyItemId)
+      oldUser.watchedStoryItemsIds.push(storyItemId)
+      store.setUser(oldUser);
+      console.log(oldUser)
 
-    function handleShowDeleteMenu(storyId) {
-      if(selectedStoryId == storyId) {
-        if(!menuOpen){
-          setMenuOpen(true);
-        }else{
-          setMenuOpen(false);
-        }
-      }
+  }
     }
   
     async function handleDeleteStory() {
-     await store.deleteStory(selectedStoryId);
-      setMenuOpen(false);
+      
+        const res = await store.deleteStory(selectedStoryId);
+        if (res.status == 204) {
+          const filteredItems = storyItems.filter(s => s.id != selectedStoryId);
+        
+          setMenuOpen(false);
+          setSelectedStoryId(null)
+          if (!filteredItems.length) setStoriesVisible(false)
+          setStoryItems(filteredItems)
+          setUserStoryItems(filteredItems)
+        }
     }
 
   return (
@@ -60,7 +63,9 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
       {storiesVisible && (
         <div id="stories-wrapper">
           <IconButton
-            onClick={() => setStoriesVisible(false)}
+            onClick={() => {
+              setStoryItems([])
+              setStoriesVisible(false)}}
             style={{
               float: "right",
               width: "30px",
@@ -68,13 +73,13 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
               backgroundColor: "antiquewhite",
             }}
           >
-            <CloseIcon style={{ color: "rgba(0,0,0,0.7)" }} />
+            <CloseIcon style={{ color: "rgba(0,0,0,0.7)" }}/>
           </IconButton>
           <Swiper
             effect={"coverflow"}
             onSlideChange={handleSlideChange}
             grabCursor={true}
-            initialSlide={watchedStories.find(ws => ws.id == story?.id)?.lastWatchedStoryIndex || 0}
+            initialSlide={((JSON.parse(localStorage.getItem("storyPag")))?.find(obj => obj.id == story.id))?.index}
             centeredSlides={true}
             slidesPerView={"auto"}
             coverflowEffect={{
@@ -107,13 +112,13 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                     {story.ownerUserName == store.user.userName &&
                     <div className="menu">
                       <IconButton className="menu-button" onClick={() => {
-                        handleShowDeleteMenu(storyItem.id)
+                        setMenuOpen(!menuOpen)
                         setSelectedStoryId(storyItem.id)
                       }}>
                         <MoreHorizIcon style={{ color: "antiquewhite" }} />
                       </IconButton>
                       {
-                        menuOpen && 
+                        menuOpen && selectedStoryId == storyItem.id && 
                         <ul>
                           <li onClick={handleDeleteStory}>Delete</li>
                         </ul>
@@ -147,13 +152,13 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, story, storyItems, wa
                     <>
                     <div className="menu">
                       <IconButton className="menu-button" onClick={() => {
-                        handleShowDeleteMenu(storyItem.id)
+                        setMenuOpen(!menuOpen)
                         setSelectedStoryId(storyItem.id)
                       }}>
                         <MoreHorizIcon style={{ color: "antiquewhite" }} />
                       </IconButton>
                       {
-                        menuOpen && 
+                        menuOpen && storyItem.id == selectedStoryId &&
                         <ul>
                           <li onClick={handleDeleteStory}>Delete</li>
                         </ul>

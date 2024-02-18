@@ -16,7 +16,7 @@ const FollowsModal = () => {
   const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext)
 
   const showModal = () => {
-    if(currentUserFollows.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
+    if(currentUserFollows?.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
     else {
       Swal.fire({
         icon: "error",

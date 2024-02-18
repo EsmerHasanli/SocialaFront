@@ -20,4 +20,11 @@ export default class StoriesServices {
   static async deleteStory(storyId) {
     return await $api.delete(`${API_BASE_URL}/stories/item/${storyId}`)
   }
+
+  static async watchStory(storyId) {
+    return await $api.post(`${API_BASE_URL}/stories/watch/${storyId}`)
+  }
+  static async getWatchers(storyId) {
+    return await $api.get(`${API_BASE_URL}/stories/watchers/${storyId}`)
+  }
 }

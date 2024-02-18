@@ -1,0 +1,24 @@
+import axios from "axios";
+import $api, { API_BASE_URL } from "../http";
+
+export default class AdminService {
+  static async getManage() {
+    return axios.get(`${API_BASE_URL}/manage`);
+  }
+
+  static async getSearchedUser(searchTerm, skip) {
+    return axios.get(`${API_BASE_URL}/manage/users`, searchTerm, skip);
+  }
+
+  static async setRole(userName, role) {
+    return axios.post(`${API_BASE_URL}/manage/role`, userName, role);
+  }
+
+  static async setRoles(userName, roles) {
+    return $api.post(`${API_BASE_URL}/manage/roles`, userName, roles);
+  }
+  
+  static async deleteRole(userName, role) {
+    return axios.delete(`${API_BASE_URL}/manage/roles`, userName, role);
+  }
+}

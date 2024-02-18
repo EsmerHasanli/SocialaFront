@@ -539,7 +539,16 @@ export default class Store {
       console.log("error in deleting story", e);
     }
   }
-
+  async watchStory(storyId) {
+    try {
+      const res = await StoriesServices.watchStory(storyId);
+      console.log(res)
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  
   //reset-password
   async resetPassword(payload) {
     this.setLoading(true)
