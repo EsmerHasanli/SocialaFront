@@ -3,22 +3,10 @@ import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
 import { Link } from "react-router-dom";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Avatar,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Avatar, Typography, Divider, } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navigation = () => {
   const drawerWidth = 240;
@@ -134,7 +122,7 @@ const Navigation = () => {
           <Divider />
           <ListItem button onClick={handleLogout}>
             <ListItemIcon>
-              <SettingsIcon />
+              <LogoutIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>

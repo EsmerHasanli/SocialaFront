@@ -623,32 +623,12 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
-  async setRole(userName, role) {
+  async changeRoles(payload) {
     try {
-      const res = await AdminService.setRole(userName, role);
+      const res = await AdminService.changeRoles(payload);
       console.log(res)
-      return res.data
-    }
-    catch (e) {
-      console.log(e);
-      this.showErrorAlertWithSound(e.response.message)
-    }
-  }
-  async setRoles(userName, roles) {
-    try {
-      const res = await AdminService.setRoles(userName, roles);
-      console.log(res)
-      return res.data
-    }
-    catch (e) {
-      this.showErrorAlertWithSound(e.response.message)
-    }
-  }
-  async deleteRole(userName, role) {
-    try {
-      const res = await AdminService.deleteRole(userName, role);
-      console.log(res)
-      return res.data
+      this.showSuccessAlert("User roles succesfully changed!");
+      return res;
     }
     catch (e) {
       this.showErrorAlertWithSound(e.response.message)

@@ -17,7 +17,7 @@ const Searchusers = ({searchedUsers, setSearchedUsers}) => {
       {
         const users = await store.getSearchedUsers(e.target.value, 0)
         console.log(users);
-        setSearchedUsers(prev => [...prev, ...users])
+        setSearchedUsers(users)
 
       }
       , 600)

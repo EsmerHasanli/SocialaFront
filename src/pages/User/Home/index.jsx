@@ -14,11 +14,15 @@ const UserHomePage = () => {
   const [feedPosts, setFeedPosts] = React.useState([])
   const {store} = React.useContext(Context)
   const [skip, setSkip] = React.useState(0);
+  const [isEnded, setIsEnded] = React.useState(false);
+
   async function getFeedPostsAsync() {
     const posts = await store.getFeedPostsAsync(skip)
-    
+    if(posts.length < 10){
+      setIsEnded(true);
+    }
     setSkip(skip+10);
-    setFeedPosts(posts);
+    setFeedPosts([...feedPosts, ...posts]);
   }
   React.useEffect(() => {
     getFeedPostsAsync()
@@ -42,9 +46,11 @@ const UserHomePage = () => {
                   )}
             </div>
             {
-              feedPosts?.length > 10 && 
+              !isEnded && 
               <div className="show-more-btn-wrapper">
-                <button><span>show more</span></button>
+                <button onClick={getFeedPostsAsync} class="button">
+                  <span class="button-content">show more</span>
+                </button>
               </div>
             }
           </Grid>

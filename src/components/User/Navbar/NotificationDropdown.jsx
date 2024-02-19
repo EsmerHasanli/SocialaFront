@@ -1,126 +1,128 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import { Context } from '../../../main';
-import { observer } from 'mobx-react-lite';
-import { FollowContext } from '../../../context';
-import WebSockets from '../../../sockets/WebSockets';
-import { NotificationsOutlined } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  IconButton,
+  Tooltip,
+  Badge,
+} from "@mui/material";
+import { Context } from "../../../main";
+import { observer } from "mobx-react-lite";
+import { FollowContext } from "../../../context";
+import { NotificationsOutlined } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const NotificationDropdown = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const {notifications, setNotifications} = useContext(FollowContext)
-    const [hasNewNotifications, setHasNewNotifications] = useState(notifications.find(n => n.isChecked == false)? true : false);
-    const open = Boolean(anchorEl);
-    const {store} = useContext(Context);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { notifications, setNotifications } = useContext(FollowContext);
+  const [hasNewNotifications, setHasNewNotifications] = useState(
+    notifications.find((n) => n.isChecked == false) ? true : false
+  );
+  const open = Boolean(anchorEl);
+  
+  const [showBadge, setShowBadge] = React.useState(hasNewNotifications ? true : false);
 
-    useEffect(() => {
-      if (notifications.find(n => n.isChecked == false)) {
-        setHasNewNotifications(true);
-      }
-      else setHasNewNotifications(false);
-    }, [notifications])
-    
-    const handleClick = async (event) => {
-      setAnchorEl(event.currentTarget);
-      if (hasNewNotifications) {
-        const notificationsIds = notifications.map(obj => obj.id);
-        const formData = new FormData();
-        console.log(notificationsIds)
-        for (let i = 0; i < notificationsIds.length; i++) {
-          formData.append("notifications", notificationsIds[i]);
-        }
-        await store.checkNotifications(formData)
+  const { store } = useContext(Context);
 
+  useEffect(() => {
+    if (notifications.find((n) => n.isChecked == false)) {
+      setHasNewNotifications(true);
+    } else setHasNewNotifications(false);
+  }, [notifications]);
+
+  const handleClick = async (event) => {
+    setAnchorEl(event.currentTarget);
+    if (hasNewNotifications) {
+      const notificationsIds = notifications.map((obj) => obj.id);
+      const formData = new FormData();
+      console.log(notificationsIds);
+      for (let i = 0; i < notificationsIds.length; i++) {
+        formData.append("notifications", notificationsIds[i]);
       }
-      setHasNewNotifications(false);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    return (
-      <div className='notification-dropdown'>
-        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-          <Tooltip title="Account settings">
-            <IconButton
-              onClick={handleClick}
-              size="small"
-              sx={{ ml: 2 }}
-              aria-controls={open ? 'account-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-            >
-              
-              <Avatar sx={{ width: 32, height: 32 }}><NotificationsOutlined style={{color:"rgb(88,80,236)"}} /></Avatar>
-            </IconButton>
-          </Tooltip>
-        </Box>
-        <Menu
-          
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&::before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: 'background.paper',
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-              },
+      await store.checkNotifications(formData);
+    }
+    setHasNewNotifications(false);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <div className="notification-dropdown">
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            <Avatar sx={{ width: 32, height: 32, overflow: "visible" }}>
+              <Badge color="error" variant="dot" invisible={!showBadge}>
+                <NotificationsOutlined style={{ color: "rgb(88,80,236)" }} />
+              </Badge>
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
             },
-          }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          {notifications?.map((notification,key) =>
-            <MenuItem key={key} onClick={handleClose}>
-              <div>
-                {notification.type == "Custom" ?
-                <Avatar src={notification.sourceUrl} /> 
-                : notification.type == "Email" ? "🎊" :"🛠️"
-                }
-              </div>
-              <Link to={`users/${notification.userName}`}>
-                <p>{notification.text}</p>
-                <article>{notification.sendedAt}</article>
-              </Link>
-              {!notification.isChecked &&
-                <div style={{marginLeft:"50px", width:"10px",height:"10px", borderRadius:"50%", backgroundColor:"#0CD000"}}></div>
-              }
-            </MenuItem>
-          )}
+            "&::before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        {notifications?.map((notification, key) => (
+          <MenuItem key={key} onClick={handleClose}>
+            <div>
+              {notification.type == "Custom" ? (
+                <Avatar src={notification.sourceUrl} />
+              ) : notification.type == "Email" ? (
+                "🎊"
+              ) : (
+                "🛠️"
+              )}
+            </div>
+            <Link to={`users/${notification.userName}`}>
+              <p>{notification.text}</p>
+              <article>{notification.sendedAt}</article>
+            </Link>
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
+  );
+};
 
-          
-
-        </Menu>
-      </div>
-    );
-}
-
-export default observer(NotificationDropdown)
+export default observer(NotificationDropdown);
