@@ -9,7 +9,7 @@ import NotFound from "./NotFound";
 import Login from "./User/Login";
 import Dashboard from './Admin/Dashboard'
 import Roles from './Admin/Roles';
-import VerifyRequests from './Admin/VeifyUser'
+import VerifyRequests from './Admin/VeirifyUser'
 
 const AppRouter = () => {
   const { store } = useContext(Context);
@@ -25,7 +25,7 @@ const AppRouter = () => {
       element: <Roles/>
     },
     {
-      path: '/verify-requests',
+      path: '/verify-requests/:page',
       element: <VerifyRequests/>
     })
   }else if (store.user?.roles?.includes("Moderator")){

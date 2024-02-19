@@ -666,6 +666,15 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
+  async getVerifyRequestsCountAsync() {
+    try {
+      const res = await AdminService.getVerifyRequestsCountAsync();
+      return res.data;
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
 
   //feed
   async getFeedPostsAsync(skip) {

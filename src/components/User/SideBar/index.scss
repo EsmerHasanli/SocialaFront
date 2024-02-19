@@ -37,7 +37,7 @@
     }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1199.9px) {
     #side-bar{
         display: none !important; 
     }
@@ -45,9 +45,20 @@
 
   @media only screen and (min-width: 1200px) and (max-width: 1300px) {
     #side-bar{
-        width: 150 !important; 
+        width: 90px!important; 
         &:hover{
-            width: 200!important;
+            width: 100px!important;
+        }
+    }
+  }
+
+  
+
+  @media only screen and (min-width: 1301px) and (max-width: 1454px) {
+    #side-bar{
+        width: 150px!important; 
+        &:hover{
+            width: 180px!important;
         }
     }
   }

@@ -25,7 +25,7 @@ const SideBar = () => {
               <li>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                  alt=""
+                  alt="dashboard"
                 />
                 <p>Dashboard</p>
               </li>

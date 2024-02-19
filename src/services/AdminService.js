@@ -19,4 +19,7 @@ export default class AdminService {
   static async getVerifyRequestsAsync(sortType, isDescending, skip) {
     return $api.get(`${API_BASE_URL}/manage/verifyRequests?sortType=${sortType}&desc=${isDescending}&skip=${skip}`)
   }
+  static async getVerifyRequestsCountAsync() {
+    return $api.get(`${API_BASE_URL}/manage/verifyRequestsCount`)
+  }
 }

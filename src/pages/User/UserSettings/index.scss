@@ -128,6 +128,20 @@
           }
         }
       }
+      .btn-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        margin-top: 30px;
+        button{
+          cursor: pointer;
+          background-color: transparent;
+          border: none;
+          color: rgb(37,99,235);
+          padding: 10px 10px;
+          border-bottom: 1px solid dotted;
+        }
+      }
     }
     #user-social-links {
       h3 {

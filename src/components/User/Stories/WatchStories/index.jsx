@@ -1,20 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./index.scss";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 
-// import required modules
 import { EffectCoverflow, Navigation } from "swiper/modules";
-import { Avatar, IconButton, Menu, MenuItem, } from "@mui/material";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { Avatar, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
+import WatchModal from "./WatchModal";
 
 const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, story, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
@@ -132,10 +129,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     <p>{storyItem?.text}</p>
                     {
                       story.ownerUserName == store.user.userName && 
-                        <button className="watch-wrapper">
-                          <RemoveRedEyeIcon />
-                          <span>{storyItem?.watchCount}</span>
-                        </button>
+                        <WatchModal storyItem={storyItem}/>
                     }
                   </div>
                 </SwiperSlide> :
@@ -175,10 +169,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     <p>{storyItem?.text}</p>
                     {
                       story.ownerUserName == store.user.userName && 
-                        <button className="watch-wrapper">
-                          <RemoveRedEyeIcon />
-                          <span>{storyItem?.watchCount}</span>
-                        </button>
+                      <WatchModal storyItem={storyItem}/>
                     }
                   </div>
                 </SwiperSlide> 

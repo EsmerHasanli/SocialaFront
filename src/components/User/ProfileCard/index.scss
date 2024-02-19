@@ -114,6 +114,19 @@
         font-weight: 700;
         color: rgb(41,51,66);
     }
+    .icon-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin: 15px 0;
+        img{
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
     .decr{
         margin: 10px 0 20px 0;
         display: flex;

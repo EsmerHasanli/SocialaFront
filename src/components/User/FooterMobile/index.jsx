@@ -8,8 +8,11 @@ import FolderIcon from '@mui/icons-material/Folder';
 import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { Context } from '../../../main'
 
 const FooterMobile = () => {
+  const { store } = React.useContext(Context)
   const [value, setValue] = React.useState("recents");
 
   const handleChange = (event, newValue) => {
@@ -24,6 +27,16 @@ const FooterMobile = () => {
         value={value}
         onChange={handleChange}
       >
+      {
+        store.user.roles.includes("Admin") || store.user.roles.includes("Moderator") ? 
+          <Link to='/admin'>
+          <BottomNavigationAction
+            label="Dashboard"
+            value="dashboard"
+            icon={<AdminPanelSettingsIcon />}
+          />
+        </Link> : null
+      }
       <Link to='/messages'>
         <BottomNavigationAction
           label="Messages"

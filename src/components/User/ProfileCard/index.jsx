@@ -60,6 +60,29 @@ const ProfileCard = () => {
             }
         </div>
         <h1>{fetchedUser?.name}{" "}{fetchedUser?.surname}</h1>
+        <div className='icon-wrapper'>
+            {
+                fetchedUser.roles.includes('Admin') &&
+                <img src="https://cdn-icons-png.flaticon.com/512/9322/9322133.png" alt="admin" />
+            }
+            {
+                fetchedUser.roles.includes('Moderator') && 
+                <img src="https://cdn-icons-png.freepik.com/512/6830/6830335.png" alt="moderator" /> //filled
+                // <img src="https://cdn-icons-png.freepik.com/512/6830/6830382.png" alt="" /> //outlined
+            }
+            {
+                fetchedUser.roles.includes('Verified') &&
+                <img src="https://cdn-icons-png.flaticon.com/512/7589/7589312.png" alt="verified account" /> //filled
+                // <img src="https://cdn-icons-png.freepik.com/512/8274/8274959.png" alt="" /> //filled
+                // <img src="https://cdn-icons-png.flaticon.com/512/5480/5480161.png" alt="" /> //outlined
+            }
+            {/* {
+                fetchedUser.roles.includes('Member') &&
+                <img src="https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.png" alt="member" /> //filled
+                // <img src="https://cdn-icons-png.freepik.com/512/3795/3795330.png" alt="" /> //outlined
+                // <img src="https://png.pngtree.com/png-clipart/20191122/original/pngtree-user-vector-icon-with-white-background-png-image_5168884.jpg" alt="" /> //outlined
+            } */}
+        </div>
         <UserBio/>
         <Divider/>
         <nav>

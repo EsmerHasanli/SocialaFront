@@ -72,7 +72,7 @@ const Navigation = () => {
       >
         <List>
           {
-            store.user.roles.includes("Moderator") && store.user.roles.includes("Admin") &&
+            store.user.roles.includes("Moderator") || store.user.roles.includes("Admin") &&
             <>
             <Link to="/admin">
               <ListItem button>
@@ -86,7 +86,7 @@ const Navigation = () => {
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Link>
-            <Link to="/verify-requests">
+            <Link to="/verify-requests/1">
             <ListItem button>
               <ListItemIcon>
                 <img
