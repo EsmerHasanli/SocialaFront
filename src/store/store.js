@@ -634,6 +634,38 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
+  async sendVerifyRequest() {
+    try {
+      const res = await AdminService.sendVerifyRequestAsync();
+      console.log(res)
+      this.showSuccessAlert("Thank You! You successfully sended request for verify!");
+      return res;
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async getVerifyRequests(sortType, isDesc,skip) {
+    try {
+      const res = await AdminService.getVerifyRequestsAsync(sortType, isDesc, skip);
+      console.log(res)
+      return res.data
+      return res;
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async confirmOrCancelVerifyRequest(id, status) {
+    try {
+      const res = await AdminService.confirmOrCancelVerifyAsync(id, status);
+      this.showSuccessAlert(status ? "Successfully verified!" : "Successfully canceled!");
+      return res;
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
+  }
 
   //feed
   async getFeedPostsAsync(skip) {

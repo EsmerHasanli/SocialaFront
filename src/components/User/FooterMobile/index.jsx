@@ -4,6 +4,7 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import HomeIcon from '@mui/icons-material/Home';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import SettingsIcon from '@mui/icons-material/Settings';
+import FolderIcon from '@mui/icons-material/Folder';
 import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
@@ -42,6 +43,13 @@ const FooterMobile = () => {
           label="Settings"
           value="settings"
           icon={<SettingsIcon />}
+        />
+      </Link>
+      <Link to='/archive'>
+        <BottomNavigationAction
+          label="Archive"
+          value="archive"
+          icon={<FolderIcon />}
         />
       </Link>
       </BottomNavigation>

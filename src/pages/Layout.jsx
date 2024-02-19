@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <>
       {
-        path!='/login' && path!='/register' && path!='*' && path!='/admin' && path!='/roles' &&
+        path!='/login' && path!='/register' && path!='*' && path!='/admin' && path!='/roles' &&  path!='/verify-requests' && 
         <Navbar />
       }
       <Outlet />

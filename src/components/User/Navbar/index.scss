@@ -27,7 +27,7 @@ header {
       .center-bar {
         input {
           background-color: rgb(241, 245, 249);
-          width: 450px;
+          width: 100%;
         }
       }
       .right-bar {
@@ -51,15 +51,36 @@ header {
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (min-width: 850px) {
   /* For mobile phones: */
   header{
     nav{
       .wrapper{
         .center-bar{
-          display: none;
+          input{
+            width: 450px;
+          }
         }
       }
     }
   }
 }
+
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  header{
+    nav{
+      .wrapper{
+        .left-bar{
+          .desktop{
+            display: none;
+          }
+          .mobile{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+

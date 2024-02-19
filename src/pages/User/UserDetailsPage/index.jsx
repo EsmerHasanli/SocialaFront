@@ -61,7 +61,7 @@ const UserDetailsPage = () => {
           <Grid className="profile-wrapper" item lg={10} xs={12}>
             <ProfileCard />
 
-            <Grid container spacing={4}>
+            <Grid id='content-wrapper' container spacing={4}>
               <Grid item lg={8}  xs={12}>
                 {fetchedUser.userName == store.user.userName || !fetchedUser.isPrivate
                 || store.user.follows.find((f) => f.userName == fetchedUser.userName && f.isConfirmed)

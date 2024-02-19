@@ -71,19 +71,22 @@ const Navigation = () => {
         }}
       >
         <List>
-          <Link to="/admin">
-            <ListItem button>
-              <ListItemIcon>
-                <img
-                  style={{ width: "26px", height: "26px" }}
-                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                  alt=""
-                />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-          </Link>
-          <Link to="/roles">
+          {
+            store.user.roles.includes("Moderator") && store.user.roles.includes("Admin") &&
+            <>
+            <Link to="/admin">
+              <ListItem button>
+                <ListItemIcon>
+                  <img
+                    style={{ width: "26px", height: "26px" }}
+                    src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
+                    alt=""
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+            </Link>
+            <Link to="/verify-requests">
             <ListItem button>
               <ListItemIcon>
                 <img
@@ -92,9 +95,26 @@ const Navigation = () => {
                   alt=""
                 />
               </ListItemIcon>
-              <ListItemText primary="Roles" />
+              <ListItemText primary="Verify Requests" />
             </ListItem>
           </Link>
+            </>
+          }
+          {
+            store.user.roles.includes("Admin") && 
+            <Link to="/roles">
+              <ListItem button>
+                <ListItemIcon>
+                  <img
+                    style={{ width: "26px", height: "26px" }}
+                    src="https://cdn-icons-png.flaticon.com/512/6713/6713086.png"
+                    alt=""
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Roles" />
+              </ListItem>
+            </Link>
+          }
           <Link to="/">
             <ListItem button>
               <ListItemIcon>

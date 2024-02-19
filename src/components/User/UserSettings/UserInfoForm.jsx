@@ -8,6 +8,7 @@ import { Checkbox } from "@mui/material";
 
 const UserInfoForm = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
+  const [canSendVerifyRequest, setCanSendVerifyRequest] = useState(store.user.canSendVerifyRequest)
   const [initialValues, setInitialValues] = useState({})
   const {setUserAvatar} = useContext(FollowContext)
   useEffect(() => {
@@ -49,9 +50,13 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
         }
       // }
     },
-    
-    
   })
+
+  async function sendVerifyRequest() {
+    const res = await store.sendVerifyRequest()
+    if (res.status == 204) setCanSendVerifyRequest(false)
+  }
+
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -88,6 +93,9 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
           </button>
         </div>
       </form>
+      {canSendVerifyRequest &&
+        <button onClick={sendVerifyRequest}>Send verify request</button>
+      }
     </div>
   );
 };

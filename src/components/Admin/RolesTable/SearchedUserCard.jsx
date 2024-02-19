@@ -48,7 +48,7 @@ const SearchedUserCard = ({user}) => {
       },
     };
   
-    const roleList = ['Member', 'Verified', 'Moderator', 'Admin'];
+    const roleList = ['Member', 'Moderator', 'Admin'];
     const [isOpen, setIsOpen] = useState(false);
     const [userRoles, setUserRoles] = useState(user.roles)
     const {store} = useContext(Context)

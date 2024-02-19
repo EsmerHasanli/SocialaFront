@@ -9,6 +9,7 @@ import NotFound from "./NotFound";
 import Login from "./User/Login";
 import Dashboard from './Admin/Dashboard'
 import Roles from './Admin/Roles';
+import VerifyRequests from './Admin/VeifyUser'
 
 const AppRouter = () => {
   const { store } = useContext(Context);
@@ -22,11 +23,19 @@ const AppRouter = () => {
     {
       path: '/roles',
       element: <Roles/>
+    },
+    {
+      path: '/verify-requests',
+      element: <VerifyRequests/>
     })
   }else if (store.user?.roles?.includes("Moderator")){
     privateRoutes?.push({
       path: '/admin',
       element: <Dashboard/>
+    },
+    {
+      path: '/verify-requests',
+      element: <VerifyRequests/>
     })
   }
   

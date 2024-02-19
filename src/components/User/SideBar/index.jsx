@@ -19,7 +19,7 @@ const SideBar = () => {
       <div id="side-bar">
         <ul className="pages">
           {
-            store.user?.roles.length && store.user?.roles.includes('Admin') && 
+            store.user?.roles.length && store.user?.roles.includes('Admin') && store.user?.roles.length && store.user?.roles.includes('Moderator') &&
             <>
               <Link to="/admin">
               <li>
@@ -30,28 +30,7 @@ const SideBar = () => {
                 <p>Dashboard</p>
               </li>
             </Link>
-            <Link to='/roles'>
-            <li>
-                <img
-                  src=" https://cdn-icons-png.flaticon.com/512/6713/6713086.png"
-                  alt=""
-                />
-                <p>Roles</p>
-              </li>   
-            </Link>
             </>
-          }
-          {
-            store.user?.roles.length && store.user?.roles.includes('Moderator') &&
-            <Link to="/admin">
-              <li>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                  alt=""
-                />
-                <p>Dashboard</p>
-              </li>
-            </Link>
           }
           <Link to={`/users/${store.user.userName}`}>
             <li>

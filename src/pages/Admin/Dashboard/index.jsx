@@ -7,7 +7,6 @@ import WelcomeCard from "../../../components/Admin/WelcomeCard";
 import UsersCount from "../../../components/Admin/UsersCount";
 import TasksCount from "../../../components/Admin/TasksCount";
 import ModeratorsCount from "../../../components/Admin/ModeratorsCount";
-import RequestsTable from "../../../components/Admin/Table";
 import { Helmet } from "react-helmet";
 import { Typography } from "@mui/material";
 import { Context } from "../../../main";
@@ -48,10 +47,6 @@ const Dashboard = () => {
         <div id="work-space-chart">
           <Typography variant="h3">Gender Distribution</Typography>
           <Chart genderStatistic={genderStatistic} />  
-        </div>
-        <div id="work-space-verify">
-          <Typography variant="h3">Vefirfy Requests</Typography>
-          <RequestsTable/>
         </div>
       </div>
     </>

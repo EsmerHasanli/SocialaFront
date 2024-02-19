@@ -48,7 +48,7 @@ const Form = ({connection, currentChatId}) => {
       <form onSubmit={formik.handleSubmit} className="input-wrapper">
         <div className="send-message-wrapper">
           <input placeholder="Write your message" type="text" id='text' name='text' value={formik.values.text} onChange={formik.handleChange} autocomplete="off" />
-          <IconButton>
+          <IconButton type='submit'>
             <SendIcon/>
           </IconButton>
         </div>
