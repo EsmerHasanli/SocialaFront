@@ -121,6 +121,11 @@ $link-color: rgb(29, 78, 216);
               cursor: pointer;
               border-radius:5px;
             }
+            .gender{
+              margin-top: 20px;
+              display: flex;
+              flex-direction: column;
+            }
         }
       }
     }

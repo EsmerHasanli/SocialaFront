@@ -1,0 +1,29 @@
+.search-results {
+    height: 250px;
+    width: 29%;
+    overflow-y: scroll;
+    position: fixed;
+    top: 108px;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color:#293342;
+    border-radius: 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    z-index: 1000000000; 
+    ul{
+        padding: 10px;
+        a{
+            color:#293342;
+        }
+        li{
+            display: flex;
+            align-items:center;
+            gap: 10px;
+            margin-bottom: 10px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+    }

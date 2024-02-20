@@ -1,0 +1,45 @@
+#archive{
+    .wrapper{
+        .header-wrapper{
+            padding: 20px;
+            border-bottom: 1px solid #29334275;
+            border-radius: 2px;
+            .header{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                color: #293342!important;
+                fill: #293342;
+                .title-wrapper{
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    // border-bottom:1px solid white ;
+                    h2{
+                        font-size: 12px;
+                        font-weight: 600;
+                        letter-spacing: 2px;
+                    }
+                    img{
+                        height: 30px;
+                        width: 30px;
+                    }
+                }
+            }
+        }
+        .content-wrapper{
+            p{
+                &:first-child{
+                    font-size: 12px;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+                    color: rgb(41, 51, 66);
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { Input } from "antd";
+import { Input, Select, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import registerValidationSchema from "../../../validations/RegisterValidationSchema";
 import { observer } from "mobx-react-lite";
@@ -21,6 +21,7 @@ const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       username: "",
+      gender: "Male",
     },
     validationSchema: registerValidationSchema,
     onSubmit: async (values, actions) => {
@@ -31,8 +32,8 @@ const RegisterForm = () => {
       formData.append("username", values.username);
       formData.append("password", values.password);
       formData.append("email", values.email)
+      formData.append("gender", values.gender)
       await store.register(formData);
-      
       // actions.resetForm()
     },
   });
@@ -117,7 +118,7 @@ const RegisterForm = () => {
           </div>
 
           <div className="email">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">Email</label>
               <Input
                 id="email"
                 name="email"
@@ -146,6 +147,24 @@ const RegisterForm = () => {
               {formik.touched.username && formik.errors.username ? (
                 <div className="error">{formik.errors.username}</div>
               ) : null}
+            </div>
+
+            <div className="gender">
+              <label style={{marginBottom:'0'}} htmlFor="gender">Gender</label>
+              <Space wrap>
+                <Select
+                  style={{ width: 120 }}
+                  id='gender'
+                  name="gender"
+                  defaultValue={formik.values.gender}
+                  onChange={(value) => formik.setFieldValue('gender', value)}
+                  options={[
+                    { value: 'Male', label: 'Male' },
+                    { value: 'Female', label: 'Female' },
+                    { value: 'None', label: 'None' },
+                  ]}
+                />
+              </Space>
             </div>
 
             <div className="image">

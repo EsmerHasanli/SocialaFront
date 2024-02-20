@@ -12,12 +12,13 @@ const Navigation = () => {
     await store.logout();
     navigate("/login");
   };
+  console.log(store.user);
 
   return (
     <nav>
       <ul>
-        {store.user?.roles.length && store.user?.roles.includes("Admin") && (
-          <>
+        {store.user?.roles.includes("Admin") || store.user?.roles.includes("Moderator") ?
+          
             <NavLink
               to="/admin"
               style={({ isActive }) => ({
@@ -33,41 +34,9 @@ const Navigation = () => {
                 <p>Dashboard</p>
               </li>
             </NavLink>
-            <NavLink
-              to="/roles"
-              style={({ isActive }) => ({
-                color: isActive ? "#0284C7" : "black",
-                backgroundColor: isActive ? "rgb(241,245,249)" : "white",
-              })}
-            >
-              <li>
-                <img
-                  src=" https://cdn-icons-png.flaticon.com/512/6713/6713086.png"
-                  alt=""
-                />
-                <p>Roles</p>
-              </li>
-            </NavLink>
-          </>
-        )}
-        {store.user?.roles.length &&
-          store.user?.roles.includes("Moderator") && (
-            <NavLink
-              to="/admin"
-              style={({ isActive }) => ({
-                color: isActive ? "#0284C7" : "black",
-                backgroundColor: isActive ? "rgb(241,245,249)" : "white",
-              })}
-            >
-              <li>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                  alt=""
-                />
-                <p>Dashboard</p>
-              </li>
-            </NavLink>
-          )}
+            :null
+          
+        }
         <NavLink
           to="/"
           style={({ isActive }) => ({

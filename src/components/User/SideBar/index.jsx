@@ -19,8 +19,7 @@ const SideBar = () => {
       <div id="side-bar">
         <ul className="pages">
           {
-            store.user?.roles.length && store.user?.roles.includes('Admin') && store.user?.roles.length && store.user?.roles.includes('Moderator') &&
-            <>
+            store.user?.roles.includes('Admin')  || store.user?.roles.includes('Moderator') ?
               <Link to="/admin">
               <li>
                 <img
@@ -30,7 +29,7 @@ const SideBar = () => {
                 <p>Dashboard</p>
               </li>
             </Link>
-            </>
+          : null
           }
           <Link to={`/users/${store.user.userName}`}>
             <li>
