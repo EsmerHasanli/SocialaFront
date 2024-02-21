@@ -91,7 +91,7 @@ const ProfileDropdown = () => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <MenuItem onClick={handleClose}>
-            <Link style={{display:'flex', alignItems:'center', gap:'16px'}} to={`/users/${store.user.userName}`}>
+            <Link style={{display:'flex', alignItems:'center', gap:'16px', color:'#293342'}} to={`/users/${store.user.userName}`}>
               <div>
                 <Avatar src={userAvatar}/> 
               </div>

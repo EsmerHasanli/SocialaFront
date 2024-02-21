@@ -71,6 +71,12 @@
                     &:hover{
                         transform: scale(1.03);
                     }
+                    button{
+                        position: absolute;
+                        top: 24px;
+                        right: 24px;
+                        color: rgb(41, 51, 66);
+                    }
                 }
             }
         }

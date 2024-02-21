@@ -58,11 +58,11 @@ const UserDetailsPage = () => {
           <Grid item lg={2}>
             <SideBar />
           </Grid>
-          <Grid className="profile-wrapper" item lg={10} xs={12}>
+          <Grid className="profile-wrapper" item lg={10} xs={12} md={12} sx={12}>
             <ProfileCard />
 
             <Grid id='content-wrapper' container spacing={4}>
-              <Grid item lg={8}  xs={12}>
+              <Grid item lg={8}  xs={12} md={12} sx={12}>
                 {fetchedUser.userName == store.user.userName || !fetchedUser.isPrivate
                 || store.user.follows.find((f) => f.userName == fetchedUser.userName && f.isConfirmed)
                  ? 
@@ -86,7 +86,7 @@ const UserDetailsPage = () => {
                 }
               </Grid>
 
-              <Grid item lg={4} xs={12}>
+              <Grid item lg={4} xs={12} sx={12}>
                 <UserInfoCard />
               </Grid>
             </Grid>

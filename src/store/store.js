@@ -707,4 +707,17 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message)
     }
   }
+  //archive
+  async getArchievePosts(skip) {
+    //this.setLoading(true);
+    try {
+      const res = await PostService.getArchievePosts(skip)
+      console.log(res.data)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message || "Error occured!")
+    }
+    //finally {this.setLoading(false)}
+  }
 }

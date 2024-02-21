@@ -5,8 +5,8 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import { useFormik } from "formik";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
-import Swal from "sweetalert2";
 import { FollowContext } from "../../../context";
+import LinksValidationSchema from "../../../validations/LinksValidationSchema";
 
 const SocialLinks = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
@@ -29,15 +29,8 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
   const formik = useFormik({
     initialValues:  initialValues,
     enableReinitialize:true,
-    // validationSchema: 
+    validationSchema: LinksValidationSchema,
     onSubmit: async (values, actions) => {
-      // if(values == initialValues){
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Oops...",
-      //     text: "Yoou did not have changes!",
-      //   });
-      // } else{
         const editedData = new FormData()
         if (photo) editedData.append("photo", photo);
         editedData.append('facebookLink', values.facebookLink)
@@ -49,7 +42,6 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
           setPreviewUrl(null)
           setUserAvatar(url)
         }
-      // }
     }
   })
   return (
@@ -69,6 +61,7 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
 
             <input type="text" placeholder={store.user?.facebookLink} id='facebookLink' name='facebookLink' value={formik.values.facebookLink} onChange={formik.handleChange} />
           </li>
+          {formik.touched.facebookLink && formik.errors.facebookLink ? <div className="error">{formik.errors.facebookLink}</div> : null}
 
           <li>
             <div style={{backgroundColor:'rgb(253,242,248)', color:'rgb(219,39,119)'}}>
@@ -77,6 +70,7 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
 
             <input type="text" placeholder={store.user?.instagramLink} id='instagramLink' name='instagramLink' value={formik.values.instagramLink} onChange={formik.handleChange} />
           </li>
+          {formik.touched.instagramLink && formik.errors.instagramLink ? <div className="error">{formik.errors.instagramLink}</div> : null}
 
           <li>
             <div style={{backgroundColor:'rgb(248,250,252)', color:'rgb(0, 0, 0)'}}>
@@ -85,6 +79,7 @@ const SocialLinks = ({photo, setPreviewUrl}) => {
 
             <input type="text" placeholder={store.user?.githubLink} id='githubLink' name='githubLink' value={formik.values.githubLink} onChange={formik.handleChange} />
           </li>
+          {formik.touched.githubLink && formik.errors.githubLink ? <div className="error">{formik.errors.githubLink}</div> : null}
         </ul>
 
         <div className="btn-wrapper">

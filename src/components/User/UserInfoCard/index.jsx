@@ -58,7 +58,7 @@ const UserInfoCard = () => {
               <span>Followed By {fetchedUser?.followersCount} People</span>
             </li>
           )}
-          {fetchedUser && fetchedUser?.facebookLink && (
+          {fetchedUser && fetchedUser?.instagramLink && (
             <li>
               <InstagramIcon />
               <span>

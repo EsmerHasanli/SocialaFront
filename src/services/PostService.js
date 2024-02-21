@@ -38,8 +38,10 @@ export default class PostService{
     static async getFeedPostsAsync(skip){
         return await $api.get(`${API_BASE_URL}/posts/feed/${skip}`)
     }
-
     static async deletePost(id){
         return await $api.delete(`${API_BASE_URL}/posts/${id}`)
+    }
+    static async getArchievePosts(skip) {
+        return await $api.get(`${API_BASE_URL}/posts/archive/${skip}`)
     }
 }

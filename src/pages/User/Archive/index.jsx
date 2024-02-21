@@ -6,12 +6,14 @@ import "./index.scss";
 import Grid from "@mui/material/Grid";
 import SideBar from "../../../components/User/SideBar";
 import FooterMobile from "../../../components/User/FooterMobile";
-import PostCard from "../../../components/User/Posts/PostCard";
+
+import StoriesArchive from "../../../components/User/StoriesArchive";
+import PostsArchive from "../../../components/User/PostsArchieve";
 
 const Archieve = () => {
   const [storiesVisible, setStoriesVissible] = React.useState(false)
   const [postsVisible, setPostsVisible] = React.useState(false)
-
+  
   return (
     <>
       <Helmet>
@@ -41,28 +43,16 @@ const Archieve = () => {
                 </div>
               </div>
             </div>
-            <div className="content-wrapper">
+            {/* <div className="content-wrapper"> */}
                 {
-                  storiesVisible && 
-                  <>
-                    <p>Only you can see your archived stories unless you choose to share them.</p>
-                    <div className="card-wrapper">
-                      <div className="card" style={{backgroundImage:'url(https://images.pexels.com/photos/18254529/pexels-photo-18254529/free-photo-of-portrait-of-brunette-woman-in-black-and-white.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load)' }}>
-                        <div className="date">
-                          <b>17</b> <span>Feb 2023</span>
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  storiesVisible &&      
+                  <StoriesArchive/>
                 }
                 {
                   postsVisible && 
-                  <>
-                    <p>Only you can see your archived posts unless you choose to share them.</p>
-                    {/* <PostCard /> */}
-                  </>
+                  <PostsArchive/>
                 }
-            </div>
+            {/* </div> */}
           </Grid>
         </Grid>
         <FooterMobile />
