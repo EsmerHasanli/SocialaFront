@@ -40,6 +40,39 @@
                     margin-top: 20px;
                 }
             }
+            .card-wrapper{
+                padding: 50px 0;
+                display: flex;
+                align-items:center;
+                gap: 20px;
+                flex-wrap: wrap;
+                .card{
+                    position: relative;
+                    width: 260px;
+                    height: 460px;
+    
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    .date{
+                        position: absolute;
+                        top: 24px;
+                        left: 24px;
+                        width: 38px;
+                        border-radius: 8px;
+                        background-color: white;
+                        color: #293342;
+                        text-align: center;
+                        word-wrap: break-word;
+                        span{
+                            font-size: 12px;
+                        }
+                    }
+                    &:hover{
+                        transform: scale(1.03);
+                    }
+                }
+            }
         }
     }
 }

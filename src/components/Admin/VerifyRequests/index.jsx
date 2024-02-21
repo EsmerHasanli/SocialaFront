@@ -1,9 +1,10 @@
 import React from "react";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, } from "@mui/material";
 import TableData from "./TableData";
+import { observer } from "mobx-react-lite";
 
 
-const RequestsTable = ({ verifyRequests }) => {
+const RequestsTable = ({ verifyRequests,setVerifyRequests }) => {
   return (
     <div>
       <TableContainer component={Paper}>
@@ -21,7 +22,7 @@ const RequestsTable = ({ verifyRequests }) => {
           </TableHead>
           <TableBody>
           {verifyRequests.map((data) => (
-              <TableData data={data} />
+              <TableData data={data} verifyRequests={verifyRequests} setVerifyRequests={setVerifyRequests} />
             ))}
           </TableBody>
         </Table>
@@ -30,4 +31,4 @@ const RequestsTable = ({ verifyRequests }) => {
   );
 };
 
-export default RequestsTable;
+export default observer(RequestsTable);

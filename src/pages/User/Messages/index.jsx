@@ -11,6 +11,7 @@ import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 
 const Messages = () => {
+  const [fileUploadVisible, setIsFileUploadVisible] = useState(false)
   const { store } = useContext(Context);
   const [chatItems, setChatItems] = useState([]);
   const [currentChatId, setCurrentChatId] = useState(null);
@@ -89,8 +90,8 @@ const Messages = () => {
           <div id="chat-wrapper">
             {currentChat ? (
               <div>
-                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
-                <Form connection={connection} currentChatId={currentChatId} />
+                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} fileUploadVisible={fileUploadVisible} setIsFileUploadVisible={setIsFileUploadVisible} />
+                <Form connection={connection} currentChatId={currentChatId} fileUploadVisible={fileUploadVisible} setIsFileUploadVisible={setIsFileUploadVisible} />
               </div>
             ) : (
               <div className="empty-chat-wrapper" >

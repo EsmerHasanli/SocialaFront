@@ -141,6 +141,7 @@
             &:hover {
               border-radius: 8px;
               background-color: rgb(241, 245, 249);
+              cursor: pointer;
             }
           }
         }
@@ -335,6 +336,11 @@
           color: rgb(75, 85, 99) !important;
           font-size: 30px !important;
           font-weight: 400 !important;
+          button{
+            padding: 0px;
+            margin: 0px;
+            cursor: pointer!important;
+          }
         }
 
         .input-wrapper {
@@ -481,6 +487,17 @@
       font-weight: 400;
     }
   }
+
+  #file-upload-section-wrapper{
+    // max-width: 60.9%;
+    min-width: 54.9%;
+    height: 100%;
+    position: absolute;
+    top: 144px;
+    right: 0; 
+    z-index: 9999999999999999999999!important;
+    background-color: rgb(241,245,249);
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -515,6 +532,11 @@
 
         max-width: 266px!important;
       }
+    }
+    #file-upload-section-wrapper{
+      top: 69px!important;
+      left: 0!important;
+      width: 100%!important;
     }
   }
 }

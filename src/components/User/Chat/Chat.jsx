@@ -6,8 +6,10 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import UserInfoBar from "./UserInfoBar";
 import { Link } from "react-router-dom";
 import { FollowContext } from "../../../context";
+import FileUpload from "./FileUpload";
 
-const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connection, setCurrentChatId}) => {
+
+const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connection, setCurrentChatId, fileUploadVisible, setIsFileUploadVisible}) => {
   const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
 
   const [skip, setSkip] = useState(0); 
@@ -82,6 +84,10 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
           )}
         </div>
       </div>
+      {
+        fileUploadVisible && 
+        <FileUpload setIsFileUploadVisible={setIsFileUploadVisible}/>
+      }
     </div>
   );
 };

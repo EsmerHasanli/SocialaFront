@@ -65,36 +65,40 @@ const VerifyRequests = () => {
       <Navigation />
       <div id="work-space-verify">
         <Typography variant="h3">Verify Requests</Typography>
-        <Select
-          value={firstSelectValue}
-          open={firstSelectOpen}
-          onOpen={() => setFirstSelectOpen(true)}
-          onClose={() => setFirstSelectOpen(false)}
-          onChange={(e) => setFirstSelectValue(e.target.value)}
-        >
-          {sortTypes.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}
-            </MenuItem>
-          ))}
-        </Select>
-        <Select
-          value={secondSelect.value}
-          open={secondSelectOpen}
-          onOpen={() => setSecondSelectOpen(true)}
-          onClose={() => setSecondSelectOpen(false)}
-          onChange={(e) =>
-            setSecondSelect({ ...secondSelect, value: e.target.value })
-          }
-        >
-          {ascSelect.map((order) => (
-            <MenuItem key={order.display} value={order.value}>
-              {order.display}
-            </MenuItem>
-          ))}
-        </Select>
-        <Button onClick={getVerifyRequests}>GET</Button>
-        <RequestsTable verifyRequests={verifyRequests} />
+        <div className="btn-wrapper">
+          <Select
+          className="select"
+            value={firstSelectValue}
+            open={firstSelectOpen}
+            onOpen={() => setFirstSelectOpen(true)}
+            onClose={() => setFirstSelectOpen(false)}
+            onChange={(e) => setFirstSelectValue(e.target.value)}
+          >
+            {sortTypes.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </Select>
+          <Select
+          className="select"
+            value={secondSelect.value}
+            open={secondSelectOpen}
+            onOpen={() => setSecondSelectOpen(true)}
+            onClose={() => setSecondSelectOpen(false)}
+            onChange={(e) =>
+              setSecondSelect({ ...secondSelect, value: e.target.value })
+            }
+          >
+            {ascSelect.map((order) => (
+              <MenuItem key={order.display} value={order.value}>
+                {order.display}
+              </MenuItem>
+            ))}
+          </Select>
+          <Button onClick={getVerifyRequests}>GET</Button>
+        </div>
+        <RequestsTable verifyRequests={verifyRequests} setVerifyRequests={setVerifyRequests} />
       </div>
       <Pagination
         count={count}

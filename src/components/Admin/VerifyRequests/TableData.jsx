@@ -1,9 +1,11 @@
-import React from "react";
-import { TableCell, TableRow, Avatar, IconButton, } from "@mui/material";
+import React, { useContext } from "react";
+import { TableCell, TableRow, Avatar, IconButton } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import { observer } from "mobx-react-lite";
+import { Context } from "../../../main";
 
-const TableData = ({ data }) => {
+const TableData = ({ data,verifyRequests, setVerifyRequests }) => {
   const dateString = data.registeredAt;
 
   const dateObject = new Date(dateString);
@@ -13,6 +15,16 @@ const TableData = ({ data }) => {
   const year = dateObject.getFullYear();
   const hours = String(dateObject.getHours()).padStart(2, "0");
   const minutes = String(dateObject.getMinutes()).padStart(2, "0");
+  const {store} = useContext(Context)
+
+  async function confirmOrCancelRequest(id, status) {
+    const res = await store.confirmOrCancelVerifyRequest(id, status);
+    
+    if (res.status == 204) {
+      const filteredRequests = verifyRequests.filter(vr => vr.id != id);
+      setVerifyRequests(filteredRequests)
+    }
+  }
   return (
     <TableRow
       key={data.id}
@@ -28,12 +40,12 @@ const TableData = ({ data }) => {
       </TableCell>
       <TableCell align="left">{data?.followersCount}</TableCell>
       <TableCell align="left">
-        <IconButton>
+        <IconButton onClick={(e) => confirmOrCancelRequest(data.id, true)}>
           <CheckIcon />
         </IconButton>
       </TableCell>
       <TableCell align="left">
-        <IconButton>
+        <IconButton onClick={(e) => confirmOrCancelRequest(data.id, false)}>
           <CloseIcon />
         </IconButton>
       </TableCell>
@@ -41,4 +53,4 @@ const TableData = ({ data }) => {
   );
 };
 
-export default TableData;
+export default observer(TableData);

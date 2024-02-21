@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../../main';
 import './index.scss';
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
 import { Avatar } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { createPortal } from 'react-dom';
@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 const SearchUsers = () => {
   const { store } = useContext(Context);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [showLoadMore, setShowLoadMore] = useState(false);
 
   let send;
   async function search(e) {
@@ -18,8 +20,10 @@ const SearchUsers = () => {
     if (e.target.value.length) {
       send = setTimeout(async () => 
       {
-        const users = await store.getSearchedUsers(e.target.value, 0)
+        const users = await store.searchNavbarUsers(e.target.value, skip)
         console.log(users);
+        if (users.length < 10) setShowLoadMore(false) 
+        else setShowLoadMore(true)
         setSearchedUsers(users)
 
       }
@@ -28,41 +32,28 @@ const SearchUsers = () => {
     else setSearchedUsers([])
   }
 
-  const searchResults = (
-    <div className="search-results">
-      <ul>
-        {/* {searchedUsers && searchedUsers.map(user => (
-          <Link to={`/users/${user.id}`}>
-            <li key={user?.id}>
-              <Avatar src={user?.imageUrl} />
-              <p>{user?.userName}</p>
-            </li>
-          </Link>
-        ))} */}
-        <li>
-          <Avatar/>
-          <p>username</p>
-        </li>
-        <li>
-          <Avatar/>
-          <p>username</p>
-        </li>
-        <li>
-          <Avatar/>
-          <p>username</p>
-        </li>
-        <li>
-          <Avatar/>
-          <p>username</p>
-        </li>
-      </ul>
-    </div>
-  );
+  useEffect(() => {
+    if (skip >= 0) search()
+  },[skip])
+
+   
 
   return (
     <div id='search-wrapper'>
       <Input size="large" placeholder='Search friends...' id='userName' name='userName' onChange={search} autoComplete='off'/>
-      {searchedUsers.length>0 && createPortal(searchResults, document.body)}
+      {searchedUsers.length > 0 &&<div className="search-results">
+        <ul>
+          {searchedUsers?.map(user => 
+            <li>
+              <Avatar src={user.imageUrl}/>
+              <p>{user.userName}</p>
+            </li>
+          )}
+        </ul>
+      {showLoadMore &&
+      <Button onClick={(e) => setSkip(skip + 10)}>Load more</Button>}
+    </div>}
+      
     </div>
   );
 };

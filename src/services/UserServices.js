@@ -58,4 +58,7 @@ export default class UserServices {
   static async checkNotifications(payload) {
     return await $api.put(`${API_BASE_URL}/settings/notifications/check`, payload)
   }
+  static async searchNavbarUsers(searchTerm, skip) {
+    return await $api.get(`${API_BASE_URL}/users/search?searchTerm=${searchTerm}&skip=${skip}`)
+  }
 }

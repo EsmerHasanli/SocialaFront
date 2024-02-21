@@ -27,9 +27,11 @@ const PostCard = ({ post }) => {
     post.comments.length == 5 ? true : false
   );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
+  const [deleteMenuOpen, setDeleteMenuOpen] = useState(false);
 
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
+
   async function showMoreComments() {
     const skip = commentSkip + 10;
     const commentsFromDb = await store.getPostComments(post.id, skip);
@@ -37,6 +39,7 @@ const PostCard = ({ post }) => {
     setComments([...comments, ...commentsFromDb]);
     setCommentSkip(commentSkip + 10);
   }
+
   function getTimeAgoString(createdAt) {
     const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
 
@@ -58,6 +61,10 @@ const PostCard = ({ post }) => {
       return `${daysAgo} days ago`;
     }
   }
+  
+  async function handleDeletePost() {
+    const res = await store.deletePost(selectedStoryId);
+}
 
   return (
     <div key={post.id} id="user-post-card">
@@ -87,11 +94,19 @@ const PostCard = ({ post }) => {
             </Link>
           )}
           {post.appUserUserName == store.user.userName && (
-            <li>
-              <IconButton>
-                <MoreHorizIcon />
-              </IconButton>
-            </li>
+            <>
+              <li>
+                <IconButton onClick={()=>setDeleteMenuOpen(deleteMenuOpen ? false : true)}>
+                  <MoreHorizIcon /> 
+                </IconButton>
+              </li>
+              {
+                deleteMenuOpen && 
+                <div className="delete-menu-wrapper">
+                  Delete
+                </div>
+              }
+            </>
           )}
         </ul>
       </div>

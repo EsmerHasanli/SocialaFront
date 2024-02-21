@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { Context } from "../../../main";
 import { useFormik } from "formik";
 
-const Form = ({connection, currentChatId}) => {
+const Form = ({connection, currentChatId, fileUploadVisible, setIsFileUploadVisible}) => {
   const [value,setValue] = useState("")
   const {store} = useContext(Context);
 
@@ -42,9 +42,22 @@ const Form = ({connection, currentChatId}) => {
   return (
     <div className="message-input">
       <div className="icons">
-        <AddCircleOutlineOutlinedIcon />
-        <EmojiEmotionsOutlinedIcon />
+        {/* <input style={{display:'none'}} type="file" id="files" name="files" /> */}
+
+        <IconButton onClick={()=>setIsFileUploadVisible(true)}>
+          <label style={{display:'flex'}} htmlFor="files">
+            <AddCircleOutlineOutlinedIcon style={{fill:'rgb(75, 85, 99)', cursor:'pointer'}} />
+          </label>
+        </IconButton>
+
+          <IconButton>
+            <label style={{display:'flex'}}>
+              <EmojiEmotionsOutlinedIcon style={{fill:'rgb(75, 85, 99)', cursor:'pointer'}} />
+            </label>
+          </IconButton>
       </div>
+
+
       <form onSubmit={formik.handleSubmit} className="input-wrapper">
         <div className="send-message-wrapper">
           <input placeholder="Write your message" type="text" id='text' name='text' value={formik.values.text} onChange={formik.handleChange} autocomplete="off" />

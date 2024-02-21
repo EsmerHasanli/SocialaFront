@@ -227,6 +227,15 @@ export default class Store {
       );
     }
   }
+  async deletePost(id) {
+    try{
+      const res = await PostService.deletePost(id);
+      console.log(res);
+      return res.data;
+    } catch (e) {
+      console.log(e.response.data.message || "Something went wrong!");
+    }
+  }
 
   //post comments
   async postComment(payload) {
@@ -650,7 +659,6 @@ export default class Store {
       const res = await AdminService.getVerifyRequestsAsync(sortType, isDesc, skip);
       console.log(res)
       return res.data
-      return res;
     }
     catch (e) {
       this.showErrorAlertWithSound(e.response.message)
@@ -688,5 +696,15 @@ export default class Store {
       this.showErrorAlertWithSound(e.response.message || "Error occured!")
     }
     //finally {this.setLoading(false)}
+  }
+  async searchNavbarUsers(searchTerm, skip) {
+    try {
+      const res = await UserServices.searchNavbarUsers(searchTerm, skip);
+      console.log(res)
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+    }
   }
 }
