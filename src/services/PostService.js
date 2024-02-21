@@ -40,6 +40,6 @@ export default class PostService{
     }
 
     static async deletePost(id){
-        return await $api.get(`${API_BASE_URL}/posts/${id}`)
+        return await $api.delete(`${API_BASE_URL}/posts/${id}`)
     }
 }

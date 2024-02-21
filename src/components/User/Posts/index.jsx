@@ -25,7 +25,7 @@ const Posts = ({posts, setPosts}) => {
     <div id="user-posts-wrapper">
       {posts &&
         posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((post) => 
-         <PostCard key={post.id}  post={post}  />
+         <PostCard key={post.id}  post={post} posts={posts} setPosts={setPosts} />
         )}
 
       {store.isLoading && (

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
 import { Context } from "../../../../main";
 import "../../Posts/index.scss";
-import { Avatar, Divider, IconButton } from "@mui/material";
+import { Avatar, Divider, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Card } from "antd";
@@ -17,8 +17,9 @@ import PostLike from "./PostLike";
 import { FollowContext } from "../../../../context";
 import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, posts, setPosts }) => {
   // console.log("post", post);
   const { store } = useContext(Context);
   const [comments, setComments] = useState(post.comments);
@@ -27,8 +28,14 @@ const PostCard = ({ post }) => {
     post.comments.length == 5 ? true : false
   );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
-  const [deleteMenuOpen, setDeleteMenuOpen] = useState(false);
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const postCreatedAt = Date.parse(post.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
 
@@ -62,8 +69,28 @@ const PostCard = ({ post }) => {
     }
   }
   
-  async function handleDeletePost() {
-    const res = await store.deletePost(selectedStoryId);
+  async function handleDeletePost(id) {
+    handleClose()
+    Swal.fire({
+      title: "Are you sure?",
+      // text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(59,130,246)",
+      cancelButtonColor: "rgb(239,68,68)",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+        const res = await store.deletePost(id);
+        const updatedArr = posts.filter((x => x.id != post.id))
+        setPosts((updatedArr))
+      }
+    });
 }
 
   return (
@@ -96,16 +123,21 @@ const PostCard = ({ post }) => {
           {post.appUserUserName == store.user.userName && (
             <>
               <li>
-                <IconButton onClick={()=>setDeleteMenuOpen(deleteMenuOpen ? false : true)}>
+                <IconButton onClick={handleClick}>
                   <MoreHorizIcon /> 
                 </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={()=>handleDeletePost(post.id)}>Delete</MenuItem>
+                </Menu>
               </li>
-              {
-                deleteMenuOpen && 
-                <div className="delete-menu-wrapper">
-                  Delete
-                </div>
-              }
             </>
           )}
         </ul>
