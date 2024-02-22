@@ -9,15 +9,16 @@ import Chat from "../../../components/User/Chat/Chat";
 import Form from "../../../components/User/Chat/Form";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
+import { FollowContext } from "../../../context";
 
 const Messages = () => {
-  const [fileUploadVisible, setIsFileUploadVisible] = useState(false)
   const { store } = useContext(Context);
   const [chatItems, setChatItems] = useState([]);
-  const [currentChatId, setCurrentChatId] = useState(null);
+  const {currentChatId, setCurrentChatId} = useContext(FollowContext);
   const [currentChat, setCurrentChat] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
+  const [typingStatus, setTypingStatus] = useState(false)
   const connection = Connector(store);
   useEffect(() => {
     connection.connectSockets(true);
@@ -32,12 +33,14 @@ const Messages = () => {
       setChatMessages([...chat.messages]);
     }
     function onRecieveMessage(message) {
-      console.log(message)
-      console.log(chatMessages)
       setChatMessages(prev => [{ ...message }, ...prev]);
     }
     function onRecieveChatMessages(messages) {
       setChatMessages(prev => [...prev, ...messages])
+    }
+    function onGetTypingStatus(status) {
+      console.log(status)
+      setTypingStatus(status);
     }
     function onGetSearchUsers(users) {
       console.log('users', users);
@@ -50,6 +53,9 @@ const Messages = () => {
 
       connection.disconnectSockets();
     }
+    function onGetMessagesAfterDelete(messages) {
+      setChatMessages(messages)
+    }
     window.addEventListener("unload", handleUserLogout);
 
     connection.events(
@@ -57,7 +63,9 @@ const Messages = () => {
       onConnectChat,
       onGetSearchUsers,
       onRecieveChatMessages,
-      onRecieveMessage
+      onRecieveMessage,
+      onGetTypingStatus,
+      onGetMessagesAfterDelete
     );
     return () => {
       window.removeEventListener("unload", handleUserLogout);
@@ -81,6 +89,7 @@ const Messages = () => {
         <section>
           <ChatLeft
             connection={connection}
+            typingStatus={typingStatus}
             chatItems={chatItems}
             currentChatId={currentChatId}
             setCurrentChatId={setCurrentChatId}
@@ -90,8 +99,8 @@ const Messages = () => {
           <div id="chat-wrapper">
             {currentChat ? (
               <div>
-                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} fileUploadVisible={fileUploadVisible} setIsFileUploadVisible={setIsFileUploadVisible} />
-                <Form connection={connection} currentChatId={currentChatId} fileUploadVisible={fileUploadVisible} setIsFileUploadVisible={setIsFileUploadVisible} />
+                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingStatus={typingStatus} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
+                <Form connection={connection} currentChatId={currentChatId} userName={currentChat.chatPartnerUserName} typingStatus={typingStatus} setTypingStatus={setTypingStatus} />
               </div>
             ) : (
               <div className="empty-chat-wrapper" >

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { format, differenceInDays } from 'date-fns';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const Message = ({ message, chat }) => {
-  console.log('message', message);
+const Message = ({connection, message, chat }) => {
   const { store } = useContext(Context);
 
   const formatDate = (dateString) => {
@@ -26,10 +26,15 @@ const Message = ({ message, chat }) => {
       }
   };
 
+  function deleteMessage(id) {
+    connection.deleteMessage(id);
+  }
+
   return (
     <>
       {message.sender == store.user.userName ? (
         <div className="sended">
+          <IconButton className="delete-message-btn" onClick={() => deleteMessage(message.id)}><DeleteIcon style={{fontSize:'16px', color:'rgb(239,68,68)'}} /></IconButton>
           <div className="message">
             <p>{message?.text}</p>
             <span>{formatDate(message?.createdAt)}</span>

@@ -1,7 +1,7 @@
 import React from "react";
 import './index.scss'
 
-const TasksCount = () => {
+const VerifiedUsersCount = ({ verifiedUsersCount }) => {
   return (
     <div id="tasks-count-wrapper">
       <div className="body">
@@ -91,11 +91,11 @@ const TasksCount = () => {
               </g>
             </svg>
           </div>
-          <p style={{textAlign:'center'}}>Tasks <br /> 24</p>
+          <p style={{textAlign:'center'}}>Verified Users <br /> {verifiedUsersCount}</p>
         </div>
       </div>
     </div>
   );
 };
 
-export default TasksCount;
+export default VerifiedUsersCount;

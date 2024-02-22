@@ -8,6 +8,8 @@ class Connector {
         onGetSearchUsers: (data: object[]) => void,
         onRecieveChatMessages: (data: object[]) => void,
         onRecieveMessage: (data: object) => void,
+        onGetTypingStatus: (data: boolean) => void,
+        onGetMessagesAfterDelete : (data: object[]) => void
         ) => void;
 
     public store;
@@ -29,7 +31,7 @@ class Connector {
                 console.log("recon chat")
             })
     
-        this.events = (onGetChatItems, onConnectChat, onGetSearchUsers,onRecieveMessages,onRecieveMessage) => {
+        this.events = (onGetChatItems, onConnectChat, onGetSearchUsers,onRecieveMessages,onRecieveMessage, onGetTypingStatus, onGetMessagesAfterDelete) => {
             this.connection.on("GetChatItems", (data) => {
                 onGetChatItems(data);
             });
@@ -44,6 +46,12 @@ class Connector {
             });
             this.connection.on("RecieveMessage", (message) => {
                 onRecieveMessage(message)
+            });
+            this.connection.on("GetTypingStatus", (status) => {
+                onGetTypingStatus(status)
+            });
+            this.connection.on("GetMessagesAfterDelete", (messages) => {
+                onGetMessagesAfterDelete(messages)
             });
             this.connection.on("SendMessageError", (err) => {
                 console.log(err)
@@ -61,6 +69,19 @@ class Connector {
                 })
                 .catch(err => console.error(err));
             }
+    }
+
+    public changeTypingStatus = (userName:string, status : boolean) => {
+        this.connection.invoke("SetTypingStatus", userName, status)
+        .then(() => console.log("typing status successfully updated"))
+        .catch(e => console.log(e));
+        
+    }
+
+    public deleteMessage = (id : Int32Array) => {
+        this.connection.invoke("DeleteMessage", id, this.store.user.userName)
+        .then(() => console.log("succesfuully deleted"))
+        .catch(e => console.log(e));
     }
 
     public connectSockets = () => {

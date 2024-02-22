@@ -38,7 +38,7 @@ const Navigation = () => {
           
         }
         <NavLink
-          to="/"
+          to={`/users/${store.user.userName}`}
           style={({ isActive }) => ({
             color: isActive ? "#0284C7" : "black",
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
@@ -68,7 +68,7 @@ const Navigation = () => {
           </li>
         </NavLink>
         <NavLink
-          to="/"
+          to="/messages"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
             color: isActive ? "#0284C7" : "black",
@@ -94,7 +94,7 @@ const Navigation = () => {
         </NavLink>
         <Divider style={{ margin: "8px 0", color: "rgb(229, 231, 235)" }} />
         <NavLink
-          to="/"
+          to="/settings"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
             color: isActive ? "#0284C7" : "black",

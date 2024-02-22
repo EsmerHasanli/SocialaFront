@@ -42,6 +42,9 @@ export default class PostService{
         return await $api.delete(`${API_BASE_URL}/posts/${id}`)
     }
     static async getArchievePosts(skip) {
-        return await $api.get(`${API_BASE_URL}/posts/archive/${skip}`)
+        return await $api.get(`${API_BASE_URL}/posts/archive?skip=${skip}`)
+    }
+    static async recoverArchivePosts(id) {
+        return await $api.put(`${API_BASE_URL}/posts/recover/${id}`)
     }
 }

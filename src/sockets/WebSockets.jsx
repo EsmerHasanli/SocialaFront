@@ -35,7 +35,7 @@ const WebSockets = () => {
             // })
             connection.on('NewNotification', (message) => {
                 var audio = new Audio("/src/assets/sounds/success_alert.wav");
-                audio.play();
+                // audio.play();
                 setNotifications( prev => [{...message}, ...prev]);
             });
             connection.on('LatestNotifications', (message) => {

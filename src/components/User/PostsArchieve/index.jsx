@@ -8,19 +8,24 @@ const PostsArchive = () => {
  const [ skip, setSkip ] = useState(0);
  const [ archivedPosts, setArchievedPosts ] = useState([])
  
+ async function getArchievePostsAsync() {
+  const posts = await store.getArchievePosts(skip)
+  // if(posts.length < 10){
+  //   setIsEnded(true);
+  // }
+  setSkip(skip+10);
+  setArchievedPosts([...archivedPosts, ...posts]);
+}
+
  useEffect(()=>{
-    async function fetchPosts() {
-        const res = await store.getArchievePosts(skip)
-        setArchievedPosts(res)
-    }
-    fetchPosts()
+  getArchievePostsAsync()
  },[])
 
   return (
     <div className='content-wrapper'>
         <p>Only you can see your archived posts unless you choose to share them.</p>
-        {archivedPosts && archivedPosts.map(archivedPost => (
-            <PostCard/>
+        {archivedPosts && archivedPosts.map(post => (
+            <PostCard key={post.id} post={post} />
         ))}
     </div>
   )

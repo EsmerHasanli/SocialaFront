@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useContext, useState } from "react";
 import { Context } from "../../../../main";
 import "../../Posts/index.scss";
-import { Avatar, Divider, IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, Divider, IconButton, Menu, MenuItem, Snackbar, Alert } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Card } from "antd";
@@ -16,20 +16,23 @@ import PostComment from "./PostComment";
 import PostLike from "./PostLike";
 import { FollowContext } from "../../../../context";
 import MapsUgcIcon from "@mui/icons-material/MapsUgc";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const PostCard = ({ post, posts, setPosts }) => {
+  const location = useLocation()
+  const path = location.pathname
+
   // console.log("post", post);
   const { store } = useContext(Context);
   const [comments, setComments] = useState(post.comments);
   const [commentSkip, setCommentSkip] = useState(-5);
-  const [showMoreBtn, setShowMoreBtn] = useState(
-    post.comments.length == 5 ? true : false
-  );
+  const [showMoreBtn, setShowMoreBtn] = useState( post.comments.length == 5 ? true : false );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -91,7 +94,13 @@ const PostCard = ({ post, posts, setPosts }) => {
         setPosts((updatedArr))
       }
     });
-}
+  }
+
+  async function handleRecoverPost (id) {
+      console.log(id);
+      handleClose();
+      const res = await store.recoverArchivePosts(id)
+  }
 
   return (
     <div key={post.id} id="user-post-card">
@@ -136,6 +145,7 @@ const PostCard = ({ post, posts, setPosts }) => {
                   }}
                 >
                   <MenuItem onClick={()=>handleDeletePost(post.id)}>Delete</MenuItem>
+                  {path=='/archive' && <MenuItem onClick={()=>handleRecoverPost(post.id)}>Recover</MenuItem>}
                 </Menu>
               </li>
             </>

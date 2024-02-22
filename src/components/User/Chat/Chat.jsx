@@ -6,27 +6,25 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import UserInfoBar from "./UserInfoBar";
 import { Link } from "react-router-dom";
 import { FollowContext } from "../../../context";
-import FileUpload from "./FileUpload";
 
-
-const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connection, setCurrentChatId, fileUploadVisible, setIsFileUploadVisible}) => {
+const Chat = ({currentChat, setCurrentChat, typingStatus, chatMessages, currentChatId, connection, setCurrentChatId}) => {
   const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
 
   const [skip, setSkip] = useState(0); 
   const [messsagesGetted, setMessagesGetted] = useState(false)
+  const [loader, setLoader] = useState(true);
   const chatContainerRef = useRef(null);
   
   const prevScrollRef = useRef(0);
   useEffect(() => {
     console.log("worked")
-    if (messsagesGetted) {
-      setMessagesGetted(false)
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight - prevScrollRef.current
-      console.log(" высота  после получения" + chatContainerRef.current.scrollHeight)
-    }
-    else {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-    }
+      if (messsagesGetted) {
+        setMessagesGetted(false);
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight - prevScrollRef.current
+      }
+      else {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+      }
     chatContainerRef.current.addEventListener('scroll', getMessages);
   
     return () => {
@@ -68,8 +66,11 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
 
           <div className="info">
             <h5>{currentChat?.chatPartnerUserName}</h5>
-            {onlineUsers.find(u => u == currentChat.chatPartnerUserName) &&
-            <p style={{color:'rgb(34, 197, 94)'}}>Online</p>}
+            {onlineUsers.find(u => u == currentChat.chatPartnerUserName) ?
+              typingStatus ? <p>typing...</p>
+                           :<p style={{color:'rgb(34, 197, 94)'}}>Online</p>
+            :null
+              }
           </div>
         </div>
 
@@ -80,16 +81,12 @@ const Chat = ({currentChat, setCurrentChat, chatMessages, currentChatId, connect
       <div className="messages">
         <div className="chat">
           {chatMessages.slice().reverse().map((message) => 
-            <Message key={message.id} message={message} chat={currentChat}/>
+            <Message key={message.id} connection={connection} message={message} chat={currentChat}/>
           )}
         </div>
       </div>
-      {
-        fileUploadVisible && 
-        <FileUpload setIsFileUploadVisible={setIsFileUploadVisible}/>
-      }
     </div>
   );
 };
 
-export default observer(Chat);    
+export default observer(Chat);

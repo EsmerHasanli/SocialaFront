@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 
-const ModeratorsCount = () => {
+const ModeratorsCount = ({ moderatorsCount }) => {
   return (
     <div id="moderators-card">
       <div class="body">
@@ -49,7 +49,7 @@ const ModeratorsCount = () => {
               </g>
             </svg>
           </div>
-          <p style={{textAlign:'center'}}>Moderators <br /> 45</p>
+          <p style={{textAlign:'center'}}>Moderators <br /> {moderatorsCount}</p>
         </div>
       </div>
     </div>

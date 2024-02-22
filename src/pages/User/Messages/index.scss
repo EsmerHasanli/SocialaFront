@@ -315,6 +315,13 @@
                   font-weight: 300;
                 }
               }
+              .delete-message-btn{
+                background-color: rgb(254,226,226)!important;
+                display: none;
+              }
+              &:hover .delete-message-btn{
+                display: flex;
+              }
             }
           }
         }

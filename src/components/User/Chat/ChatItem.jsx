@@ -5,7 +5,7 @@ import { format, differenceInDays } from 'date-fns';
 import { FollowContext } from '../../../context';
 import { Avatar } from '@mui/material';
 
-const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
+const ChatItem = ({chatItem,typingStatus, currentChatId, setCurrentChatId, connection }) => {
     const {store} = useContext(Context);
     const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
 
@@ -46,7 +46,10 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
                 <p>{formatDate(chatItem.lastMessageSendedAt)}</p>
             </div>
             <div className="bottom">
+            {typingStatus ? <p>typing...</p> :
+            <>
                 <div style={{display:'flex', alignItems:'center', gap:'6px', justifyContent:'center'}}>
+                
                 <span>{
                     chatItem.lastMessageSendedBy == store.user.userName 
                     ? chatItem.lastMessageIsChecked
@@ -56,15 +59,18 @@ const ChatItem = ({chatItem,currentChatId, setCurrentChatId, connection }) => {
                 }
                 </span>
                     {/* <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage}</p> */}
-                    <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage.length > 10 ? `${chatItem.lastMessage.substring(0, 10)}...` : chatItem.lastMessage  }</p>
+                    <p style={{marginBottom:'5px'}}>{chatItem.lastMessage.length > 10 ? `${chatItem.lastMessage.substring(0, 10)}... `: chatItem.lastMessage  }</p>
                 </div>
                 <div>
                     {chatItem.unreadedMessagesCount > 0 &&
                     <span style={{display:'flex', justifyContent:'center', alignItems:'center', width:'20px', height:'20px', borderRadius:'50%', color:'white', backgroundColor:'rgb(34,197,94)', fontSize:'12px', fontWeight:'300'}} >{chatItem.unreadedMessagesCount}</span>}
                 </div>
+            </>
+            }
+               
                 
             </div>
-            </div>
+        </div>
       </li>
     );
 }

@@ -3,7 +3,7 @@ import { Input } from "antd";
 import ChatItem from "./ChatItem";
 import UserSearchItem from "./UserSearchItem";
 
-const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searchedUsers, setSearchedUsers}) => {
+const ChatLeft = ({connection,typingStatus, chatItems,currentChatId, setCurrentChatId , searchedUsers, setSearchedUsers}) => {
   let send;
   async function handleSearchChange(e) {
     clearTimeout(send)
@@ -37,7 +37,7 @@ const ChatLeft = ({connection, chatItems,currentChatId, setCurrentChatId , searc
       <div className="chatters">
         <ul>
             {chatItems.map(chatItem => 
-              <ChatItem  chatItem={chatItem} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection} />
+              <ChatItem  chatItem={chatItem} typingStatus={typingStatus} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection} />
             )}
         </ul>
       </div>
