@@ -65,9 +65,9 @@ const Chat = ({currentChat, setCurrentChat, typingStatus, chatMessages, currentC
           </div>
 
           <div className="info">
-            <h5>{currentChat?.chatPartnerUserName}</h5>
+            <h5 style={{color: 'rgb(37,47,63)'}}>{currentChat?.chatPartnerUserName}</h5>
             {onlineUsers.find(u => u == currentChat.chatPartnerUserName) ?
-              typingStatus ? <p>typing...</p>
+              typingStatus ? <p style={{color:'rgb(75,85,99)', fontSize:'14px'}}>typing...</p>
                            :<p style={{color:'rgb(34, 197, 94)'}}>Online</p>
             :null
               }

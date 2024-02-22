@@ -9,14 +9,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navigation = () => {
+  const { store } = useContext(Context)
   const drawerWidth = 240;
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
-
-  const { store } = useContext(Context);
 
   const handleLogout = async () => {
     await store.logout();
@@ -52,8 +51,8 @@ const Navigation = () => {
           />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Typography variant="h6">admin827</Typography>
-            <Avatar />
+            <Typography variant="h6">{store.user.userName}</Typography>
+            <Avatar src={store.user.imageUrl} />
           </Box>
         </Toolbar>
       </AppBar>

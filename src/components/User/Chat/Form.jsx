@@ -5,7 +5,6 @@ import { Context } from "../../../main";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import EmojiKeyboard from "./EmojiKeyboard";
-import FileUploadModal from "./FileUploadModal";
 
 
 const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatus}) => {
@@ -17,7 +16,6 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
   const formik = useFormik({
     initialValues: {
       text: text,
-      files: []
     },
     onSubmit: async (values, actions) => {
       if (text.length) {
@@ -25,21 +23,11 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
           chatId:currentChatId,
           sender:store.user.userName,
           text:text,
-          media:values.files
-        }
-        const mediaArr = []
-        if (values.files.length) {
-          Array.from(values.files).forEach(file => {
-              const reader = new FileReader();
-              reader.onload = (e) => {
-                const fileData = new Uint8Array(e.target.result);
-                mediaArr.push(fileData)
-              };
-              reader.readAsArrayBuffer(file);
-            })           
         }
         connection.sendMessageById(payload);
       }
+      setShowEmojiKeyboard(false)
+      setText('')
       actions.resetForm();
     }
   })
@@ -63,7 +51,6 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
     <>
       <div className="message-input">
         <div className="icons">
-          <FileUploadModal formik={formik} />
           <EmojiKeyboard showEmojiKeyboard={showEmojiKeyboard} setShowEmojiKeyboard={setShowEmojiKeyboard} setText={setText} />
         </div>
         <form onSubmit={formik.handleSubmit} className="input-wrapper">
