@@ -71,7 +71,7 @@ const UserSettings = () => {
           <Grid item xs={false} lg={2}>
             <SideBar />
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={12} md={12} lg={10}>
             <div className="settings-wrapper">
               <div className="header">
                 <div className="current-info-wrapper">

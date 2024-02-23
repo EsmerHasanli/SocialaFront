@@ -274,3 +274,18 @@
     
   }
 }
+
+@media only screen and (max-width: 426px) {
+  #user-notifications-form{
+    padding: 20px!important;
+    .wrapper{
+      flex-direction: column!important;
+    }
+  }
+  #user-social-links{
+    padding: 20px!important;
+  }
+  #user-info-form {
+    padding: 20px!important;
+  }
+}

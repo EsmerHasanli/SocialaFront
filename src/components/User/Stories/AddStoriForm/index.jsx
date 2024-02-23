@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 import Swal from "sweetalert2";
+import * as Yup from 'yup';
 
 const AddStories = () => {
   const { store } = useContext(Context);
@@ -27,8 +28,19 @@ const AddStories = () => {
       storyDescr: "",
     },
     // validationSchema:
+    //  Yup.object().shape({
+    //   storyFile: Yup.mixed()
+    //     .required('Please upload a file')
+    //     .test('fileFormat', 'Unsupported file format', (value) => {
+    //       if (!value) return true;
+    //       return supportedFormats.includes(value.type);
+    //     })
+    //     .test('fileSize', 'File size too large', (value) => {
+    //       if (!value) return true;
+    //       return value.size <= 150 * 1024 * 1024; 
+    //     }),
+    // }),
     onSubmit: async (values, actions) => {
-      console.log(values.storyFile);
       if (!values.storyFile) {
         Swal.fire({
           position: "center",
@@ -38,7 +50,19 @@ const AddStories = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-      } else {
+      }
+      // else if (!formik.isValid){
+      //   const errorMessages = Object.values(formik.errors).join("\n");
+      //   Swal.fire({
+      //     position: "center",
+      //     icon: "error",
+      //     title: "Warning!",
+      //     text: `Please fix the following errors in the form:\n${errorMessages}`,
+      //     showConfirmButton: false,
+      //     timer: 1500,
+      //   });
+      // } 
+      else {
         const formData = new FormData();
         formData.append("file", values.storyFile);
         formData.append("text", values.storyDescr);

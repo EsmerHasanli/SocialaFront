@@ -4,7 +4,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Context } from '../../../../main';
 import { observer } from 'mobx-react-lite';
 
-const StoryCard = ({ story, stories, setStories }) => {
+const StoryPhotoCard = ({ story, stories, setStories }) => {
   const { store } = React.useContext(Context)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [day, setDay] = React.useState()
@@ -23,14 +23,12 @@ const StoryCard = ({ story, stories, setStories }) => {
     const dateString = story.createdAt;
     const date = new Date(dateString);
 
-    const x = date.getDate(); // день (число)
-    console.log('x', x);
+    const x = date.getDate(); 
     setDay(x)
-    const y = date.getMonth() + 1; // месяц (начиная с 0)
+    const y = date.getMonth() + 1; 
     setMonth(y)
     const z = date.getFullYear();
-    setYear(z) // год (четырехзначное число)
-
+    setYear(z) 
   }
 
   async function handleDelete(id) {
@@ -48,30 +46,30 @@ const StoryCard = ({ story, stories, setStories }) => {
 
   return (
     <>
-          <div className="card" style={{backgroundImage:`url(${story.sourceUrl})` }}>
-          <div className="date">
-              <b>{day}</b> <br /> <p>{month}<br/>{year}</p>
-          </div>
-          <div className="descr">
-           {story?.text}
-          </div>
-          <IconButton onClick={handleClick}>
-              <MoreVertIcon style={{color: 'white'}}/>
-          </IconButton>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={()=>handleDelete(story.id)}>Delete</MenuItem>
-          </Menu>
-          </div>
+      <div className="card" style={{backgroundImage:`url(${story.sourceUrl})` }}>
+      <div className="date">
+          <b>{day}</b> <br /> <p>{month}<br/>{year}</p>
+      </div>
+      <div className="descr">
+        {story?.text}
+      </div>
+      <IconButton onClick={handleClick}>
+          <MoreVertIcon style={{color: 'white'}}/>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={()=>handleDelete(story.id)}>Delete</MenuItem>
+      </Menu>
+      </div>
     </>
   )
 }
 
-export default observer(StoryCard)
+export default observer(StoryPhotoCard)

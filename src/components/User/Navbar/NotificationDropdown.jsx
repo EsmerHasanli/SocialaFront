@@ -22,7 +22,6 @@ const NotificationDropdown = () => {
   );
   const open = Boolean(anchorEl);
   
-  const [showBadge, setShowBadge] = React.useState(hasNewNotifications ? true : false);
 
   const { store } = useContext(Context);
 
@@ -37,9 +36,8 @@ const NotificationDropdown = () => {
     if (hasNewNotifications) {
       const notificationsIds = notifications.map((obj) => obj.id);
       const formData = new FormData();
-      console.log(notificationsIds);
       for (let i = 0; i < notificationsIds.length; i++) {
-        formData.append("notifications", notificationsIds[i]);
+        formData.append("notificationsIds", notificationsIds[i]);
       }
       await store.checkNotifications(formData);
     }
@@ -61,7 +59,7 @@ const NotificationDropdown = () => {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar sx={{ width: 32, height: 32, overflow: "visible" }}>
-              <Badge color="error" variant="dot" invisible={!showBadge}>
+              <Badge color="error" variant="dot" invisible={!hasNewNotifications}>
                 <NotificationsOutlined style={{ color: "rgb(88,80,236)" }} />
               </Badge>
             </Avatar>

@@ -15,14 +15,17 @@ const FollowersModal = () => {
 
   const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext)
   const showModal = () => {
-    if(currentUserFollows.find(f => f.userName == fetchedUser.userName)  || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
-    else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "This account is private, follow first!"
-      });
+    if (fetchedUser.isPrivate) {
+      if(currentUserFollows?.find(f => f.userName == fetchedUser.userName && f.isConfirmed)  || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "This account is private, follow first!"
+        });
+      }
     }
+    else setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -37,7 +40,7 @@ const FollowersModal = () => {
         const count = fetchedUser?.followersCount - 1
         setFetchedUser(prev => ({...prev,followersCount:count }))
         setCurrentUserFollows([...filteredArr]);
-        const updatedFollowers = followers.filter((follower) => follower.userName !== store.user.userName);
+        const updatedFollowers = followers?.filter((follower) => follower.userName !== store.user.userName);
         setFollowers(updatedFollowers);
     }
 }
@@ -48,11 +51,11 @@ const FollowersModal = () => {
     const filteredArr = currentUserFollows?.filter(f => f.userName != fetchedUser?.userName)
     setFetchedUser(prev => ({...prev,followersCount:count }))
     setCurrentUserFollows([...filteredArr]);
-    const updatedFollowers = followers.filter((follower) => follower.userName !== userName);
+    const updatedFollowers = followers?.filter((follower) => follower.userName !== userName);
     setFollowers(updatedFollowers);
   };
   async function fetchData() {
-    const res = await store.getFollowers(fetchedUser.userName);
+    const res = await store.getFollowers(fetchedUser?.userName);
     setFollowers(res);
   }
 
@@ -66,7 +69,7 @@ const FollowersModal = () => {
     <>
       <li onClick={showModal}>
         Followers 
-        <span>{fetchedUser.followersCount}</span>
+        <span>{fetchedUser?.followersCount}</span>
       </li>
 
       <Modal
@@ -78,7 +81,7 @@ const FollowersModal = () => {
       >
         <ul style={{ maxHeight: "400px", overflowY: "auto" }}>
           {followers &&
-            followers.map((follower) =>
+            followers?.map((follower) =>
             follower.isConfirmed ? (
                 <li
                   style={{
@@ -102,14 +105,14 @@ const FollowersModal = () => {
                     <p>{follower?.userName}</p>
                   </Link>
                   {
-                    fetchedUser.userName == store.user.userName && 
+                    fetchedUser?.userName == store.user.userName && 
                     <div>
                       <Button onClick={() => handleRemoveFollower(follower.userName)}>
                         remove
                       </Button>
                     </div>
                   }
-                  {follower.userName == store.user.userName && <div>
+                  {follower?.userName == store.user.userName && <div>
                       <Button onClick={() => handleUnfollow()}>
                         unfollow
                       </Button>

@@ -13,12 +13,13 @@ import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 import WatchModal from "./WatchModal";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { Link } from "react-router-dom";
 
 const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, story, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedStoryId, setSelectedStoryId] = useState(null);
-  const [ storiItemId, setStoriItemId ] = useState(null);
+  const [ watchers, setWatchers ] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -32,26 +33,20 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
   };
 
   async function handleSlideChange(swiper) {
-    console.log(swiper)
     const slideIndex = swiper.realIndex
     const storyItemId = storyItems[slideIndex].id
-    setStoriItemId(storyItemId)
     if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
       const storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
       const currentItem = storyCurrentSlides.find(obj => obj.id == story.id);
-      console.log(currentItem)
       
       if (currentItem?.index < slideIndex) {
         currentItem.index++;
-        console.log("index uvelichen")
         localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
       }
       const oldUser = store.user;
       await store.watchStory(storyItemId)
       oldUser.watchedStoryItemsIds.push(storyItemId)
       store.setUser(oldUser);
-      console.log(oldUser)
-
   }
     }
   
@@ -67,6 +62,12 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
           setStoryItems(filteredItems)
           setUserStoryItems(filteredItems)
         }
+    }
+
+    async function getWatchers(id) {
+      showModal()
+      const res = await store.getWatchers(id);
+      setWatchers(res)
     }
 
   return (
@@ -118,10 +119,10 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                   }}
                 >
                   <div className="header">
-                    <div>
+                    <Link to={`/users/${story?.ownerUserName}`}>
                       <Avatar className="avatar" src={story?.ownerImageUrl} />
                       <p>{story?.ownerUserName}</p>
-                    </div>
+                    </Link>
                     {story.ownerUserName == store.user.userName &&
                     <div className="menu">
                       <IconButton className="menu-button" onClick={() => {
@@ -145,7 +146,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     <p>{storyItem?.text}</p>
                     {
                       story.ownerUserName == store.user.userName && 
-                        <button className="watch-wrapper" onClick={showModal}>
+                        <button className="watch-wrapper" onClick={(e) => getWatchers(storyItem.id)}>
                           <RemoveRedEyeIcon />
                           <span>{storyItem?.watchCount}</span>
                         </button>
@@ -153,49 +154,58 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                   </div>
                 </SwiperSlide> 
                 :
-                  <SwiperSlide
+                <SwiperSlide
                   key={storyItem.key}
                   className="swiper-slide"
+                  style={{backgroundColor: 'black'}}
                 >
                   <div className="header">
-                    <div>
+                    <Link to={`/users/${story?.ownerUserName}`}>
                       <Avatar className="avatar" src={story?.ownerImageUrl} />
                       <p>{story?.ownerUserName}</p>
-                    </div>
-                    {story.ownerUserName == store.user.userName &&
-                    <>
-                    <div className="menu">
-                      <IconButton className="menu-button" onClick={() => {
-                        setMenuOpen(!menuOpen)
-                        setSelectedStoryId(storyItem.id)
-                      }}>
-                        <MoreHorizIcon style={{ color: "antiquewhite" }} />
-                      </IconButton>
-                      {
-                        menuOpen && storyItem.id == selectedStoryId &&
-                        <ul>
-                          <li onClick={handleDeleteStory}>Delete</li>
-                        </ul>
-                      }
-                    </div>
-                    </>
-                    }
+                    </Link>
+                    {story.ownerUserName === store.user.userName && (
+                      <>
+                        <div className="menu">
+                          <IconButton
+                            className="menu-button"
+                            onClick={() => {
+                              setMenuOpen(!menuOpen);
+                              setSelectedStoryId(storyItem.id);
+                            }}
+                          >
+                            <MoreHorizIcon style={{ color: "antiquewhite" }} />
+                          </IconButton>
+                          {menuOpen && storyItem.id === selectedStoryId && (
+                            <ul>
+                              <li onClick={handleDeleteStory}>Delete</li>
+                            </ul>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <video controls>
+                  <video
+                    controls
+                    style={{width:'90%', height:'90%',}}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <source src={storyItem.sourceUrl} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                   <div className="footer">
                     <p>{storyItem?.text}</p>
-                    {
-                      story.ownerUserName == store.user.userName && 
-                      <WatchModal storyItem={storyItem}/>
-                    }
+                    {story.ownerUserName === store.user.userName && (
+                      <button className="watch-wrapper" onClick={(e) => getWatchers(storyItem.id)}>
+                        <RemoveRedEyeIcon />
+                        <span>{storyItem?.watchCount}</span>
+                      </button>
+                    )}
                   </div>
-                </SwiperSlide> 
+                </SwiperSlide>
               ))
             }
-            <WatchModal isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk} storiItemId={storiItemId} />
+            <WatchModal isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk} watchers={watchers} />
           </Swiper>
         </div>
       )}

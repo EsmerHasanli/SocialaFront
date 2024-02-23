@@ -4,18 +4,7 @@ import { Avatar, IconButton } from "@mui/material";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 
-const WatchModal = ({ isModalOpen, handleCancel }) => {
-  const { store } = useContext(Context)
-  const [ watchers, setwatchers ] = useState([])
-
-  async function getWatchers(id) {
-    const res = await store.getWatchers(id);
-    setwatchers(res)
-  }
-
-  // useEffect(()=>{
-  //   getWatchers()
-  // },[])
+const WatchModal = ({ isModalOpen, handleCancel, watchers }) => {
 
   return (
     <>
@@ -26,18 +15,12 @@ const WatchModal = ({ isModalOpen, handleCancel }) => {
             <IconButton onClick={handleCancel} style={{float:'left', width:'30px', height:'30px'}}><CloseIcon/></IconButton>
           </div>
           <ul style={{width: '150px'}}>
-            <li style={{display:'flex', alignItems:'center', gap:'8px', margin:'4px 0'}}>
-                <Avatar/>
-                <p>username</p>
-            </li>
-            <li style={{display:'flex', alignItems:'center', gap:'8px', margin:'4px 0'}}>
-                <Avatar/>
-                <p>username</p>
-            </li>
-            <li style={{display:'flex', alignItems:'center', gap:'8px', margin:'4px 0'}}>
-                <Avatar/>
-                <p>username</p>
-            </li>
+          {watchers && watchers.map(watcher => 
+              <li key={watcher.id} style={{display:'flex', alignItems:'center', gap:'8px', margin:'4px 0'}}>
+                  <Avatar src={watcher.watcherImageUrl}/>
+                  <p>{watcher.watcherUserName}</p>
+              </li>
+              )}
           </ul>
         </div>
       }

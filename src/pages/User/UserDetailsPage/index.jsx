@@ -15,6 +15,7 @@ import Posts from "../../../components/User/Posts";
 import { FollowContext } from "../../../context";
 import { observer } from "mobx-react-lite";
 import { Box, LinearProgress } from "@mui/material";
+import ResponsiveIntroCard from "../../../components/User/ResponsiveIntroCard";
 
 const UserDetailsPage = () => {
   const { store } = useContext(Context);
@@ -68,7 +69,7 @@ const UserDetailsPage = () => {
                  ? 
                   <>
                   {fetchedUser.userName == store.user.userName && <AddPost posts={posts} setPosts={setPosts} />}
-                    
+                    <ResponsiveIntroCard/>
                     <Posts
                       posts={posts}
                       setPosts={setPosts}

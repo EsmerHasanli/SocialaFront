@@ -24,9 +24,9 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
 
   // console.log("post", post);
   const { store } = useContext(Context);
-  const [comments, setComments] = useState(post.comments);
+  const [comments, setComments] = useState(post?.comments);
   const [commentSkip, setCommentSkip] = useState(-5);
-  const [showMoreBtn, setShowMoreBtn] = useState( post.comments.length == 5 ? true : false );
+  const [showMoreBtn, setShowMoreBtn] = useState( post?.comments?.length == 5 ? true : false );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -38,13 +38,13 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const postCreatedAt = Date.parse(post.createdAt);
+  const postCreatedAt = Date.parse(post?.createdAt);
   const timeAgoString = getTimeAgoString(postCreatedAt);
 
   async function showMoreComments() {
     const skip = commentSkip + 10;
-    const commentsFromDb = await store.getPostComments(post.id, skip);
-    if (commentsFromDb.length < 10) setShowMoreBtn(false);
+    const commentsFromDb = await store.getPostComments(post?.id, skip);
+    if (commentsFromDb?.length < 10) setShowMoreBtn(false);
     setComments([...comments, ...commentsFromDb]);
     setCommentSkip(commentSkip + 10);
   }
@@ -89,58 +89,54 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
           icon: "success"
         });
         await store.deletePost(id);
-        console.log(posts);
-        console.log("postId", id);
         if (archivedPosts) {
           const archiveArr = archivedPosts.filter(p => p.id != id)
           setArchivedPosts(archiveArr)
 
         }
         if (posts) {
-          const postsArr = posts.filter(p => p.id != id)
+          const postsArr = posts?.filter(p => p.id != id)
           setPosts(postsArr);
 
         }
       }
     });
   }
-
   async function handleRecoverPost (id) {
-      console.log(id);
       handleClose();
-      const res = await store.recoverArchivePosts(id)
-      const updatedArr = archivedPosts.filter(x => x.id != id)
+      await store.recoverArchivePosts(id)
+      const updatedArr = archivedPosts?.filter(x => x.id != id)
       setArchivedPosts(updatedArr)
   }
 
   return (
-    <div key={post.id} id="user-post-card">
+    <div  id="user-post-card">
       <div className="header">
         <ul>
-          {post.appUserUserName == store.user.userName ? (
+          {post?.appUserUserName == store.user.userName ? (
             <li>
-              <Avatar src={post.appUserImageUrl} />
+              <Avatar src={post?.appUserImageUrl} />
               <p>
                 <span>
-                  {post.appUserName} {post.appUserSurname}
+                  {post?.appUserName} {post?.appUserSurname}
                 </span>
                 <span>{timeAgoString}</span>
               </p>
             </li>
           ) : (
-            <Link to={`users/${post.appUserUserName}`}>
+            <Link to={`users/${post?.appUserUserName}`}>
               <li>
-                <Avatar src={post.appUserImageUrl} />
+                <Avatar src={post?.appUserImageUrl} />
                 <p>
                   <span>
-                    {post.appUserName} {post.appUserSurname}
+                    {post?.appUserName} {post?.appUserSurname}
                   </span>
                   <span>{timeAgoString}</span>
                 </p>
               </li>
             </Link>
           )}
-          {post.appUserUserName == store.user.userName && (
+          {post?.appUserUserName == store.user.userName && (
             <>
               <li>
                 <IconButton onClick={handleClick}>
@@ -155,8 +151,8 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={()=>handleDeletePost(post.id)}>Delete</MenuItem>
-                  {path=='/archive' && <MenuItem onClick={()=>handleRecoverPost(post.id)}>Recover</MenuItem>}
+                  <MenuItem onClick={()=>handleDeletePost(post?.id)}>Delete</MenuItem>
+                  {path=='/archive' && <MenuItem onClick={()=>handleRecoverPost(post?.id)}>Recover</MenuItem>}
                 </Menu>
               </li>
             </>
@@ -177,8 +173,8 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
           modules={[Keyboard, Pagination]}
           className="mySwiper"
         >
-          {post.items &&
-            post.items.map((item) => {
+          {post?.items &&
+            post?.items.map((item) => {
               if (item.type == "Image") {
                 return (
                   <SwiperSlide key={item.id} className="swiper-slide">
@@ -188,7 +184,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
               }
               if (item.type == "Video") {
                 return (
-                  <SwiperSlide key={item.id} className="swiper-slide">
+                  <SwiperSlide key={item?.id} className="swiper-slide">
                     <video
                       style={{ borderRadius: "8px" }}
                       controls
@@ -222,7 +218,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
         <>
           <div className="comments">
             <ul>
-              {comments.map((comment) => (
+              {comments?.map((comment) => (
                 <PostComment
                   key={comment.id}
                   post={post}

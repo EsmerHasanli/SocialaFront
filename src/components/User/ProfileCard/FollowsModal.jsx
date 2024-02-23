@@ -16,14 +16,17 @@ const FollowsModal = () => {
   const {currentUserFollows, setCurrentUserFollows} = useContext(FollowContext)
 
   const showModal = () => {
-    if(currentUserFollows?.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
-    else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "This account is private, follow first!"
-      });
+    if (fetchedUser.isPrivate) {
+      if(currentUserFollows?.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "This account is private, follow first!"
+        });
+      }
     }
+    else setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
