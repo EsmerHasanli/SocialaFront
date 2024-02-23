@@ -98,3 +98,9 @@
     height: 600px !important;
   }
 }
+
+@media only screen and (max-width: 1024px){
+  #stories-wrapper .stori-swiper  .swiper-slide {
+    height: 500px!important;
+  }
+}

@@ -26,6 +26,7 @@ const UserSearchItem = ({ user, connection, currentChatId, setCurrentChatId }) =
       connection.sendMessageByUserName(payload);
     }
     setValue("")
+    setIsModalOpen(false)
   }
   return (
     <>

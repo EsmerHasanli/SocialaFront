@@ -6,7 +6,6 @@ import EmojiPicker from 'emoji-picker-react';
 const EmojiKeyboard = ({ showEmojiKeyboard, setShowEmojiKeyboard, setText }) => {
 
   const handleEmojiSelect = (emoji) => {
-    console.log(emoji.emoji);
     setText(prev=> prev+emoji.emoji)
   };
         

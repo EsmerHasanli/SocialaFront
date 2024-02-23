@@ -1,23 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { memo, useCallback, useContext, useMemo, useState } from "react";
 import { IconButton } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import { Context } from "../../../main";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import EmojiKeyboard from "./EmojiKeyboard";
+import { FollowContext } from "../../../context";
+import { sendMessage } from "@microsoft/signalr/dist/esm/Utils";
 
 
-const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatus}) => {
+let send;
+const Form = ({connection, userName}) => {
   const {store} = useContext(Context);
   const [isTyping, setIsTyping] = useState(false);
+  const {currentChatId, setCurrenthatId} = useContext(FollowContext)
+
   const [showEmojiKeyboard, setShowEmojiKeyboard] = useState(false);
   const [text, setText] = useState('');
 
-  const formik = useFormik({
-    initialValues: {
-      text: text,
-    },
-    onSubmit: async (values, actions) => {
+ 
+     async function sendMessage(e) {
+      e.preventDefault();
       if (text.length) {
         const payload = {
           chatId:currentChatId,
@@ -28,20 +31,23 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
       }
       setShowEmojiKeyboard(false)
       setText('')
-      actions.resetForm();
     }
-  })
-
+  
   const handleChangeInput = (e) => {
-    if (!isTyping) {
-      connection.changeTypingStatus(userName, senderUserName, true)
-    }
+    setText(e.target.value)
+    clearTimeout(send);
+    if (!isTyping) connection.addTypingUser(userName, store.user.userName)
+    
+    send = setTimeout(() => {
+      connection.deleteTypingUser(userName,store.user.userName)
+      setIsTyping(false);
+    },1000)
     setIsTyping(true);
   };
 
   const handleBlurInput = () => {
     if (isTyping) {
-      connection.changeTypingStatus(userName,false)
+      connection.deleteTypingUser(userName,store.user.userName)
       setIsTyping(false);
 
     }
@@ -53,11 +59,10 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
         <div className="icons">
           <EmojiKeyboard showEmojiKeyboard={showEmojiKeyboard} setShowEmojiKeyboard={setShowEmojiKeyboard} setText={setText} />
         </div>
-        <form onSubmit={formik.handleSubmit} className="input-wrapper">
+        <form onSubmit={sendMessage} className="input-wrapper">
           <div className="send-message-wrapper">
-            <input placeholder="Write your message" type="text" id='text' name='text' value={text} onBlur={handleBlurInput} onChange={(e) => {
+            <input placeholder="Write your message" value={text} onBlur={handleBlurInput} onChange={(e) => {
               handleChangeInput(e);
-              setText(e.target.value);
             }
               } autocomplete="off" />
             <IconButton type='submit'>
@@ -68,6 +73,6 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
       </div>
     </>
   );
-};
+;}
 
 export default observer(Form);

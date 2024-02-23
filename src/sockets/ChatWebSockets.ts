@@ -8,7 +8,8 @@ class Connector {
         onGetSearchUsers: (data: object[]) => void,
         onRecieveChatMessages: (data: object[]) => void,
         onRecieveMessage: (data: object) => void,
-        onGetTypingStatus: (data: boolean) => void,
+        onGetTypingUser: (data: string) => void,
+        onDeleteTypingUser:(data: string) => void,
         onGetMessagesAfterDelete : (data: object[]) => void
         ) => void;
 
@@ -28,10 +29,17 @@ class Connector {
             this.connection.onreconnected(()=> {
             this.loading = true;
             this.connection.invoke("Connect", this.store.user.userName)
-                console.log("recon chat")
             })
     
-        this.events = (onGetChatItems, onConnectChat, onGetSearchUsers,onRecieveMessages,onRecieveMessage, onGetTypingStatus, onGetMessagesAfterDelete) => {
+        this.events = (
+            onGetChatItems,
+            onConnectChat,
+            onGetSearchUsers,
+            onRecieveMessages,
+            onRecieveMessage,
+            onGetTypingUser,
+            onDeleteTypingUser,
+            onGetMessagesAfterDelete) => {
             this.connection.on("GetChatItems", (data) => {
                 onGetChatItems(data);
             });
@@ -47,8 +55,11 @@ class Connector {
             this.connection.on("RecieveMessage", (message) => {
                 onRecieveMessage(message)
             });
-            this.connection.on("GetTypingStatus", (status) => {
-                onGetTypingStatus(status)
+            this.connection.on("GetAddedTypingUser", (userName) => {
+                onGetTypingUser(userName)
+            });
+            this.connection.on("GetDeletedTypingUser", (userName) => {
+                onDeleteTypingUser(userName)
             });
             this.connection.on("GetMessagesAfterDelete", (messages) => {
                 onGetMessagesAfterDelete(messages)
@@ -71,11 +82,14 @@ class Connector {
             }
     }
 
-    public changeTypingStatus = (userName:string, status : boolean) => {
-        this.connection.invoke("SetTypingStatus", userName, status)
-        .then(() => console.log("typing status successfully updated"))
+    public addTypingUser = (reciever:string, sender:string) => {
+        this.connection.invoke("AddTypingUser", reciever, sender)
         .catch(e => console.log(e));
-        
+    }
+    
+    public deleteTypingUser = (reciever:string, sender:string) => {
+        this.connection.invoke("DeleteTypingUser", reciever, sender)
+        .catch(e => console.log(e));
     }
 
     public deleteMessage = (id : Int32Array) => {
@@ -84,12 +98,18 @@ class Connector {
         .catch(e => console.log(e));
     }
 
-    public connectSockets = () => {
+    public connectSockets = (chatId) => {
         if (this.connection.state != signalR.HubConnectionState.Connected) {
             this.connection.start()
             .then(() => {
                 this.connection.invoke("Connect", this.store.user.userName)
-                console.log("CONNECTED")
+                    .then(() => {
+                        if (chatId) {
+                            this.connectToChat(chatId);
+                        }
+                    })
+                    .catch(e => console.log(e));
+                
             })
             .catch(err => console.log(err));
 

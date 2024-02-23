@@ -18,16 +18,17 @@ const Messages = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
-  const [typingStatus, setTypingStatus] = useState(false)
+  const [typingUsers, setTypingUsers] = useState([])
   const connection = Connector(store);
   useEffect(() => {
-    connection.connectSockets(true);
+    if (currentChatId) connection.connectSockets(currentChatId);
+    else connection.connectSockets();
     localStorage.removeItem("chatId");
     function getChatItems(data) {
-      console.log(data);
+      console.log(data)
       setChatItems([...data]);
     }
-
+    
     function onConnectChat(chat) {
       setCurrentChat({ ...chat });
       setChatMessages([...chat.messages]);
@@ -38,9 +39,15 @@ const Messages = () => {
     function onRecieveChatMessages(messages) {
       setChatMessages(prev => [...prev, ...messages])
     }
-    function onGetTypingStatus(status) {
-      console.log(status)
-      setTypingStatus(status);
+    function onGetTypingUser(userName) {
+      console.log(userName)
+      if (!typingUsers.includes(userName)) {
+        setTypingUsers([...typingUsers, userName]);
+      }
+    }
+    function onDeleteTypingUser(userName) {
+        const filteredTypingUsers = typingUsers.filter(un => un != userName)
+        setTypingUsers(filteredTypingUsers);
     }
     function onGetSearchUsers(users) {
       console.log('users', users);
@@ -50,34 +57,32 @@ const Messages = () => {
       const chatId = JSON.parse(localStorage.getItem("chatId"));
       console.log(chatId);
       if (chatId) connection.disconnectFromChat(chatId);
-
+      
       connection.disconnectSockets();
     }
     function onGetMessagesAfterDelete(messages) {
       setChatMessages(messages)
     }
     window.addEventListener("unload", handleUserLogout);
-
+    
     connection.events(
       getChatItems,
       onConnectChat,
       onGetSearchUsers,
       onRecieveChatMessages,
       onRecieveMessage,
-      onGetTypingStatus,
+      onGetTypingUser,
+      onDeleteTypingUser,
       onGetMessagesAfterDelete
-    );
-    return () => {
+      );
+      return () => {
       window.removeEventListener("unload", handleUserLogout);
       connection.disconnectSockets();
     };
   }, []);
 
-  useEffect(() => {
-    if (currentChatId) {
-      connection.connectToChat(currentChatId);
-    }
-  }, [currentChatId]);
+  useEffect(() => console.log(typingUsers), [typingUsers])
+ 
   return (
     <>
       <Helmet>
@@ -89,18 +94,16 @@ const Messages = () => {
         <section>
           <ChatLeft
             connection={connection}
-            typingStatus={typingStatus}
+            typingUsers={typingUsers}
             chatItems={chatItems}
-            currentChatId={currentChatId}
-            setCurrentChatId={setCurrentChatId}
             searchedUsers={searchedUsers}
             setSearchedUsers={setSearchedUsers}
           />
           <div id="chat-wrapper">
             {currentChat ? (
               <div>
-                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingStatus={typingStatus} chatMessages={chatMessages} currentChatId={currentChatId} connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
-                <Form connection={connection} currentChatId={currentChatId} userName={currentChat.chatPartnerUserName} typingStatus={typingStatus} setTypingStatus={setTypingStatus} />
+                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
+                <Form connection={connection}  userName={currentChat.chatPartnerUserName} />
               </div>
             ) : (
               <div className="empty-chat-wrapper" >

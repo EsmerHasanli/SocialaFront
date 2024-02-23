@@ -5,7 +5,6 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Link } from "react-router-dom";
 
 const UserInfoBar = ({currentChat}) => {
-  console.log('currentChat', currentChat);
   const [userInfoBar, setShowUserInfoBar] = useState(false);
 
   return (

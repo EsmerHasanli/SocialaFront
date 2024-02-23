@@ -21,7 +21,7 @@ const SearchUsers = () => {
   let send;
   async function search(e) {
     clearTimeout(send)
-    if (e.target.value.length) {
+    if (e?.target?.value?.length) {
       send = setTimeout(async () => 
       {
         const users = await store.searchNavbarUsers(e.target.value, skip)
@@ -41,8 +41,6 @@ const SearchUsers = () => {
     if (skip >= 0) search()
   },[skip])
 
-   
-  console.log(searchedUsers)
   return (
     <div id='search-wrapper'>
       <div className="search-inp-wrapper">

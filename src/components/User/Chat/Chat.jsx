@@ -7,17 +7,17 @@ import UserInfoBar from "./UserInfoBar";
 import { Link } from "react-router-dom";
 import { FollowContext } from "../../../context";
 
-const Chat = ({currentChat, setCurrentChat, typingStatus, chatMessages, currentChatId, connection, setCurrentChatId}) => {
+const Chat = ({currentChat, setCurrentChat, typingUsers, chatMessages, connection}) => {
   const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
 
   const [skip, setSkip] = useState(0); 
   const [messsagesGetted, setMessagesGetted] = useState(false)
+  const {currentChatId, setCurrentChatId} = useContext(FollowContext)
   const [loader, setLoader] = useState(true);
   const chatContainerRef = useRef(null);
   
   const prevScrollRef = useRef(0);
   useEffect(() => {
-    console.log("worked")
       if (messsagesGetted) {
         setMessagesGetted(false);
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight - prevScrollRef.current
@@ -34,7 +34,6 @@ const Chat = ({currentChat, setCurrentChat, typingStatus, chatMessages, currentC
   
   function getMessages() {
     if (chatContainerRef.current.scrollTop == 0) {
-      console.log("текущая высота " + chatContainerRef.current.scrollHeight)
       prevScrollRef.current = chatContainerRef.current.scrollHeight
       setSkip(skip + 20)
       setMessagesGetted(true)
@@ -67,7 +66,7 @@ const Chat = ({currentChat, setCurrentChat, typingStatus, chatMessages, currentC
           <div className="info">
             <h5 style={{color: 'rgb(37,47,63)'}}>{currentChat?.chatPartnerUserName}</h5>
             {onlineUsers.find(u => u == currentChat.chatPartnerUserName) ?
-              typingStatus ? <p style={{color:'rgb(75,85,99)', fontSize:'14px'}}>typing...</p>
+              typingUsers.includes(currentChat.chatPartnerUserName) ? <p style={{color:'rgb(75,85,99)', fontSize:'14px'}}>typing...</p>
                            :<p style={{color:'rgb(34, 197, 94)'}}>Online</p>
             :null
               }

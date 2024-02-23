@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Input } from "antd";
 import ChatItem from "./ChatItem";
 import UserSearchItem from "./UserSearchItem";
+import { FollowContext } from "../../../context";
 
-const ChatLeft = ({connection,typingStatus, chatItems,currentChatId, setCurrentChatId , searchedUsers, setSearchedUsers}) => {
+const ChatLeft = ({connection, typingUsers, chatItems , searchedUsers, setSearchedUsers}) => {
+  const {currentChatId, setCurrentChatId} = useContext(FollowContext)
+
   let send;
   async function handleSearchChange(e) {
     clearTimeout(send)
     if (e.target.value.length) {
       send = setTimeout(() => 
       {
-        console.log("getti")
         connection.searchChatUsers(e.target.value)
       }
       , 1000)
@@ -37,7 +39,7 @@ const ChatLeft = ({connection,typingStatus, chatItems,currentChatId, setCurrentC
       <div className="chatters">
         <ul>
             {chatItems.map(chatItem => 
-              <ChatItem  chatItem={chatItem} typingStatus={typingStatus} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection} />
+              <ChatItem  chatItem={chatItem} typingUsers={typingUsers} currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} connection={connection} />
             )}
         </ul>
       </div>

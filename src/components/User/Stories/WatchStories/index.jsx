@@ -12,16 +12,30 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Context } from "../../../../main";
 import { observer } from "mobx-react-lite";
 import WatchModal from "./WatchModal";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, story, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedStoryId, setSelectedStoryId] = useState(null);
+  const [ storiItemId, setStoriItemId ] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   async function handleSlideChange(swiper) {
     console.log(swiper)
     const slideIndex = swiper.realIndex
     const storyItemId = storyItems[slideIndex].id
+    setStoriItemId(storyItemId)
     if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
       const storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
       const currentItem = storyCurrentSlides.find(obj => obj.id == story.id);
@@ -63,7 +77,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
             onClick={() => {
               setStoryItems([])
               setStoriesVisible(false)
-
+              handleCancel();
             }}
             style={{
               float: "right",
@@ -131,10 +145,14 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     <p>{storyItem?.text}</p>
                     {
                       story.ownerUserName == store.user.userName && 
-                        <WatchModal storyItem={storyItem}/>
+                        <button className="watch-wrapper" onClick={showModal}>
+                          <RemoveRedEyeIcon />
+                          <span>{storyItem?.watchCount}</span>
+                        </button>
                     }
                   </div>
-                </SwiperSlide> :
+                </SwiperSlide> 
+                :
                   <SwiperSlide
                   key={storyItem.key}
                   className="swiper-slide"
@@ -177,6 +195,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                 </SwiperSlide> 
               ))
             }
+            <WatchModal isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk} storiItemId={storiItemId} />
           </Swiper>
         </div>
       )}

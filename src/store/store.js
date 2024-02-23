@@ -744,4 +744,16 @@ export default class Store {
       }
       //finally {this.setLoading(false)}  
   }
+    async getWatchers (id) {
+        //this.setLoading(true);
+        try {
+          const res = await StoriesServices.getWatchers(id)
+          console.log(res.data)
+          return res.data
+        }
+        catch (e) {
+          this.showErrorAlertWithSound(e.response.message || "Error occured!")
+        }
+        //finally {this.setLoading(false)}  
+  }
 }
