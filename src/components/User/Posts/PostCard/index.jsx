@@ -17,6 +17,7 @@ import PostLike from "./PostLike";
 import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FollowContext } from "../../../../context";
 
 const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) => {
   const location = useLocation()
@@ -29,7 +30,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
   const [showMoreBtn, setShowMoreBtn] = useState( post?.comments?.length == 5 ? true : false );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const {fetchedUser} = useContext(FollowContext)
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -113,7 +114,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
     <div  id="user-post-card">
       <div className="header">
         <ul>
-          {post?.appUserUserName == store.user.userName ? (
+          {post?.appUserUserName == fetchedUser.userName ? (
             <li>
               <Avatar src={post?.appUserImageUrl} />
               <p>

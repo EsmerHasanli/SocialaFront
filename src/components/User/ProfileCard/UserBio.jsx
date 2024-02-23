@@ -30,8 +30,6 @@ const UserBio = () => {
         editedData.append('bio', values.bio)
         setFetchedUser({...fetchedUser, bio: values.bio})
         const res = await store.editBio(editedData)
-        console.log(res);
-        actions.resetForm()
         setShowInput(false)
       }
     }

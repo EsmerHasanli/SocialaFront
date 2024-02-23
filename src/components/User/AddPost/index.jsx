@@ -3,7 +3,7 @@ import "./index.scss";
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-import { Button } from "@mui/material";
+import { Box, Button, LinearProgress } from "@mui/material";
 
 import { Divider, Modal } from "antd";
 import { Context } from "../../../main";
@@ -14,7 +14,7 @@ import { observer } from "mobx-react-lite";
 
 const AddPost = ({ posts, setPosts }) => {
   const { store } = useContext(Context);
-
+  const [loader, setLoader] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -35,13 +35,12 @@ const AddPost = ({ posts, setPosts }) => {
         Swal.fire({
           position: "top-end",
           icon: "warning",
-          title: "You can not post empty form !",
+          title: "You can not post empty form!",
           showConfirmButton: false,
           timer: 1500,
         });
       } else {
-        
-        console.log(values.files);
+        setLoader(true)
         const newData = new FormData();
         newData.append("description", values.description);
         for (let i = 0; i < values.files.length; i++) {
@@ -51,12 +50,20 @@ const AddPost = ({ posts, setPosts }) => {
         setPosts([...posts, {...post}]);
         values.files = []
         actions.resetForm();
+        setLoader(false);
         closeModal();
       }
       actions.resetForm();
     },
   });
-  
+
+  if (loader) {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>
+    );
+  }
   return (
     <section id="add-post">
       <button onClick={showModal} className="status">

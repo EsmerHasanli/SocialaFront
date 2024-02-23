@@ -68,8 +68,8 @@ const UserDetailsPage = () => {
                 || store.user.follows.find((f) => f.userName == fetchedUser.userName && f.isConfirmed)
                  ? 
                   <>
+                  <ResponsiveIntroCard/>
                   {fetchedUser.userName == store.user.userName && <AddPost posts={posts} setPosts={setPosts} />}
-                    <ResponsiveIntroCard/>
                     <Posts
                       posts={posts}
                       setPosts={setPosts}

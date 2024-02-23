@@ -16,11 +16,14 @@ const SearchUsers = () => {
   const [skip, setSkip] = useState(0);
   const [showLoadMore, setShowLoadMore] = useState(false);
   const {currentChatId, setCurrentChatId} = useContext(FollowContext)
+  const [ value, setValue ] = useState('')
+  
   const navigate = useNavigate();
 
   let send;
   async function search(e) {
     clearTimeout(send)
+    setValue(e.target.value)
     if (e?.target?.value?.length) {
       send = setTimeout(async () => 
       {
@@ -29,8 +32,6 @@ const SearchUsers = () => {
         if (users.length < 10) setShowLoadMore(false) 
         else setShowLoadMore(true)
         setSearchedUsers(users)
-        console.log("timeout")
-
       }
       , 600)
     }
@@ -44,8 +45,11 @@ const SearchUsers = () => {
   return (
     <div id='search-wrapper'>
       <div className="search-inp-wrapper">
-        <Input size="large" placeholder='Search friends...' id='userName' name='userName' onChange={search} autoComplete='off'/>
-        <IconButton onClick={()=>setSearchedUsers([])}><CloseIcon style={{fontSize:'12px'}}/></IconButton>
+        <Input size="large" placeholder='Search friends...' id='userName' name='userName' value={value} onChange={search} autoComplete='off'/>
+        <IconButton onClick={()=>{
+          setSearchedUsers([])
+          setValue('')
+        }}><CloseIcon style={{fontSize:'12px'}}/></IconButton>
       </div>
       {searchedUsers.length > 0 &&<div className="search-results">
         <ul>

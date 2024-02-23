@@ -57,6 +57,7 @@ const LoginForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
+              autoComplete='off'
             />
             {formik.touched.usernameOrEmail && formik.errors.usernameOrEmail ? (
               <div className="error">{formik.errors.usernameOrEmail}</div>
@@ -72,6 +73,7 @@ const LoginForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
+              autoComplete='off'
             />
             {formik.touched.password && formik.errors.password ? (
               <div className="error">{formik.errors.password}</div>

@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { FollowContext } from "../../../context";
 import { Checkbox } from "@mui/material";
+import SettingsInfoValidationSchema from "../../../validations/SettingsInfoValidationSchema";
 
 const UserInfoForm = ({photo, setPreviewUrl}) => {
   const {store} = useContext(Context)
@@ -14,7 +15,6 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
   useEffect(() => {
     async function fetchData() {
       const res = await store.getDescription();
-      console.log(res)
       if (res.bio == null) res.bio = ""
       setInitialValues(res);
     }
@@ -23,7 +23,7 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize:true,
-    // validationSchema: ,
+    validationSchema:SettingsInfoValidationSchema ,
     onSubmit: async (values, actions) => {
       // if(initialValues == values){
       //   Swal.fire({
@@ -41,13 +41,15 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
         editedData.append('gender', values.gender)
         editedData.append('isPrivate', values.isPrivate)
         
-        console.log(values)
         const url = await store.editDescription(editedData)
-        console.log(url)
         if (url){
           setPreviewUrl(null)
           setUserAvatar(url)
         }
+        const oldUser = store.user
+        oldUser.name = values.name;
+        oldUser.surname = values.surname
+        store.setUser(oldUser)
       // }
     },
   })
@@ -73,9 +75,13 @@ const UserInfoForm = ({photo, setPreviewUrl}) => {
 
             <div>
               <input style={{marginBottom:'26px'}} id="name" name="name" type="text" placeholder={store.user.name} value={formik.values.name} onChange={formik.handleChange} />
+              {formik.touched.name && formik.errors.name ? <div className="error">{formik.errors.name}</div> : null}
               <input style={{marginBottom:'26px'}} id="surname" name="surname" type="text" placeholder={store.user.surname} value={formik.values.surname} onChange={formik.handleChange} />
+              {formik.touched.surname && formik.errors.surname ? <div className="error">{formik.errors.surname}</div> : null}
               <input style={{marginBottom:'26px'}} id="email" name="email" type="email"  placeholder={store.user.email} value={formik.values.email} onChange={formik.handleChange} />
+              {formik.touched.email && formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
               <textarea style={{marginBottom:'26px'}} id="bio" name="bio" placeholder={store.user.bio} value={formik.values.bio} onChange={formik.handleChange} />
+              {formik.touched.bio && formik.errors.bio ? <div className="error">{formik.errors.bio}</div> : null}
               <select style={{marginBottom:'26px'}} name="gender" id="gender" defaultValue={store.user.gender} value={formik.values.gender} onChange={formik.handleChange} >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>

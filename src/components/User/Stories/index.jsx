@@ -28,7 +28,6 @@ const Stories = () => {
     }
     async function getMyHistoryItems() {
       const items = await store.getCurrentUserItems();
-      console.log(items);
       if (items?.length) {
           setUserStoryItems(items);
           const myStory = {
@@ -56,7 +55,6 @@ const Stories = () => {
         storyCurrentSlides = []
       }
       const currentItem = storyCurrentSlides.find(obj => obj.id == storyy.id);
-      console.log(currentItem)
       if (currentItem) {
         storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != storyy.id);
       }
@@ -78,7 +76,6 @@ const Stories = () => {
         storyCurrentSlides = []
       }
       const currentItem = storyCurrentSlides.find(obj => obj.id == currentUserStory.id);
-      console.log(currentItem)
       if (currentItem) {
         storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != currentUserStory.id);
       }

@@ -58,6 +58,11 @@
       }
     }
     #user-info-form {
+      .error{
+        color:red;
+        font-size: 12px;
+        margin-top: 0;
+      }
       div {
         display: flex;
         justify-content: center;

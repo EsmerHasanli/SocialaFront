@@ -9,24 +9,35 @@ import FooterMobile from "../../../components/User/FooterMobile";
 import Stories from "../../../components/User/Stories";
 import { Context } from "../../../main";
 import PostCard from "../../../components/User/Posts/PostCard";
+import { Box, LinearProgress } from "@mui/material";
 
 const UserHomePage = () => {
   const [feedPosts, setFeedPosts] = React.useState([])
   const {store} = React.useContext(Context)
   const [skip, setSkip] = React.useState(0);
   const [isEnded, setIsEnded] = React.useState(false);
+  const [loader, setLoader] = React.useState(false);
 
   async function getFeedPostsAsync() {
+    setLoader(true)
     const posts = await store.getFeedPostsAsync(skip)
     if(posts.length < 10){
       setIsEnded(true);
     }
     setSkip(skip+10);
     setFeedPosts([...feedPosts, ...posts]);
+    setLoader(false)
   }
   React.useEffect(() => {
     getFeedPostsAsync()
   },[])
+  if (loader) {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
