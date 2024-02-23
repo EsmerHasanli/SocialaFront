@@ -34,7 +34,7 @@ const Form = ({connection, currentChatId, userName, typingStatus, setTypingStatu
 
   const handleChangeInput = (e) => {
     if (!isTyping) {
-      connection.changeTypingStatus(userName, true)
+      connection.changeTypingStatus(userName, senderUserName, true)
     }
     setIsTyping(true);
   };

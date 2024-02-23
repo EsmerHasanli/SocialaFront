@@ -23,7 +23,7 @@ const WatchModal = ({ storyItem }) => {
         <span>{storyItem?.watchCount}</span>
       </button>
 
-      <Modal title="Watchers" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} style={{width: '150px', position: 'relative', zIndex: '999999999999'}}>
+      <Modal title="Watchers" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} sx={{width: '150px', position: 'relative', zIndex: '999999999999'}}>
         <ul>
             <li style={{display:'flex', alignItems:'center', gap:'8px', margin:'4px 0'}}>
                 <Avatar/>

@@ -14,12 +14,11 @@ import { Keyboard, Pagination } from "swiper/modules";
 import AddComment from "../../AddComment";
 import PostComment from "./PostComment";
 import PostLike from "./PostLike";
-import { FollowContext } from "../../../../context";
 import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const PostCard = ({ post, posts, setPosts, setArchievedPosts }) => {
+const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) => {
   const location = useLocation()
   const path = location.pathname
 
@@ -89,9 +88,19 @@ const PostCard = ({ post, posts, setPosts, setArchievedPosts }) => {
           text: "Your file has been deleted.",
           icon: "success"
         });
-        const res = await store.deletePost(id);
-        const updatedArr = posts.filter((x => x.id != post.id))
-        setPosts((updatedArr))
+        await store.deletePost(id);
+        console.log(posts);
+        console.log("postId", id);
+        if (archivedPosts) {
+          const archiveArr = archivedPosts.filter(p => p.id != id)
+          setArchivedPosts(archiveArr)
+
+        }
+        if (posts) {
+          const postsArr = posts.filter(p => p.id != id)
+          setPosts(postsArr);
+
+        }
       }
     });
   }
@@ -100,9 +109,8 @@ const PostCard = ({ post, posts, setPosts, setArchievedPosts }) => {
       console.log(id);
       handleClose();
       const res = await store.recoverArchivePosts(id)
-      const updatedArr = posts.filter(x => x.id != post.id)
-      // setPosts(updatedArr)
-      setArchievedPosts(updatedArr)
+      const updatedArr = archivedPosts.filter(x => x.id != id)
+      setArchivedPosts(updatedArr)
   }
 
   return (
@@ -196,45 +204,54 @@ const PostCard = ({ post, posts, setPosts, setArchievedPosts }) => {
             })}
         </Swiper>
         <p>{post?.description}</p>
-        <div className="icons-wrapper">
-          <PostLike post={post} />
-          <IconButton className="comment-btn">
-            <MapsUgcIcon />
-          </IconButton>
-          <p>{commentsCount}</p>
+        {
+          path != '/archive' && 
+          <div className="icons-wrapper">
+            <PostLike post={post} />
+            <IconButton className="comment-btn">
+              <MapsUgcIcon />
+            </IconButton>
+            <p>{commentsCount}</p>
+          </div>
+
+        }
+      </div>
+      <Divider />
+      {
+        path != '/archive' &&
+        <>
+          <div className="comments">
+            <ul>
+              {comments.map((comment) => (
+                <PostComment
+                  key={comment.id}
+                  post={post}
+                  comment={comment}
+                  setCommentsCount={setCommentsCount}
+                />
+              ))}
+            </ul>
+            {showMoreBtn && (
+              <button>
+                <ExpandMoreIcon />
+                <span onClick={showMoreComments}>More Comments</span>
+              </button>
+            )}
+          </div>
+          <Divider />
+
+        <div className="my-comment">
+          <AddComment
+            comments={comments}
+            setComments={setComments}
+            post={post}
+            commentsCount={commentsCount}
+            setCommentsCount={setCommentsCount}
+          />
         </div>
-      </div>
-      <Divider />
-      <div className="comments">
-        <ul>
-          {comments.map((comment) => (
-            <PostComment
-              key={comment.id}
-              post={post}
-              comment={comment}
-              setCommentsCount={setCommentsCount}
-            />
-          ))}
-        </ul>
-        {showMoreBtn && (
-          <button>
-            <ExpandMoreIcon />
-            <span onClick={showMoreComments}>More Comments</span>
-          </button>
-        )}
-      </div>
+        </>
+      }
 
-      <Divider />
-
-      <div className="my-comment">
-        <AddComment
-          comments={comments}
-          setComments={setComments}
-          post={post}
-          commentsCount={commentsCount}
-          setCommentsCount={setCommentsCount}
-        />
-      </div>
     </div>
   );
 };

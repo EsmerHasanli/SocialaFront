@@ -732,4 +732,16 @@ export default class Store {
     }
     //finally {this.setLoading(false)}
   }
+  async getArchiveStories(skip) {
+      //this.setLoading(true);
+      try {
+        const res = await StoriesServices.getArchiveStories(skip)
+        console.log(res.data)
+        return res.data
+      }
+      catch (e) {
+        this.showErrorAlertWithSound(e.response.message || "Error occured!")
+      }
+      //finally {this.setLoading(false)}  
+  }
 }

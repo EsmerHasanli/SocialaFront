@@ -65,12 +65,22 @@
                         color: #293342;
                         text-align: center;
                         word-wrap: break-word;
-                        span{
+                        p{
+                          margin: 0;
+                          padding: 0;
                             font-size: 12px;
                         }
                     }
-                    &:hover{
-                        transform: scale(1.03);
+                    // &:hover{
+                    //     transform: scale(1.03);
+                    // }
+                    .descr{
+                      position: absolute;
+                      bottom: 24px;
+                      padding:0 24px;
+                      color: white;
+                      width: 220px;
+                      overflow: hidden;
                     }
                     button{
                         position: absolute;

@@ -6,7 +6,7 @@ import PostCard from '../Posts/PostCard'
 const PostsArchive = () => {
  const { store } = useContext(Context)
  const [ skip, setSkip ] = useState(0);
- const [ archivedPosts, setArchievedPosts ] = useState([])
+ const [ archivedPosts, setArchivedPosts ] = useState([])
  
  async function getArchievePostsAsync() {
   const posts = await store.getArchievePosts(skip)
@@ -14,7 +14,8 @@ const PostsArchive = () => {
   //   setIsEnded(true);
   // }
   setSkip(skip+10);
-  setArchievedPosts([...archivedPosts, ...posts]);
+  console.log(posts);
+  setArchivedPosts([...archivedPosts, ...posts]);
 }
 
  useEffect(()=>{
@@ -24,9 +25,9 @@ const PostsArchive = () => {
   return (
     <div className='content-wrapper'>
         <p>Only you can see your archived posts unless you choose to share them.</p>
-        {archivedPosts && archivedPosts.map(post => (
-            <PostCard key={post.id} post={post} setArchievedPosts={setArchievedPosts} />
-        ))}
+        {archivedPosts && archivedPosts.map(post => 
+            <PostCard key={post.id} post={post} archivedPosts={archivedPosts} setArchivedPosts={setArchivedPosts} />
+        )}
     </div>
   )
 }

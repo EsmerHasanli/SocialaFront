@@ -27,4 +27,7 @@ export default class StoriesServices {
   static async getWatchers(storyId) {
     return await $api.get(`${API_BASE_URL}/stories/watchers/${storyId}`)
   }
+  static async getArchiveStories(skip) {
+    return await $api.get(`${API_BASE_URL}/stories/archive?skip=${skip}`)
+  }
 }

@@ -64,7 +64,7 @@ const Navigation = () => {
               src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
               alt=""
             />
-            Home
+            Feed
           </li>
         </NavLink>
         <NavLink
