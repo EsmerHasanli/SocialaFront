@@ -19,7 +19,7 @@ import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const PostCard = ({ post, posts, setPosts }) => {
+const PostCard = ({ post, posts, setPosts, setArchievedPosts }) => {
   const location = useLocation()
   const path = location.pathname
 
@@ -100,6 +100,9 @@ const PostCard = ({ post, posts, setPosts }) => {
       console.log(id);
       handleClose();
       const res = await store.recoverArchivePosts(id)
+      const updatedArr = posts.filter(x => x.id != post.id)
+      // setPosts(updatedArr)
+      setArchievedPosts(updatedArr)
   }
 
   return (

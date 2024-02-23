@@ -62,7 +62,9 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
           <IconButton
             onClick={() => {
               setStoryItems([])
-              setStoriesVisible(false)}}
+              setStoriesVisible(false)
+
+            }}
             style={{
               float: "right",
               width: "30px",

@@ -92,6 +92,11 @@ const Stories = () => {
     setStoryItems(userStoryItems);
   }
 
+  useEffect(() => {
+    if (storiesVisible) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+  }, [storiesVisible])
+
   return (
     <>
       <div className="stories-icons-wrapper">

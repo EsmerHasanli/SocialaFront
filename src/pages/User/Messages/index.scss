@@ -69,7 +69,7 @@
       }
 
       .chatters {
-        height: 75vh;
+        // height: 75vh;
         overflow-y: auto;
         ul {
           padding: 8px;
@@ -203,7 +203,7 @@
         .messages {
           margin-top: 10px;
           .chat {
-            padding:0 20px;
+            padding: 0 20px 20px 20px;
 
             .recieved {
               margin-top: 24px;
@@ -334,7 +334,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 12px;
+        padding: 0 12px 12px 12px;
         gap: 12px;
         .icons{
           display: flex;

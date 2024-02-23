@@ -25,7 +25,7 @@ const PostsArchive = () => {
     <div className='content-wrapper'>
         <p>Only you can see your archived posts unless you choose to share them.</p>
         {archivedPosts && archivedPosts.map(post => (
-            <PostCard key={post.id} post={post} />
+            <PostCard key={post.id} post={post} setArchievedPosts={setArchievedPosts} />
         ))}
     </div>
   )
