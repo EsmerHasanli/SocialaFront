@@ -15,18 +15,20 @@ const UserHomePage = () => {
   const [feedPosts, setFeedPosts] = React.useState([])
   const {store} = React.useContext(Context)
   const [skip, setSkip] = React.useState(0);
-  const [isEnded, setIsEnded] = React.useState(false);
+  const [isEnded, setIsEnded] = React.useState(true);
   const [loader, setLoader] = React.useState(false);
 
-  async function getFeedPostsAsync() {
-    setLoader(true)
+  async function getFeedPostsAsync(e) {
+    e?.preventDefault()
+    //  setLoader(true)
     const posts = await store.getFeedPostsAsync(skip)
     if(posts.length < 10){
       setIsEnded(true);
     }
+    else setIsEnded(false)
     setSkip(skip+10);
     setFeedPosts([...feedPosts, ...posts]);
-    setLoader(false)
+    // setLoader(false)
   }
   React.useEffect(() => {
     getFeedPostsAsync()
@@ -59,7 +61,7 @@ const UserHomePage = () => {
             {
               !isEnded && 
               <div className="show-more-btn-wrapper">
-                <button onClick={getFeedPostsAsync} class="button">
+                <button onClick={(e) => getFeedPostsAsync(e)} class="button">
                   <span class="button-content">show more</span>
                 </button>
               </div>

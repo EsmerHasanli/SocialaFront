@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "./index.scss";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,7 +21,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
   const [selectedStoryId, setSelectedStoryId] = useState(null);
   const [ watchers, setWatchers ] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const videoRef = useRef(null);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -34,6 +34,11 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
 
   async function handleSlideChange(swiper) {
     const slideIndex = swiper.realIndex
+    if (storyItems[slideIndex].type == "Video") {
+      videoRef.current.play();
+    }
+    else videoRef.current.pause();
+    console.log(storyItems[slideIndex])
     const storyItemId = storyItems[slideIndex].id
     if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
       const storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
@@ -159,7 +164,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                   className="swiper-slide"
                   style={{backgroundColor: 'black'}}
                 >
-                  <div className="header">
+                  <div className="header" style={{zIndex:"10"}}>
                     <Link to={`/users/${story?.ownerUserName}`}>
                       <Avatar className="avatar" src={story?.ownerImageUrl} />
                       <p>{story?.ownerUserName}</p>
@@ -186,11 +191,15 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     )}
                   </div>
                   <video
-                    controls
-                    style={{width:'90%', height:'90%',}}
+                    ref={videoRef}
+                    controls={false}
+                    loop
+                    controlslist="nodownload"
+                    //autoPlay
+                    style={{width:'100%', height:'100%',}}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <source src={storyItem.sourceUrl} type="video/mp4" />
+                    <source src={storyItem.sourceUrl} aut type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                   <div className="footer">

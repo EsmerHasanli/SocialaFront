@@ -19,6 +19,7 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChatId, setCurrentChatId] = useState(null)
+  const [currentGroupId, setCurrentGroupId] = useState(null)
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -31,7 +32,11 @@ function App() {
 
   }, []);
 
-  useEffect(() => setUserAvatar(store.user.imageUrl), [store.user]);
+  useEffect(() => {
+    setUserAvatar(store.user.imageUrl)
+    setCurrentUserFollows(store.user.follows);
+  }
+    , [store.user]);
 
   if (store.isLoading) {
     return (
@@ -55,7 +60,9 @@ function App() {
         onlineUsers,
         setOnlineUsers,
         currentChatId,
-        setCurrentChatId
+        setCurrentChatId,
+        currentGroupId,
+        setCurrentGroupId
       }}
     >
       <AppRouter />

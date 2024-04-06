@@ -51,7 +51,9 @@ function PostComment({ comment, setCommentsCount }) {
       comment.id,
       skip
     );
-    if (commentsRepliesFromDb.length < 10) setShowRepliesBtn(false);
+    console.log(repliesCount)
+    console.log(skip)
+    if (commentsRepliesFromDb.length < 10 || repliesCount == skip + 10) setShowRepliesBtn(false);
     setReplies([...replies, ...commentsRepliesFromDb]);
     setReplySkip(replySkip + 10);
   }
@@ -68,6 +70,7 @@ function PostComment({ comment, setCommentsCount }) {
       setShowReplyInput(false);
       setRepliesCount(repliesCount + 1);
       setCommentsCount(prev => prev+1)
+      setValue("")
     }
   }
   // useEffect(() => console.log(replies), [replies]);

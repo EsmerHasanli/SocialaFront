@@ -17,7 +17,7 @@ const FollowsModal = () => {
 
   const showModal = () => {
     if (fetchedUser.isPrivate) {
-      if(currentUserFollows?.find(f => f.userName == fetchedUser.userName) || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
+      if(currentUserFollows?.find(f => f.userName == fetchedUser.userName && f.isConfirmed)  || fetchedUser.userName == store.user.userName) setIsModalOpen(true);
       else {
         Swal.fire({
           icon: "error",

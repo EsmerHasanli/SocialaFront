@@ -10,25 +10,90 @@ import Form from "../../../components/User/Chat/Form";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 import { FollowContext } from "../../../context";
+import Group from "../../../components/User/Group/Group";
+import GroupForm from "../../../components/User/Group/GroupForm";
 
 const Messages = () => {
   const { store } = useContext(Context);
   const [chatItems, setChatItems] = useState([]);
+  const [groupItems, setGroupItems] = useState([]);
   const {currentChatId, setCurrentChatId} = useContext(FollowContext);
+  const {currentGroupId, setCurrentGroupId} = useContext(FollowContext);
   const [currentChat, setCurrentChat] = useState(null);
+  const [currentGroup, setCurrentGroup] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
+  const [groupMessages, setGroupMessages] = useState([]);
+  const [isChatItems, setIsChatItems] = useState(localStorage.getItem("chats") ? JSON.parse(localStorage.getItem("chats")) : true);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [typingUsers, setTypingUsers] = useState([])
+  const [groupsTypingUsers, setGroupsTypingUsers] = useState([]);
+  const [chatsCount, setChatsCount] = useState(0)
+  const [groupsCount, setGroupsCount] = useState(0)
+  const [groupMembers, setGroupMembers] = useState([]);
+
   const connection = Connector(store);
   useEffect(() => {
-    if (currentChatId) connection.connectSockets(currentChatId);
-    else connection.connectSockets();
-    localStorage.removeItem("chatId");
-    function getChatItems(data) {
+    if (isChatItems) {
+      if (currentChatId) connection.connectChatSockets(currentChatId);
+      else connection.connectChatSockets();
+      localStorage.removeItem("chatId");
+    }
+    else {
+      if (currentGroupId) connection.connectGroupSockets(currentGroupId);
+      else connection.connectGroupSockets();
+      localStorage.removeItem("groupId");
+    }
+    connection.events(
+      onGetChatItems,
+      onConnectChat,
+      onGetSearchUsers,
+      onRecieveChatMessages,
+      onRecieveGroupMessages,
+      onRecieveMessage,
+      onRecieveGroupMessage,
+      onGetTypingUser,
+      onGetGroupAddedTypingUser,
+      onDeleteTypingUser,
+      onGetGroupDeletedTypingUser,
+      onGetMessagesAfterDelete,
+      onGetGroupMessagesAfterDelete,
+      onGetGroupItems,
+      onConnectGroup,
+      onGetGroupsCount,
+      onGetChatsCount,
+      onGetRemovedGroupId,
+      onGetGroupMembersAfterDelete,
+      onGetNewGroup
+      );
+
+    function onGetRemovedGroupId(groupId) {
+      setCurrentGroup(prevGroup => {
+        // Проверка, что предыдущая группа существует и её id совпадает с groupId
+        if (prevGroup && prevGroup.id === groupId) {
+          setCurrentGroupId(null);
+          return null; // Обнуляем текущую группу
+        }
+    
+        return prevGroup; // Возвращаем текущую группу без изменений
+      });
+    }
+    function onGetGroupMembersAfterDelete(members) {
+      setGroupMembers([...members]);
+      
+    }
+    function onGetGroupsCount(count) {
+      setChatsCount(count)
+      console.log(count)
+    }
+    function onGetChatsCount(count) {
+      console.log(count)
+      setGroupsCount(count)
+    }
+    function onGetChatItems(data) {
       console.log(data)
       setChatItems([...data]);
+      setChatsCount(data.length);
     }
-    
     function onConnectChat(chat) {
       setCurrentChat({ ...chat });
       setChatMessages([...chat.messages]);
@@ -36,53 +101,100 @@ const Messages = () => {
     function onRecieveMessage(message) {
       setChatMessages(prev => [{ ...message }, ...prev]);
     }
+    function onRecieveGroupMessage(message) {
+      setGroupMessages(prev => [{ ...message }, ...prev]);
+    }
     function onRecieveChatMessages(messages) {
       setChatMessages(prev => [...prev, ...messages])
     }
+    function onRecieveGroupMessages(messages) {
+      setGroupMessages(prev => [...prev, ...messages])
+    }
     function onGetTypingUser(userName) {
-      console.log(userName)
       if (!typingUsers.includes(userName)) {
         setTypingUsers([...typingUsers, userName]);
       }
+    }
+    function onGetGroupAddedTypingUser(id, userName) {
+      setGroupsTypingUsers(prevGroups => {
+        const existingGroup = prevGroups.find(obj => obj.id === id);
+    
+        if (existingGroup) {
+          // Если группа уже существует, обновляем ее
+          const updatedGroups = prevGroups.map(group => {
+            if (group.id === id && !group.users.includes(userName)) {
+              group.users.push(userName);
+            }
+            return group;
+          });
+          return updatedGroups;
+        } else {
+          // Если группа не существует, добавляем новую
+          return [...prevGroups, { id, users: [userName] }];
+        }
+      });
+    }
+    function onGetGroupDeletedTypingUser(id, userName) {
+      console.log(userName, id)
+      setGroupsTypingUsers(prevGroups => {
+        const updatedGroups = prevGroups.map(group => {
+          if (group.id == id) {
+            group.users = group.users.filter(u => u !== userName);
+          }
+          return group;
+        });
+        return updatedGroups;
+      });
     }
     function onDeleteTypingUser(userName) {
         const filteredTypingUsers = typingUsers.filter(un => un != userName)
         setTypingUsers(filteredTypingUsers);
     }
     function onGetSearchUsers(users) {
-      console.log('users', users);
       setSearchedUsers([...users]);
-    }
-    function handleUserLogout() {
-      const chatId = JSON.parse(localStorage.getItem("chatId"));
-      console.log(chatId);
-      if (chatId) connection.disconnectFromChat(chatId);
-      
-      connection.disconnectSockets();
     }
     function onGetMessagesAfterDelete(messages) {
       setChatMessages(messages)
     }
-    window.addEventListener("unload", handleUserLogout);
-    
-    connection.events(
-      getChatItems,
-      onConnectChat,
-      onGetSearchUsers,
-      onRecieveChatMessages,
-      onRecieveMessage,
-      onGetTypingUser,
-      onDeleteTypingUser,
-      onGetMessagesAfterDelete
-      );
+    function onGetGroupMessagesAfterDelete(messages) {
+      setGroupMessages([...messages])
+    }
+      function onGetGroupItems(data) {
+        setGroupItems([...data]);
+        setGroupsCount(data.length)
+      }
+      function onConnectGroup(group) {
+        setCurrentGroup({ ...group });
+        setGroupMembers([...group.members]);
+        setGroupMessages([...group.messages]);
+      }
+      function onGetNewGroup(group) {
+        setGroupItems(prev =>  [{...group}, ...prev])
+        setGroupsCount(prev => prev+1);
+      }
+      window.addEventListener("unload", handleUserLogout);
+
+      function handleUserLogout() {
+        if (isChatItems) {
+          const chatId = JSON.parse(localStorage.getItem("chatId"));
+          console.log(chatId);
+          if (chatId) connection.disconnectFromChat(chatId);
+        }
+        else {
+          const groupId = JSON.parse(localStorage.getItem("groupId"));
+          console.log(groupId);
+          if (groupId) connection.disconnectFromGroup(groupId);
+        }
+        connection.disconnectSockets();
+      }
+      
       return () => {
       window.removeEventListener("unload", handleUserLogout);
       connection.disconnectSockets();
     };
   }, []);
 
-  useEffect(() => console.log(typingUsers), [typingUsers])
- 
+  useEffect(() => console.log(groupsTypingUsers), [groupsTypingUsers])
   return (
     <>
       <Helmet>
@@ -95,23 +207,41 @@ const Messages = () => {
           <ChatLeft
             connection={connection}
             typingUsers={typingUsers}
+            groupsTypingUsers={groupsTypingUsers}
             chatItems={chatItems}
+            groupItems={groupItems}
+            groupsCount={groupsCount}
+            chatsCount={chatsCount}
+            isChatItems={isChatItems}
+            setIsChatItems={setIsChatItems}
             searchedUsers={searchedUsers}
             setSearchedUsers={setSearchedUsers}
           />
           <div id="chat-wrapper">
-            {currentChat ? (
+            {isChatItems ? 
+              currentChat 
+              ?
               <div>
                 <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
                 <Form connection={connection}  userName={currentChat.chatPartnerUserName} />
               </div>
-            ) : (
-              <div className="empty-chat-wrapper" >
-                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chat-6823641-5602882.png?f=webp" alt="" />
-                <h2>Your messages</h2>
-                <h6>Send private messages to a friend </h6>
+              : <div className="empty-chat-wrapper" >
+                  <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chat-6823641-5602882.png?f=webp" alt="" />
+                  <h2>Your messages</h2>
+                  <h6>Send private messages to a friend </h6>
+                </div>
+            : currentGroup 
+            ?
+              <div>
+                <Group currentGroup={currentGroup} groupMembers={groupMembers} setCurrentGroup={setCurrentGroup} groupsTypingUsers={groupsTypingUsers} groupMessages={groupMessages}  connection={connection} setGroupMessages={setGroupMessages} />
+                <GroupForm connection={connection} />
               </div>
-            )}
+            : <div className="empty-chat-wrapper" >
+            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chat-6823641-5602882.png?f=webp" alt="" />
+            <h2>Your groups</h2>
+            <h6>Send private messages to group</h6>
+          </div>
+            }
           </div>
         </section>
       </main>

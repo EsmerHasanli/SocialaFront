@@ -178,7 +178,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
             post?.items.map((item) => {
               if (item.type == "Image") {
                 return (
-                  <SwiperSlide key={item.id} className="swiper-slide">
+                  <SwiperSlide  style={{objectPosition:'center'}}  key={item.id} className="swiper-slide">
                     <img src={item?.sourceUrl} alt="" />
                   </SwiperSlide>
                 );

@@ -23,7 +23,7 @@ const SearchUsers = () => {
   let send;
   async function search(e) {
     clearTimeout(send)
-    setValue(e.target.value)
+    setValue(e?.target.value)
     if (e?.target?.value?.length) {
       send = setTimeout(async () => 
       {

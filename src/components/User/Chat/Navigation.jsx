@@ -22,7 +22,7 @@ const Navigation = () => {
             <NavLink
               to="/admin"
               style={({ isActive }) => ({
-                color: isActive ? "#0284C7" : "black",
+                color: isActive ? "#0284C7" : "rgb(41, 51, 66)",
                 backgroundColor: isActive ? "rgb(241,245,249)" : "white",
               })}
             >
@@ -40,7 +40,7 @@ const Navigation = () => {
         <NavLink
           to={`/users/${store.user.userName}`}
           style={({ isActive }) => ({
-            color: isActive ? "#0284C7" : "black",
+            color: isActive ? "#0284C7" : "rgb(41, 51, 66)",
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
           })}
         >
@@ -55,7 +55,7 @@ const Navigation = () => {
         <NavLink
           to="/"
           style={({ isActive }) => ({
-            color: isActive ? "#0284C7" : "black",
+            color: isActive ? "#0284C7" : "rgb(41, 51, 66)",
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
           })}
         >
@@ -71,7 +71,7 @@ const Navigation = () => {
           to="/messages"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
-            color: isActive ? "#0284C7" : "black",
+            color: isActive ? "#0284C7" : "rgb(41, 51, 66)",
           })}
         >
           <li>
@@ -97,7 +97,7 @@ const Navigation = () => {
           to="/settings"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "rgb(241,245,249)" : "white",
-            color: isActive ? "#0284C7" : "black",
+            color: isActive ? "#0284C7" : "rgb(41, 51, 66)",
           })}
         >
           <li>

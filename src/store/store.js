@@ -5,6 +5,7 @@ import UserServices from "../services/UserServices";
 import PostService from "../services/PostService";
 import StoriesServices from "../services/StoriesServices";
 import AdminService from "../services/AdminService";
+import GroupService from "../services/GroupService";
 
 export default class Store {
   user = {};
@@ -755,5 +756,14 @@ export default class Store {
           this.showErrorAlertWithSound(e.response.message || "Error occured!")
         }
         //finally {this.setLoading(false)}  
+  }
+
+  async createGroup(payload) {
+    try {
+      await GroupService.createGroup(payload);
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.data.message || "Unexpected error!")
+    }
   }
 }

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../../../main";
 import { FollowContext } from "../../../context";
 import { useFormik } from "formik";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const UserBackground = () => {
   const { store } = useContext(Context);
@@ -17,9 +18,7 @@ const UserBackground = () => {
       formData.append("photo", values.photo);
 
       const res = await store.editBackground(formData)
-
       setFetchedUser({...fetchedUser, backgroundImage: res })
-      console.log(values);
     },
   });
 
