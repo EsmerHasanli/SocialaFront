@@ -23,7 +23,13 @@ const CommentReply = ({reply}) => {
     const timeAgoString = getTimeAgoString(replyCreatedAt);
 
     function getTimeAgoString(createdAt) {
-        const elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
+        let elapsedTime = Math.floor((Date.now() - createdAt) / (1000 * 60));
+        const currentTime = new Date();
+        const timezoneOffsetInMinutes = currentTime.getTimezoneOffset();
+        const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
+        const utcOffset = -timezoneOffsetInHours;
+        elapsedTime = elapsedTime - (utcOffset * 60);
+
         if (elapsedTime < 1) {
           return "less than a minute ago";
         } else if (elapsedTime === 1) {

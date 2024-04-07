@@ -38,6 +38,7 @@ export default class Store {
         text: "Please, check your email and confirm your account!",
       });
     } catch (e) {
+      
       Swal.fire({
         icon: "error",
         title: "Oops, something went wrong!",
@@ -123,7 +124,6 @@ export default class Store {
     this.setLoading(true);
     try {
       const res = await AuthService.checkAuth();
-      console.log(res.data)
       localStorage.setItem("userName", res.data.userName)
       this.setUser(res.data);
       this.setAuth(true);
@@ -172,7 +172,6 @@ export default class Store {
     //this.setLoading(true)
     try {
       const res = await UserServices.getByUsername(username);
-      console.log(res.data);
       return res;
     } catch (e) {
       console.log(e.response)
@@ -231,7 +230,6 @@ export default class Store {
   async deletePost(id) {
     try{
       const res = await PostService.deletePost(id);
-      console.log(res);
       return res.data;
     } catch (e) {
       console.log(e.response.data.message || "Something went wrong!");
@@ -273,7 +271,6 @@ export default class Store {
   async getPostComments(postId, skip) {
     try {
       const res = await PostService.getComments(postId, skip);
-      console.log(res.data);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -283,9 +280,7 @@ export default class Store {
   }
   async getCommentReplies(commentId, skip) {
     try {
-      console.log(commentId);
       const res = await PostService.getCommentReplies(commentId, skip);
-      console.log(res);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -296,7 +291,6 @@ export default class Store {
   async likeCommentReply(replyId) {
     try {
       const res = await PostService.likeCommentReply(replyId);
-      console.log(res);
       return res;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -309,7 +303,6 @@ export default class Store {
   async likePost(postId) {
     try {
       const res = await PostService.likePost(postId);
-      console.log(res);
       return res;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -320,7 +313,6 @@ export default class Store {
   async getPostLikes(postId) {
     try {
       const res = await PostService.getPostLikes(postId);
-      console.log(res.data);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -394,7 +386,6 @@ export default class Store {
     }
   }
   async editBio(paylaod) {
-    console.log("paylaod", paylaod);
     try {
       const res = await UserServices.editBio(paylaod);
       // console.log(res);
@@ -429,10 +420,8 @@ export default class Store {
     }
   }
   async likeAvatar(username) {
-    console.log("username", username);
     try {
       const res = await UserServices.likeAvatar(username);
-      console.log(res);
       return res;
     } catch (e) {
       this.showErrorAlertWithSound(
@@ -535,7 +524,6 @@ export default class Store {
   async getStoryItems(storyId) {
     try {
       const res = await StoriesServices.getStoryItems(storyId);
-      console.log(res);
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(e.response.message)
@@ -544,7 +532,6 @@ export default class Store {
   async deleteStory(storyId) {
     try {
       const res = await StoriesServices.deleteStory(storyId);
-      console.log(res);
       return res;
     } catch (e) {
       console.log("error in deleting story", e);
@@ -553,7 +540,6 @@ export default class Store {
   async watchStory(storyId) {
     try {
       const res = await StoriesServices.watchStory(storyId);
-      console.log(res)
     }
     catch (e) {
       this.showErrorAlertWithSound(e.response.message)
@@ -606,7 +592,6 @@ export default class Store {
   async checkNotifications(payload) {
     try {
       const res = await UserServices.checkNotifications(payload);
-      console.log(res)
     }
     catch (e) {
       console.log("error in checking notifications", e);}
@@ -616,7 +601,6 @@ export default class Store {
   async getManage() {
     try {
       const res = await AdminService.getManage();
-      console.log(res)
       return res.data
     }
     catch (e) {
@@ -626,7 +610,6 @@ export default class Store {
   async getSearchedUsers(searchTerm, skip) {
     try {
       const res = await AdminService.getSearchedUsers(searchTerm, skip);
-      console.log(res)
       return res.data
     }
     catch (e) {
@@ -636,7 +619,6 @@ export default class Store {
   async changeRoles(payload) {
     try {
       const res = await AdminService.changeRoles(payload);
-      console.log(res)
       this.showSuccessAlert("User roles succesfully changed!");
       return res;
     }
@@ -647,7 +629,6 @@ export default class Store {
   async sendVerifyRequest() {
     try {
       const res = await AdminService.sendVerifyRequestAsync();
-      console.log(res)
       this.showSuccessAlert("Thank You! You successfully sended request for verify!");
       return res;
     }
@@ -658,7 +639,6 @@ export default class Store {
   async getVerifyRequests(sortType, isDesc,skip) {
     try {
       const res = await AdminService.getVerifyRequestsAsync(sortType, isDesc, skip);
-      console.log(res)
       return res.data
     }
     catch (e) {
@@ -690,7 +670,6 @@ export default class Store {
     //this.setLoading(true);
     try {
       const res = await PostService.getFeedPostsAsync(skip)
-      console.log(res.data)
       return res.data
     }
     catch (e) {
@@ -701,7 +680,6 @@ export default class Store {
   async searchNavbarUsers(searchTerm, skip) {
     try {
       const res = await UserServices.searchNavbarUsers(searchTerm, skip);
-      console.log(res)
       return res.data
     }
     catch (e) {
@@ -713,7 +691,6 @@ export default class Store {
     //this.setLoading(true);
     try {
       const res = await PostService.getArchievePosts(skip)
-      console.log(res.data)
       return res.data
     }
     catch (e) {
@@ -725,7 +702,6 @@ export default class Store {
     //this.setLoading(true);
     try {
       const res = await PostService.recoverArchivePosts(id)
-      console.log(res.data)
       return res.data
     }
     catch (e) {
@@ -737,7 +713,6 @@ export default class Store {
       //this.setLoading(true);
       try {
         const res = await StoriesServices.getArchiveStories(skip)
-        console.log(res.data)
         return res.data
       }
       catch (e) {
@@ -749,7 +724,6 @@ export default class Store {
         //this.setLoading(true);
         try {
           const res = await StoriesServices.getWatchers(id)
-          console.log(res.data)
           return res.data
         }
         catch (e) {

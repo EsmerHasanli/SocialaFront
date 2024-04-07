@@ -16,7 +16,6 @@ import { observer } from "mobx-react-lite";
 const UserInfoCard = () => {
   const { fetchedUser } = useContext(FollowContext);
   const { store } = useContext(Context);
-  console.log('fetchedUser', fetchedUser);
 
   return (
     <div id="user-info-card">

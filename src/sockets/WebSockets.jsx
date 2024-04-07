@@ -46,7 +46,6 @@ const WebSockets = () => {
             //     console.log(count);
             // });
             connection.on('OnlineUsers', (message) => {
-                console.log(message)
               setOnlineUsers([...message]);
           });
             function handleUserLogout() {

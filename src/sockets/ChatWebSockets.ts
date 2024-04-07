@@ -74,6 +74,7 @@ class Connector {
                 onGetGroupsCount(data);
             });
             this.connection.on("GetChatItems", (data) => {
+                console.log(data)
                 onGetChatItems(data);
             });
             this.connection.on("ChatConnectResponse", (chat) => {
@@ -184,6 +185,7 @@ class Connector {
         }
     }
     public connectChatSockets = (chatId) => {
+        console.log("Connectiong to chat sockets")
         if (this.connection.state != signalR.HubConnectionState.Connected) {
             this.connection.start()
             .then(() => {
@@ -200,9 +202,12 @@ class Connector {
     }
 
     public connectGroupSockets = (groupId : any) => {
+        console.log("Connectiong to group sockets")
+
         if (this.connection.state != signalR.HubConnectionState.Connected) {
             this.connection.start()
             .then(() => {
+                console.log(this.store.user.userName)
                 this.connection.invoke("ConnectToGroupSockets", this.store.user.userName)
                     .then(() => {
                         if (groupId) {

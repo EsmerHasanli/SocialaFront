@@ -11,6 +11,13 @@ const GroupMessage = ({connection,groupMembers, message, group}) => {
   const formatDate = (dateString) => {
     const currentDate = new Date();
     const inputDate = new Date(dateString);
+    if (String(inputDate) != String(currentDate)) {
+      const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
+      const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
+      const utcOffset = -timezoneOffsetInHours;
+      inputDate.setHours(inputDate.getHours() + utcOffset);
+
+    }
     const timeDifference = differenceInDays(currentDate, inputDate);
     if (timeDifference < 1) {
         const formattedTime = format(inputDate, 'HH:mm');

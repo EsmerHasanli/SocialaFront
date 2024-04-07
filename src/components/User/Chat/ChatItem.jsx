@@ -9,21 +9,27 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
     const {store} = useContext(Context);
     const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
     const {currentChatId, setCurrentChatId} = useContext(FollowContext)
+    
     const formatDate = (dateString) => {
-        const currentDate = new Date();
-        const inputDate = new Date(dateString);
-        const timeDifference = differenceInDays(currentDate, inputDate);
-        if (timeDifference < 1) {
-            const formattedTime = format(inputDate, 'HH:mm');
-            return formattedTime;
-          } else if (timeDifference < 7) {
-            const formattedDayOfWeek = format(inputDate, 'EEE');
-            return formattedDayOfWeek;
-          } else {
-            const formattedDate = format(inputDate, 'dd.MM.yyyy');
-            return formattedDate;
-          }
-      };
+      const currentDate = new Date();
+      const inputDate = new Date(dateString);
+    
+      const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
+      const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
+      const utcOffset = -timezoneOffsetInHours;
+      inputDate.setHours(inputDate.getHours() + utcOffset);
+      const timeDifference = differenceInDays(currentDate, inputDate);
+      if (timeDifference < 1) {
+        const formattedTime = format(inputDate, 'HH:mm');
+        return formattedTime;
+      } else if (timeDifference < 7) {
+        const formattedDayOfWeek = format(inputDate, 'EEE');
+        return formattedDayOfWeek;
+      } else {
+        const formattedDate = format(inputDate, 'dd.MM.yyyy');
+        return formattedDate;
+      }
+    };
 
       useEffect(() => {
         connection.connectToChat(currentChatId)

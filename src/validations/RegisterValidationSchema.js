@@ -13,10 +13,10 @@ const registerValidationSchema = Yup.object().shape({
     .matches(/^[a-zA-Z]+$/, "Invalid characters. Use only letters")
     .required("Last Name is required"),
 
-  password: Yup.string()
+    password: Yup.string()
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*#. ,?&]{8,}$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one digit"
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#.,?&])[a-zA-Z\d@$!%*#. ,?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
     )
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),

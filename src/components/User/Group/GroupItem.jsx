@@ -12,6 +12,10 @@ const GroupItem = ({groupItem, groupsTypingUsers, connection }) => {
     const formatDate = (dateString) => {
         const currentDate = new Date();
         const inputDate = new Date(dateString);
+        const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
+        const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
+        const utcOffset = -timezoneOffsetInHours;
+        inputDate.setHours(inputDate.getHours() + utcOffset);
         const timeDifference = differenceInDays(currentDate, inputDate);
         if (timeDifference < 1) {
             const formattedTime = format(inputDate, 'HH:mm');
