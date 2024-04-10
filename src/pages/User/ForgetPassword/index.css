@@ -1,0 +1,60 @@
+#forget-password .error {
+  color: red;
+  font-size: 12px;
+  margin: 5px 0;
+}
+#forget-password nav {
+  padding: 20px;
+}
+#forget-password .wrapper h3 {
+  padding: 0 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 40px;
+}
+#forget-password .wrapper p {
+  padding: 0 40px;
+  text-align: center;
+  color: rgb(115, 115, 115);
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
+}
+#forget-password .wrapper form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+#forget-password .wrapper form button {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 8px;
+  padding: 5px 0;
+  color: white;
+  background-color: rgb(88, 80, 236);
+  border: none;
+  cursor: pointer;
+}
+#forget-password .wrapper .link-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px;
+  gap: 10px;
+}
+#forget-password .wrapper .link-wrapper p {
+  padding: 0;
+  margin: 0;
+}
+#forget-password .wrapper .link-wrapper a {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: #262626;
+  font-size: 14px;
+  font-weight: 600;
+}/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,56 @@
+#responsive-intro-card {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+#responsive-intro-card .header {
+  display: flex;
+  flex-direction: column;
+}
+#responsive-intro-card .header h3 {
+  color: #293342;
+  font-size: 18px;
+  font-weight: 700;
+}
+#responsive-intro-card .header a {
+  margin-top: 5px;
+  border: none;
+  background-color: transparent;
+  color: rgb(59, 130, 246);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+#responsive-intro-card ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+#responsive-intro-card ul li {
+  margin-top: 5px;
+  color: #293342;
+  display: flex;
+  gap: 10px;
+}
+#responsive-intro-card ul li a {
+  color: #293342;
+}
+#responsive-intro-card ul .social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 1199.9px) {
+  #responsive-intro-card {
+    display: none !important;
+  }
+}/*# sourceMappingURL=index.css.map */

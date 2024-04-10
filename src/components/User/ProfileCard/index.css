@@ -1,0 +1,229 @@
+@keyframes sparkAnimation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+#profile-card {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 30px;
+}
+#profile-card .background-wrapper {
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: initial;
+}
+#profile-card .background-wrapper .bg-form {
+  position: relative;
+}
+#profile-card .background-wrapper .bg-form input {
+  display: none;
+}
+#profile-card .background-wrapper .bg-form .edit-btn {
+  margin: 16px;
+  padding: 7px 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid rgb(59, 130, 246);
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  background-color: rgb(59, 130, 246);
+}
+#profile-card .background-wrapper .avatar-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+#profile-card .background-wrapper .avatar-form .avatar {
+  position: absolute;
+  border: 8px solid rgb(243, 244, 246);
+  top: 85px;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+}
+#profile-card .background-wrapper .avatar-form .avatar img {
+  border-radius: 50%;
+}
+#profile-card .background-wrapper .avatar-form input {
+  display: none;
+}
+#profile-card .background-wrapper .avatar-form .photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -40px;
+  background-color: white;
+  color: rgb(75, 85, 99);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: 0.5s;
+}
+#profile-card .background-wrapper .avatar-form .photo:hover {
+  background-color: rgb(243, 244, 246);
+}
+#profile-card .background-wrapper .like-avatar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 260px;
+  background-size: cover;
+  background-position: center;
+}
+#profile-card .background-wrapper .like-avatar .likebtn {
+  position: absolute;
+  top: 85px;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+#profile-card .background-wrapper .like-avatar .sparks {
+  border-radius: 50%;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  animation: sparkAnimation 1s linear;
+}
+#profile-card h1 {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 36px;
+  font-weight: 700;
+  color: rgb(41, 51, 66);
+}
+#profile-card .icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 15px 0;
+}
+#profile-card .icon-wrapper img {
+  width: 60px;
+  height: 60px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+#profile-card .decr {
+  margin: 10px 0 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#profile-card .decr form {
+  margin: 10px 0 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#profile-card .decr form p {
+  color: rgb(75, 85, 99);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+#profile-card .decr form input {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  border-radius: 8px;
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+}
+#profile-card .decr form input:focus {
+  outline: 2px solid rgb(37, 99, 235);
+}
+#profile-card .decr button {
+  padding: 7px 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid rgb(59, 130, 246);
+  border-radius: 8px;
+  color: rgb(59, 130, 246);
+  font-size: 16px;
+}
+#profile-card nav {
+  padding: 0 20px;
+  margin-top: 20px;
+}
+#profile-card nav .wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#profile-card nav .wrapper .links {
+  color: rgb(75, 85, 99);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+#profile-card nav .wrapper .links li {
+  padding-bottom: 20px;
+  border-bottom: 3px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+#profile-card nav .wrapper .links li span {
+  font-size: 12px;
+}
+#profile-card nav .wrapper .links li:hover {
+  cursor: pointer;
+  border-bottom: 3px solid rgb(59, 130, 246);
+  color: rgb(59, 130, 246);
+}
+#profile-card nav .feautures {
+  margin-bottom: 20px;
+}
+#profile-card nav .feautures li {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgb(59, 130, 246);
+  background-color: rgb(59, 130, 246);
+  color: white;
+}
+#profile-card nav .feautures li span {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: white;
+}
+
+@media only screen and (max-width: 1067px) {
+  #profile-card {
+    width: 100% !important;
+  }
+}/*# sourceMappingURL=index.css.map */

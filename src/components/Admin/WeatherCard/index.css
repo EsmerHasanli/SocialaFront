@@ -1,0 +1,92 @@
+#weather-card-wrapper .cardContainer {
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#weather-card-wrapper .card {
+  box-shadow: 0px 155px 62px rgba(0, 0, 0, 0.01), 0px 87px 52px rgba(0, 0, 0, 0.05), 0px 39px 39px rgba(0, 0, 0, 0.09), 0px 10px 21px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  position: relative;
+  max-width: 350px;
+  min-width: 320px;
+  height: 235px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 10px;
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(30px);
+          backdrop-filter: blur(30px);
+  background-color: rgba(55, 57, 68, 0.774);
+  border: 1px solid rgba(255, 255, 255, 0.089);
+  cursor: pointer;
+}
+#weather-card-wrapper .city {
+  font-weight: 700;
+  font-size: 0.9em;
+  letter-spacing: 1.2px;
+  color: white;
+}
+#weather-card-wrapper .weather {
+  font-weight: 500;
+  font-size: 0.7em;
+  letter-spacing: 1.2px;
+  color: rgb(197, 197, 197);
+}
+#weather-card-wrapper .temp {
+  font-size: 1.8em;
+  color: white;
+}
+#weather-card-wrapper .minmaxContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#weather-card-wrapper .min,
+#weather-card-wrapper .max {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0px 20px;
+  gap: 4px;
+}
+#weather-card-wrapper .max {
+  align-items: flex-start;
+  border-left: 2px solid white;
+}
+#weather-card-wrapper .maxHeading,
+#weather-card-wrapper .minHeading {
+  font-size: 0.7em;
+  font-weight: 600;
+  color: white;
+}
+#weather-card-wrapper .maxTemp,
+#weather-card-wrapper .minTemp {
+  font-size: 0.6em;
+  font-weight: 500;
+  color: rgb(197, 197, 197);
+}
+#weather-card-wrapper .cardContainer::before {
+  width: 100px;
+  height: 100px;
+  content: "";
+  position: absolute;
+  background-color: rgb(144, 161, 255);
+  z-index: -1;
+  border-radius: 50%;
+  left: 100px;
+  top: 50px;
+  transition: all 1s;
+}
+#weather-card-wrapper .cardContainer:hover::before {
+  transform: translate(-50px, 50px);
+}
+#weather-card-wrapper .card:hover {
+  transform: scale(1.05);
+}/*# sourceMappingURL=index.css.map */

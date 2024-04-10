@@ -10,11 +10,12 @@ import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { Context } from '../../../main'
+import { FollowContext } from "../../../context";
 
 const FooterMobile = () => {
   const { store } = React.useContext(Context)
   const [value, setValue] = React.useState("recents");
-
+  const {unreadedMessagesCount, setUnreadedMessagesCount} = React.useContext(FollowContext)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -37,7 +38,16 @@ const FooterMobile = () => {
           />
         </Link> : null
       }
-      <Link to='/messages'>
+      <Link className="messages-link" to='/messages'>
+      {Number(unreadedMessagesCount) > 0 && Number(unreadedMessagesCount) < 100
+          ?
+            <div className="messages-count-div">
+            {unreadedMessagesCount}
+            </div>
+          : unreadedMessagesCount > 0 && <div className="messages-count-div" style={{fontSize:"10px", width:"22px", height:"22px", top:"7px", right:"18px"}}>
+                99+
+            </div>
+      }
         <BottomNavigationAction
           label="Messages"
           value="messages"

@@ -21,21 +21,29 @@ const SearchUsers = () => {
   const navigate = useNavigate();
 
   let send;
-  async function search(e) {
+  async function search(searchTerm) {
     clearTimeout(send)
-    setValue(e?.target.value)
-    if (e?.target?.value?.length) {
+    if (searchTerm) {
       send = setTimeout(async () => 
       {
-        const users = await store.searchNavbarUsers(e.target.value, skip)
+        const users = await store.searchNavbarUsers(searchTerm, skip)
         console.log(users);
         if (users.length < 10) setShowLoadMore(false) 
         else setShowLoadMore(true)
-        setSearchedUsers(users)
+        setSearchedUsers([...users])
       }
       , 600)
     }
     else setSearchedUsers([])
+  }
+  async function loadMore() {
+    if (value) {
+      const users = await store.searchNavbarUsers(value, skip)
+      console.log(users);
+      if (users.length < 10) setShowLoadMore(false) 
+      else setShowLoadMore(true)
+      setSearchedUsers([...searchedUsers, ...users])
+    }
   }
 
   useEffect(() => {
@@ -45,7 +53,11 @@ const SearchUsers = () => {
   return (
     <div id='search-wrapper'>
       <div className="search-inp-wrapper">
-        <Input size="large" placeholder='Search friends...' id='userName' name='userName' value={value} onChange={search} autoComplete='off'/>
+        <Input size="large" placeholder='Search friends...' id='userName' name='userName' value={value} onChange={(e) => {
+          setValue(e.target.value);
+          search(e.target.value);
+
+          }} autoComplete='off'/>
         <IconButton onClick={()=>{
           setSearchedUsers([])
           setValue('')
@@ -74,7 +86,10 @@ const SearchUsers = () => {
           )}
         </ul>
       {showLoadMore &&
-      <Button onClick={(e) => setSkip(skip + 10)}>Load more</Button>}
+      <Button onClick={(e) => {
+        setSkip(skip + 10)
+        loadMore();
+        }}>Load more</Button>}
     </div>}
       
     </div>

@@ -34,10 +34,12 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
 
   async function handleSlideChange(swiper) {
     const slideIndex = swiper.realIndex
-    if (storyItems[slideIndex].type == "Video") {
+    if (storyItems[slideIndex]?.type == "Video") {
       videoRef.current.play();
     }
-    else videoRef.current.pause();
+    else if (videoRef?.current) {
+      videoRef.current.pause();
+    }
     console.log(storyItems[slideIndex])
     const storyItemId = storyItems[slideIndex].id
     if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
@@ -195,7 +197,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     controls={false}
                     loop
                     controlslist="nodownload"
-                    //autoPlay
+                    autoPlay
                     style={{width:'100%', height:'100%',}}
                     onClick={(e) => e.stopPropagation()}
                   >

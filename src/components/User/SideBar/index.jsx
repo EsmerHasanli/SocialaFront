@@ -6,9 +6,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Divider from "@mui/material/Divider";
 import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
+import { FollowContext } from "../../../context";
 
 const SideBar = () => {
   const { store } = useContext(Context);
+  const {unreadedMessagesCount, setUnreadedMessagesCount} = React.useContext(FollowContext)
   
   const handleLogout = async () => {
     await store.logout();
@@ -22,49 +24,69 @@ const SideBar = () => {
             store.user?.roles.includes('Admin')  || store.user?.roles.includes('Moderator') ?
               <Link to="/admin">
               <li>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
-                  alt="dashboard"
-                />
-                <p>Dashboard</p>
+                <div>
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/8901/8901603.png"
+                    alt="dashboard"
+                  />
+                  <p>Dashboard</p>
+                </div>
               </li>
             </Link>
           : null
           }
           <Link to={`/users/${store.user.userName}`}>
             <li>
-              <img src="https://cdn-icons-png.flaticon.com/512/7382/7382094.png" alt="user" />
-              <p>My page</p>
+              <div>
+                <img src="https://cdn-icons-png.flaticon.com/512/7382/7382094.png" alt="user" />
+                <p>My page</p>
+              </div>
             </li>
           </Link>
           <Link to="/">
             <li>
-              <img
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
-                alt="home"
-              />
-              <p>Feed</p>
+              <div>
+                <img
+                  src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
+                  alt="home"
+                />
+                <p>Feed</p>
+              </div>
             </li>
           </Link>
 
-          <Link to="/messages">
+          <Link to="/messages" className="messages-link">
             <li>
-              <img
-                src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/message.png"
-                alt="chat"
-              />
-              <p>Messages</p>
+              <div>
+                <img
+                  src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/message.png"
+                  alt="chat"
+                />
+                <p>Messages</p>
+              </div>
+              {Number(unreadedMessagesCount) > 0 && Number(unreadedMessagesCount) < 100
+          ?
+            <div className="messages-count-div">
+            {unreadedMessagesCount}
+            </div>
+          : unreadedMessagesCount > 0 && <div className="messages-count-div" style={{fontSize:"10px", width:"22px", height:"22px", top:"7px", right:"18px"}}>
+                99+
+            </div>
+      }
+
             </li>
           </Link>
 
           <Link to="/archive">
             <li>
-              <img
-                style={{ width: "28px", height: "28px" }}
-                src="https://static.vecteezy.com/system/resources/previews/021/095/640/original/3d-render-illustration-of-archive-icon-office-material-png.png"
-                alt="archive"
-              />
-              <p>Archive</p>
+              <div>
+                <img
+                  style={{ width: "28px", height: "28px" }}
+                  src="https://static.vecteezy.com/system/resources/previews/021/095/640/original/3d-render-illustration-of-archive-icon-office-material-png.png"
+                  alt="archive"
+                />
+                <p>Archive</p>
+              </div>
             </li>
           </Link>
         </ul>
@@ -74,13 +96,17 @@ const SideBar = () => {
         <ul className="functions">
           <Link to="/settings">
             <li>
-              <SettingsIcon style={{ color: "rgb(41,51,66)" }} />
-              <p>Settings</p>
+              <div>
+                <SettingsIcon style={{ color: "rgb(41,51,66)" }} />
+                <p>Settings</p>
+              </div>
             </li>
           </Link>
           <li onClick={handleLogout}>
-            <LogoutIcon style={{ color: "rgb(41,51,66)" }} />
-            <p>Logout</p>
+            <div>
+              <LogoutIcon style={{ color: "rgb(41,51,66)" }} />
+              <p>Logout</p>
+            </div>
           </li>
         </ul>
       </div>

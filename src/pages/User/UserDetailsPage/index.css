@@ -1,0 +1,35 @@
+#user-profile .profile-wrapper {
+  max-width: 1070px;
+  margin: 0 auto;
+}
+#user-profile .locked-account-bg {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px 0;
+  width: 100%;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#user-profile .locked-account-bg img {
+  max-width: 350px;
+  max-height: 350px;
+}
+#user-profile .locked-account-bg h2 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+@media (max-width: 320px) {
+  #user-profile .profile-wrapper {
+    max-width: 320px;
+    padding: 0;
+  }
+  #user-profile .profile-wrapper .content-wrapper {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+  }
+}/*# sourceMappingURL=index.css.map */

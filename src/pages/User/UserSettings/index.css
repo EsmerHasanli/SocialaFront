@@ -1,0 +1,282 @@
+#user-settings .settings-wrapper {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 8px;
+  max-width: 736px;
+}
+#user-settings .settings-wrapper .header {
+  padding: 32px 32px 16px 23px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .left .avatar-input {
+  display: none;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .left .avatar-upload {
+  margin-left: -30px;
+  margin-top: 70px;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .right {
+  display: flex;
+  justify-content: space-between;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .right div {
+  display: flex;
+  flex-direction: column;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .right div h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+#user-settings .settings-wrapper .header .current-info-wrapper .right div h6 a {
+  color: rgb(37, 99, 235);
+  font-size: 14px;
+  font-weight: 400;
+}
+#user-settings .settings-wrapper .header .new-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+#user-settings .settings-wrapper #user-info-form .error {
+  color: red;
+  font-size: 12px;
+  margin-top: 0;
+}
+#user-settings .settings-wrapper #user-info-form div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#user-settings .settings-wrapper #user-info-form div form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  flex-direction: column;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:nth-child(2) input {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  border-radius: 8px;
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:nth-child(2) input:focus {
+  outline: 2px solid rgb(37, 99, 235);
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:nth-child(2) textarea {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  border-radius: 8px;
+}
+#user-settings .settings-wrapper #user-info-form div form .form-wrapper div:nth-child(2) select {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  border-radius: 8px;
+}
+#user-settings .settings-wrapper #user-info-form div form .button-wrapper {
+  margin-top: 26px;
+  display: flex;
+  gap: 26px;
+}
+#user-settings .settings-wrapper #user-info-form div form .button-wrapper button {
+  padding: 6px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+#user-settings .settings-wrapper #user-info-form div form .button-wrapper .white {
+  background-color: rgb(241, 245, 249);
+}
+#user-settings .settings-wrapper #user-info-form div form .button-wrapper .blue {
+  background-color: rgb(37, 99, 235);
+  color: white;
+}
+#user-settings .settings-wrapper #user-info-form .btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+#user-settings .settings-wrapper #user-info-form .btn-wrapper button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: rgb(37, 99, 235);
+  padding: 10px 10px;
+  border-bottom: 1px solid dotted;
+}
+#user-settings .settings-wrapper #user-social-links h3 {
+  font-size: 20px;
+  font-weight: 500;
+}
+#user-settings .settings-wrapper #user-social-links p {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(75, 85, 99);
+}
+#user-settings .settings-wrapper #user-social-links form {
+  margin-top: 32px;
+}
+#user-settings .settings-wrapper #user-social-links form ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#user-settings .settings-wrapper #user-social-links form ul li {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+}
+#user-settings .settings-wrapper #user-social-links form ul li div {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+}
+#user-settings .settings-wrapper #user-social-links form ul li input {
+  padding: 7px 10px;
+  border: none;
+  background-color: rgb(241, 245, 249);
+  border-radius: 8px;
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+}
+#user-settings .settings-wrapper #user-social-links form ul li input:focus {
+  outline: 2px solid rgb(37, 99, 235);
+}
+#user-settings .settings-wrapper #user-social-links .btn-wrapper {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+}
+#user-settings .settings-wrapper #user-social-links .btn-wrapper button {
+  padding: 6px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+#user-settings .settings-wrapper #user-social-links .btn-wrapper .white {
+  background-color: rgb(241, 245, 249);
+}
+#user-settings .settings-wrapper #user-social-links .btn-wrapper .blue {
+  background-color: rgb(37, 99, 235);
+  color: white;
+}
+#user-settings .settings-wrapper #user-social-links .error {
+  color: red;
+  font-size: 12px;
+}
+#user-settings .settings-wrapper #user-notifications-form div {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+#user-settings .settings-wrapper #user-notifications-form div .wrapper {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  gap: 50px;
+  flex-direction: row;
+}
+#user-settings .settings-wrapper #user-notifications-form div .button-wrapper {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 26px;
+}
+#user-settings .settings-wrapper #user-notifications-form div .button-wrapper button {
+  padding: 6px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+#user-settings .settings-wrapper #user-notifications-form div .button-wrapper .white {
+  background-color: rgb(241, 245, 249);
+}
+#user-settings .settings-wrapper #user-notifications-form div .button-wrapper .blue {
+  background-color: rgb(37, 99, 235);
+  color: white;
+}
+#user-settings .settings-wrapper input[type=checkbox] {
+  border-radius: 8px;
+  width: 20px;
+  height: 20px;
+}
+#user-settings .settings-wrapper input[type=checkbox]:checked {
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+#user-settings .settings-wrapper input[type=checkbox]:hover {
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+#user-settings .settings-wrapper input[type=checkbox]:active {
+  border-radius: 8px;
+  outline: none;
+  border: none;
+}
+
+@media only screen and (max-width: 426px) {
+  #user-notifications-form {
+    padding: 20px !important;
+  }
+  #user-notifications-form .wrapper {
+    flex-direction: column !important;
+  }
+  #user-social-links {
+    padding: 20px !important;
+  }
+  #user-info-form {
+    padding: 20px !important;
+  }
+}/*# sourceMappingURL=index.css.map */

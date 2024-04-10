@@ -1,8 +1,8 @@
 import * as signalR from "@microsoft/signalr";
-import { log } from "console";
-const URL ="https://localhost:7023/chatHub"; 
+const URL ="https://localhost:7023/messagesHub"; 
 class Connector {
     private connection: signalR.HubConnection;
+    public state: boolean;
     public events: (
         onGetChatItems: (data : object[]) => void,
         onConnectChat: (data:object) => void,
@@ -24,6 +24,8 @@ class Connector {
         onGetRemovedGroupId: (data:number) => void,
         onGetGroupMembersAfterDelete: (data:number) => void,
         onGetNewGroup : (data: object) => void,
+        onGetUnreadedMessagesCount:(data:Int32Array) => void,
+        onGetChatAfterDelete:(data:object) => void
         ) => void;
     public store;
     public loading : boolean;
@@ -31,9 +33,9 @@ class Connector {
     constructor(store) {
         this.store = store;
         this.connection = new signalR.HubConnectionBuilder()
-        .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/chatHub', {
-            // skipNegotiation: true,
-            // transport: signalR.HttpTransportType.WebSockets
+        .withUrl('https://localhost:7023/messagesHub', {
+            skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets
         })
             .withAutomaticReconnect()
             .build();
@@ -65,11 +67,16 @@ class Connector {
                 onGetGroupsCount,
                 onGetRemovedGroupId,
                 onGetGroupMembersAfterDelete,
-                onGetNewGroup) => {
+                onGetNewGroup,
+                onGetUnreadedMessagesCount,
+                onGetChatAfterDelete) => {
                  
             this.connection.on("GetChatsCount", (data) => {
                 onGetChatsCount(data);
             });
+            this.connection.on("GetUnreadedMessagesCount", (data) => {
+                onGetUnreadedMessagesCount(data);
+            })
             this.connection.on("GetGroupsCount", (data) => {
                 onGetGroupsCount(data);
             });
@@ -95,6 +102,9 @@ class Connector {
             this.connection.on("RecieveGroupMessage", (message) => {
                 onRecieveGroupMessage(message)
             });
+            this.connection.on("GetChatAfterDelete", (chatDto) => {
+                onGetChatAfterDelete(chatDto);
+            })
             this.connection.on("GetAddedTypingUser", (userName) => {
                 onGetTypingUser(userName)
             });
@@ -110,6 +120,7 @@ class Connector {
             this.connection.on("GetMessagesAfterDelete", (messages) => {
                 onGetMessagesAfterDelete(messages)
             });
+
             this.connection.on("GetGroupMessagesAfterDelete", (messages) => {
                 onGetGroupMessagesAfterDelete(messages)
             });
@@ -184,43 +195,19 @@ class Connector {
             .catch(e => console.log(e));
         }
     }
-    public connectChatSockets = (chatId) => {
-        console.log("Connectiong to chat sockets")
+    public connectMessagesSockets = () => {
         if (this.connection.state != signalR.HubConnectionState.Connected) {
             this.connection.start()
             .then(() => {
-                this.connection.invoke("ConnectToChatSockets", this.store.user.userName)
-                    .then(() => {
-                        if (chatId) {
-                            this.connectToChat(chatId);
-                        }
-                    })
-                    .catch(e => console.log(e));
-            })
-            .catch(err => console.log(err));
-        }
-    }
-
-    public connectGroupSockets = (groupId : any) => {
-        console.log("Connectiong to group sockets")
-
-        if (this.connection.state != signalR.HubConnectionState.Connected) {
-            this.connection.start()
-            .then(() => {
-                console.log(this.store.user.userName)
-                this.connection.invoke("ConnectToGroupSockets", this.store.user.userName)
-                    .then(() => {
-                        if (groupId) {
-                            this.connectToGroup(groupId);
-                        }
-                    })
-                    .catch(e => console.log(e));
+                this.connection.invoke("ConnectToMessagesSockets", this.store.user.userName)
+                .then(c => this.state = true)
             })
             .catch(err => console.log(err));
         }
     }
 
     public getItems(isChat : boolean) {
+        console.log(isChat)
         if (this.connection.state == signalR.HubConnectionState.Connected) {
         this.connection.invoke("GetItems", isChat, this.store.user.userName)
         .catch(e => console.log(e));

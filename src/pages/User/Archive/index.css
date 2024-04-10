@@ -1,0 +1,366 @@
+#archive .wrapper .header-wrapper {
+  padding: 20px;
+  border-bottom: 1px solid rgba(41, 51, 66, 0.4588235294);
+  border-radius: 2px;
+}
+#archive .wrapper .header-wrapper .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  color: #293342 !important;
+  fill: #293342;
+}
+#archive .wrapper .header-wrapper .header .title-wrapper {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+#archive .wrapper .header-wrapper .header .title-wrapper h2 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+#archive .wrapper .header-wrapper .header .title-wrapper img {
+  height: 30px;
+  width: 30px;
+}
+#archive .wrapper .content-wrapper p {
+  margin-bottom: 20px;
+}
+#archive .wrapper .content-wrapper p:first-child {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: rgb(41, 51, 66);
+  margin-top: 20px;
+}
+#archive .wrapper .content-wrapper .card-wrapper {
+  padding: 50px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+#archive .wrapper .content-wrapper .card-wrapper .card {
+  position: relative;
+  width: 260px;
+  height: 460px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#archive .wrapper .content-wrapper .card-wrapper .card .date {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 38px;
+  border-radius: 8px;
+  background-color: white;
+  color: #293342;
+  text-align: center;
+  word-wrap: break-word;
+}
+#archive .wrapper .content-wrapper .card-wrapper .card .date p {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+#archive .wrapper .content-wrapper .card-wrapper .card .descr {
+  position: absolute;
+  bottom: 24px;
+  padding: 0 24px;
+  color: white;
+  width: 220px;
+  overflow: hidden;
+}
+#archive .wrapper .content-wrapper .card-wrapper .card button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: rgb(41, 51, 66);
+}
+#archive .wrapper .content-wrapper #user-post-card {
+  margin: 0 auto;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  border-radius: 8px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+#archive .wrapper .content-wrapper #user-post-card .header {
+  padding: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul a {
+  color: #293342;
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul a span:last-child {
+  font-size: 10px;
+  color: rgb(89, 114, 154);
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul li p {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: #293342;
+}
+#archive .wrapper .content-wrapper #user-post-card .header ul li p span:last-child {
+  font-size: 10px;
+  color: rgb(89, 114, 154);
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 16px;
+  overflow: hidden;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content .mySwiper {
+  border-radius: 8px;
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content .mySwiper img {
+  border-radius: 8px;
+  width: 100%;
+  height: 400px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content p {
+  margin: 16px 0;
+  width: 100%;
+  font-size: 14px;
+  color: rgb(75, 85, 99);
+  font-weight: 400;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content .icons-wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content .icons-wrapper p {
+  width: 10px;
+}
+#archive .wrapper .content-wrapper #user-post-card .post-content .icons-wrapper .comment-btn {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: rgb(235, 239, 244);
+  color: rgb(75, 85, 99);
+}
+#archive .wrapper .content-wrapper #user-post-card .comments {
+  padding: 0 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments input {
+  background-color: transparent;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .com {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .com div div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .com div div span {
+  font-size: 12px;
+  color: rgba(75, 85, 99, 0.7254901961);
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .com div h6 {
+  font-size: 14px;
+  font-weight: 500;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .com p {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(75, 85, 99);
+  width: 225px;
+  word-wrap: break-word;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .func-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .func-wrapper .like {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .func-wrapper .like div {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(107, 114, 128);
+  cursor: pointer;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .wrapper .func-wrapper .like .reply-btn {
+  margin-left: 10px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-wrapper {
+  margin: 15px 0;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-wrapper div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: rgba(59, 59, 59, 0.8);
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-wrapper div .reply-inp {
+  border: none;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-wrapper div .reply-inp:focus {
+  color: rgba(59, 59, 59, 0.8);
+  outline: none;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-wrapper div .send-btn {
+  color: rgb(75, 85, 99);
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 16px;
+  background-color: rgb(229, 231, 235);
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .show-reply-btn {
+  margin: 10px 0;
+  padding-left: 30px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left span {
+  margin: 0;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left div div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left div div span {
+  color: rgba(75, 85, 99, 0.725);
+  font-size: 12px;
+  font-weight: 400;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left h6 {
+  font-size: 14px;
+  font-weight: 500;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .left p {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(75, 85, 99);
+  width: 225px;
+  word-wrap: break-word;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 400;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments ul li .reply-comments-wrapper .right p {
+  cursor: pointer;
+  color: rgb(107, 114, 128);
+}
+#archive .wrapper .content-wrapper #user-post-card .comments button {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(107, 114, 128);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  border: none;
+  background-color: transparent;
+  margin-bottom: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .comments button:hover {
+  color: rgb(37, 99, 235);
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment {
+  padding: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment input {
+  background-color: transparent;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment form div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment form .com-inp {
+  padding: 8px;
+  border: none;
+  transition: border-color 0.3s;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment form .com-inp:focus {
+  outline: none;
+}
+#archive .wrapper .content-wrapper #user-post-card .my-comment button {
+  padding: 6px 14px;
+  color: rgb(75, 85, 99);
+  background-color: rgb(229, 231, 235);
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 20px;
+}/*# sourceMappingURL=index.css.map */

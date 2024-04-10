@@ -57,12 +57,7 @@ export default class Store {
       await this.checkAuth();
       return res.data.username;
     } catch (e) {
-      console.log(e.response);
-      Swal.fire({
-        icon: "error",
-        title: "Oops, something went wrong!",
-        text: e.response.data?.message,
-      });
+        return e?.response?.data;
     } finally {
       this.setLoading(false);
     }

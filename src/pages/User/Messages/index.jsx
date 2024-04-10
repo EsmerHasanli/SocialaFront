@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import "./index.scss";
 
 import { Helmet } from "react-helmet";
-import Connector from "../../../sockets/ChatWebSockets";
 import Navigation from "../../../components/User/Chat/Navigation";
 import ChatLeft from "../../../components/User/Chat/ChatLeft";
 import Chat from "../../../components/User/Chat/Chat";
@@ -12,189 +11,50 @@ import { observer } from "mobx-react-lite";
 import { FollowContext } from "../../../context";
 import Group from "../../../components/User/Group/Group";
 import GroupForm from "../../../components/User/Group/GroupForm";
+import Connector from "../../../sockets/ChatWebSockets";
 
 const Messages = () => {
   const { store } = useContext(Context);
-  const [chatItems, setChatItems] = useState([]);
-  const [groupItems, setGroupItems] = useState([]);
-  const {currentChatId, setCurrentChatId} = useContext(FollowContext);
-  const {currentGroupId, setCurrentGroupId} = useContext(FollowContext);
-  const [currentChat, setCurrentChat] = useState(null);
-  const [currentGroup, setCurrentGroup] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
-  const [groupMessages, setGroupMessages] = useState([]);
-  const [isChatItems, setIsChatItems] = useState(localStorage.getItem("chats") ? JSON.parse(localStorage.getItem("chats")) : true);
-  const [searchedUsers, setSearchedUsers] = useState([]);
-  const [typingUsers, setTypingUsers] = useState([])
-  const [groupsTypingUsers, setGroupsTypingUsers] = useState([]);
-  const [chatsCount, setChatsCount] = useState(0)
-  const [groupsCount, setGroupsCount] = useState(0)
-  const [groupMembers, setGroupMembers] = useState([]);
-
   const connection = Connector(store);
+
+  const {
+    chatItems,
+    groupItems,
+    currentChatId,
+    setCurrentChatId,
+    currentGroupId,
+    setCurrentGroupId,
+    currentChat,
+    setCurrentChat,
+    currentGroup,
+    setCurrentGroup,
+    chatMessages,
+    setChatMessages,
+    groupMessages,
+    setGroupMessages,
+    isChatItems,
+    setIsChatItems,
+    searchedUsers,
+    setSearchedUsers,
+    typingUsers,
+    setTypingUsers,
+    groupsTypingUsers,
+    setGroupsTypingUsers,
+    chatsCount,
+    setChatsCount,
+    groupsCount,
+    setGroupsCount,
+    groupMembers,
+    setGroupMembers,
+    unreadedMessagesCount,
+    setUnreadedMessagesCount
+  } = useContext(FollowContext);
+  
   useEffect(() => {
-    if (isChatItems) {
-      if (currentChatId) connection.connectChatSockets(currentChatId);
-      else connection.connectChatSockets();
-      localStorage.removeItem("chatId");
+    if (connection.state) {
+      connection.getItems(isChatItems);
     }
-    else {
-      if (currentGroupId) connection.connectGroupSockets(currentGroupId);
-      else connection.connectGroupSockets();
-      localStorage.removeItem("groupId");
-    }
-    connection.events(
-      onGetChatItems,
-      onConnectChat,
-      onGetSearchUsers,
-      onRecieveChatMessages,
-      onRecieveGroupMessages,
-      onRecieveMessage,
-      onRecieveGroupMessage,
-      onGetTypingUser,
-      onGetGroupAddedTypingUser,
-      onDeleteTypingUser,
-      onGetGroupDeletedTypingUser,
-      onGetMessagesAfterDelete,
-      onGetGroupMessagesAfterDelete,
-      onGetGroupItems,
-      onConnectGroup,
-      onGetGroupsCount,
-      onGetChatsCount,
-      onGetRemovedGroupId,
-      onGetGroupMembersAfterDelete,
-      onGetNewGroup
-      );
-
-    function onGetRemovedGroupId(groupId) {
-      setCurrentGroup(prevGroup => {
-        // Проверка, что предыдущая группа существует и её id совпадает с groupId
-        if (prevGroup && prevGroup.id === groupId) {
-          setCurrentGroupId(null);
-          return null; // Обнуляем текущую группу
-        }
-    
-        return prevGroup; // Возвращаем текущую группу без изменений
-      });
-    }
-    function onGetGroupMembersAfterDelete(members) {
-      setGroupMembers([...members]);
-      
-    }
-    function onGetGroupsCount(count) {
-      setChatsCount(count)
-      console.log(count)
-    }
-    function onGetChatsCount(count) {
-      console.log(count)
-      setGroupsCount(count)
-    }
-    function onGetChatItems(data) {
-      console.log(data)
-      setChatItems([...data]);
-      setChatsCount(data.length);
-    }
-    function onConnectChat(chat) {
-      setCurrentChat({ ...chat });
-      setChatMessages([...chat.messages]);
-    }
-    function onRecieveMessage(message) {
-      setChatMessages(prev => [{ ...message }, ...prev]);
-    }
-    function onRecieveGroupMessage(message) {
-      setGroupMessages(prev => [{ ...message }, ...prev]);
-    }
-    function onRecieveChatMessages(messages) {
-      setChatMessages(prev => [...prev, ...messages])
-    }
-    function onRecieveGroupMessages(messages) {
-      setGroupMessages(prev => [...prev, ...messages])
-    }
-    function onGetTypingUser(userName) {
-      if (!typingUsers.includes(userName)) {
-        setTypingUsers([...typingUsers, userName]);
-      }
-    }
-    function onGetGroupAddedTypingUser(id, userName) {
-      setGroupsTypingUsers(prevGroups => {
-        const existingGroup = prevGroups.find(obj => obj.id === id);
-    
-        if (existingGroup) {
-          // Если группа уже существует, обновляем ее
-          const updatedGroups = prevGroups.map(group => {
-            if (group.id === id && !group.users.includes(userName)) {
-              group.users.push(userName);
-            }
-            return group;
-          });
-          return updatedGroups;
-        } else {
-          // Если группа не существует, добавляем новую
-          return [...prevGroups, { id, users: [userName] }];
-        }
-      });
-    }
-    function onGetGroupDeletedTypingUser(id, userName) {
-      console.log(userName, id)
-      setGroupsTypingUsers(prevGroups => {
-        const updatedGroups = prevGroups.map(group => {
-          if (group.id == id) {
-            group.users = group.users.filter(u => u !== userName);
-          }
-          return group;
-        });
-        return updatedGroups;
-      });
-    }
-    function onDeleteTypingUser(userName) {
-        const filteredTypingUsers = typingUsers.filter(un => un != userName)
-        setTypingUsers(filteredTypingUsers);
-    }
-    function onGetSearchUsers(users) {
-      setSearchedUsers([...users]);
-    }
-    function onGetMessagesAfterDelete(messages) {
-      setChatMessages(messages)
-    }
-    function onGetGroupMessagesAfterDelete(messages) {
-      setGroupMessages([...messages])
-    }
-      function onGetGroupItems(data) {
-        setGroupItems([...data]);
-        setGroupsCount(data.length)
-      }
-      function onConnectGroup(group) {
-        setCurrentGroup({ ...group });
-        setGroupMembers([...group.members]);
-        setGroupMessages([...group.messages]);
-      }
-      function onGetNewGroup(group) {
-        setGroupItems(prev =>  [{...group}, ...prev])
-        setGroupsCount(prev => prev+1);
-      }
-      window.addEventListener("unload", handleUserLogout);
-
-      function handleUserLogout() {
-        if (isChatItems) {
-          const chatId = JSON.parse(localStorage.getItem("chatId"));
-          console.log(chatId);
-          if (chatId) connection.disconnectFromChat(chatId);
-        }
-        else {
-          const groupId = JSON.parse(localStorage.getItem("groupId"));
-          console.log(groupId);
-          if (groupId) connection.disconnectFromGroup(groupId);
-        }
-        connection.disconnectSockets();
-      }
-      
-      return () => {
-      window.removeEventListener("unload", handleUserLogout);
-      connection.disconnectSockets();
-    };
-  }, []);
-
-  useEffect(() => console.log(groupsTypingUsers), [groupsTypingUsers])
+  },[connection.state])
   return (
     <>
       <Helmet>

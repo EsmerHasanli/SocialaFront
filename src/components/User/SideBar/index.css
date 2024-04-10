@@ -1,0 +1,58 @@
+#side-bar {
+  position: fixed;
+  width: 250px;
+  transition: width 0.3s ease;
+}
+#side-bar:hover {
+  width: 330px;
+  cursor: pointer;
+}
+#side-bar ul {
+  padding: 8px;
+}
+#side-bar ul li {
+  display: flex;
+  gap: 20px;
+  padding: 16px 12px;
+  border-radius: 5px;
+  align-items: center;
+}
+#side-bar ul li a, #side-bar ul li p {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(41, 51, 66);
+}
+#side-bar ul li:hover {
+  background-color: rgb(241, 245, 249);
+}
+#side-bar .pages li img {
+  height: 24px;
+  width: 24px;
+}
+#side-bar .pages li:hover a {
+  color: rgb(2, 132, 199);
+}
+
+
+
+@media only screen and (max-width: 1199.9px) {
+  #side-bar {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
+  #side-bar {
+    width: 160px !important;
+  }
+  #side-bar:hover {
+    width: 160px !important;
+  }
+}
+@media only screen and (min-width: 1301px) and (max-width: 1454px) {
+  #side-bar {
+    width: 150px !important;
+  }
+  #side-bar:hover {
+    width: 180px !important;
+  }
+}/*# sourceMappingURL=index.css.map */

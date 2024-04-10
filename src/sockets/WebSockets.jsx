@@ -10,10 +10,9 @@ const WebSockets = () => {
     const {store} = useContext(Context)
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/notificationHub', {
-                
-                // skipNegotiation: true,
-                // transport: signalR.HttpTransportType.WebSockets
+            .withUrl('https://localhost:7023/notificationHub', {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
         })
             .withAutomaticReconnect()
             .build();

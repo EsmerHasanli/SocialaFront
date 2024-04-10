@@ -8,16 +8,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const GroupMessage = ({connection,groupMembers, message, group}) => {
   const { store } = useContext(Context);
-  const formatDate = (dateString) => {
+  const formatDate = () => {
     const currentDate = new Date();
-    const inputDate = new Date(dateString);
-    if (String(inputDate) != String(currentDate)) {
-      const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
-      const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
-      const utcOffset = -timezoneOffsetInHours;
-      inputDate.setHours(inputDate.getHours() + utcOffset);
-
+    if (message.createdAt[message.createdAt.length - 1] == 'Z') {
+      message.createdAt = message.createdAt.slice(0, -1)
     }
+    const inputDate = new Date(message.createdAt); 
+    const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
+    const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
+    const utcOffset = -timezoneOffsetInHours;
+    console.log(utcOffset)
+    inputDate.setHours(inputDate.getHours() + utcOffset);
+
     const timeDifference = differenceInDays(currentDate, inputDate);
     if (timeDifference < 1) {
         const formattedTime = format(inputDate, 'HH:mm');

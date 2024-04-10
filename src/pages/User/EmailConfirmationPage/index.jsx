@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect } from 'react'
 import { Context } from '../../../main';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const EmailConfirmationPage = () => {
     const { store } = useContext(Context);
@@ -12,11 +13,21 @@ const EmailConfirmationPage = () => {
             const formData = new FormData();
             formData.append("token", queryParams.get("token"))
             formData.append("email", queryParams.get("email"))
-            const username = await store.confirmEmail(formData);
-            if (username) {
-                navigate(`/users/${username}`);
+          
+            const data = await store.confirmEmail(formData);
+            if (typeof data === 'string') {
+                navigate(`/users/${data}`);
             }
-        }
+            else {
+              navigate(`/login`);
+              Swal.fire({
+                icon: "error",
+                title: "Oops, something went wrong!",
+                text: data?.message,
+              });
+            }
+
+          }
         if (!store.isAuth)
         confirmEmail();
     },[])

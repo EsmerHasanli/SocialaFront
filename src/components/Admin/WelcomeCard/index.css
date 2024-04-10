@@ -1,0 +1,15 @@
+#welcome-card-wrapper {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: rgb(189, 56, 236);
+  background: linear-gradient(279deg, rgb(189, 56, 236) 0%, rgb(109, 65, 242) 100%);
+  border-radius: 20px;
+}
+#welcome-card-wrapper h1 {
+  text-align: center;
+  color: white;
+  padding: 10px;
+}/*# sourceMappingURL=index.css.map */

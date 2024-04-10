@@ -1,0 +1,24 @@
+#work-space-roles {
+  padding: 50px;
+}
+#work-space-roles h3 {
+  text-align: center !important;
+  margin-bottom: 25px !important;
+  color: rgb(37, 47, 63) !important;
+}
+#work-space-roles .cards-wrapper {
+  padding: 20px 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+#work-space-roles .search-input {
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+}/*# sourceMappingURL=index.css.map */

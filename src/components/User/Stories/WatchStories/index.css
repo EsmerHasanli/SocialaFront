@@ -1,0 +1,97 @@
+#stories-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100vh;
+  padding: 30px;
+}
+#stories-wrapper .stori-swiper {
+  margin-top: 50px;
+}
+#stories-wrapper .swiper-slide {
+  width: 400px !important;
+  height: 600px !important;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+#stories-wrapper .swiper-slide .header, #stories-wrapper .swiper-slide .footer {
+  padding: 20px;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+#stories-wrapper .swiper-slide .header p, #stories-wrapper .swiper-slide .footer p {
+  color: antiquewhite;
+}
+#stories-wrapper .swiper-slide .header {
+  top: 0;
+}
+#stories-wrapper .swiper-slide .header a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+#stories-wrapper .swiper-slide .header a .avatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+#stories-wrapper .swiper-slide .header a .avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
+  -o-object-position: center !important;
+     object-position: center !important;
+}
+#stories-wrapper .swiper-slide .header .menu {
+  display: flex !important;
+  flex-direction: column !important;
+}
+#stories-wrapper .swiper-slide .header .menu ul {
+  display: flex !important;
+  flex-direction: column !important;
+  position: absolute;
+  z-index: 999999;
+  top: 50px;
+  right: 10px;
+  padding: 10px !important;
+}
+#stories-wrapper .swiper-slide .header .menu ul li {
+  color: rgb(41, 51, 66);
+  background-color: white;
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+}
+#stories-wrapper .swiper-slide .footer {
+  bottom: 0;
+}
+#stories-wrapper .swiper-slide .footer button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: antiquewhite;
+}
+#stories-wrapper .swiper-slide img {
+  width: 400px !important;
+  height: 600px !important;
+}
+
+@media only screen and (max-width: 1024px) {
+  #stories-wrapper .stori-swiper .swiper-slide {
+    height: 500px !important;
+  }
+}/*# sourceMappingURL=index.css.map */

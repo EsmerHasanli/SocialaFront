@@ -28,7 +28,7 @@ const UserDetailsPage = () => {
 
   async function fetchDetailUser()  {
     const res = await store.getByUsername(username);
-    if (res.status == 200) {
+    if (res?.status == 200) {
       const findedUser = res.data;
       setFetchedUser(findedUser);
       setLoader(false)
