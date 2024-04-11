@@ -43,7 +43,14 @@ const Message = ({connection, message, chat }) => {
         <div className="sended">
           <IconButton className="delete-message-btn" onClick={() => deleteMessage(message.id)}><DeleteIcon style={{fontSize:'16px', color:'rgb(239,68,68)'}} /></IconButton>
           <div className="message">
-            <p>{message?.text}</p>
+              {message?.text?.length ?
+                <p>{message?.text}</p>
+                :
+                <audio controls>
+                  <source src={message.audioUrl} type="audio/mp3"></source>
+                  Your browser does not support the audio element.
+                </audio>
+              }
             <span>{formatDate(message?.createdAt)}</span>
           </div>
           <div className="avatar">
@@ -56,7 +63,14 @@ const Message = ({connection, message, chat }) => {
             <Avatar className="photo" src={chat.chatPartnerImageUrl} style={{zIndex:'1'}} />
           </div>
           <div className="message">
-            <p>{message.text}</p>
+              {message?.text?.length ?
+                <p>{message?.text}</p>
+                :
+                <audio controls>
+                  <source src={message.audioUrl} type="audio/mp3"></source>
+                  Your browser does not support the audio element.
+                </audio>
+              }
             <span>{formatDate(message?.createdAt)}</span>
           </div>
         </div>

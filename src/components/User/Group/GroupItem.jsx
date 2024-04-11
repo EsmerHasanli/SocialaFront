@@ -12,15 +12,13 @@ const GroupItem = ({groupItem, groupsTypingUsers, connection }) => {
     const formatDate = (dateString) => {
         const currentDate = new Date();
         console.log(dateString)
-        if (dateString[dateString.length - 1] == 'Z') {
-          dateString = dateString.slice(0, -1)
-        }
+    
         const inputDate = new Date(dateString);
         const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
         const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
         const utcOffset = -timezoneOffsetInHours;
         console.log(utcOffset)
-        inputDate.setHours(inputDate.getHours());
+        inputDate.setHours(inputDate.getHours() + utcOffset);
         const timeDifference = differenceInDays(currentDate, inputDate);
         if (timeDifference < 1) {
             const formattedTime = format(inputDate, 'HH:mm');

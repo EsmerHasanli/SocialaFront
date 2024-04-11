@@ -6,6 +6,7 @@ import PostService from "../services/PostService";
 import StoriesServices from "../services/StoriesServices";
 import AdminService from "../services/AdminService";
 import GroupService from "../services/GroupService";
+import ChatService from "../services/ChatService";
 
 export default class Store {
   user = {};
@@ -523,6 +524,24 @@ export default class Store {
       return res.data;
     } catch (e) {
       this.showErrorAlertWithSound(e.response.message)
+    }
+  }
+  async getVerifyRequestsCount() {
+    try {
+      const res = await AdminService.getVerifyRequestsCountAsync()
+      return res.data
+    }
+    catch (e) {
+      this.showErrorAlertWithSound(e.response.message)
+      
+    }
+  }
+  async sendAudio(formData) {
+    try {
+      await ChatService.sendAudio(formData);
+    }
+    catch (e) {
+      console.log(e)
     }
   }
   async deleteStory(storyId) {
