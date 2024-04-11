@@ -32,6 +32,9 @@ const UserHomePage = () => {
   }
   React.useEffect(() => {
     getFeedPostsAsync()
+    return () => document.body.style.overflow = "auto";
+      
+    
   },[])
   if (loader) {
     return (

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./index.scss";
 import { observer } from "mobx-react-lite";
 import { Context } from "../../../main";
@@ -12,7 +12,15 @@ const Navigation = () => {
   const { store } = useContext(Context)
   const drawerWidth = 240;
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const [verifyRequestsCount, setVerifyRequestsCount] = React.useState(0);
 
+  useEffect(() => {
+    async function getVerifyRequestsCount() {
+        const count = await store.getVerifyRequestsCount();
+        setVerifyRequestsCount(count)
+    }
+    getVerifyRequestsCount();
+  })
   const handleDrawerToggle = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -95,6 +103,7 @@ const Navigation = () => {
                 />
               </ListItemIcon>
               <ListItemText primary="Verify Requests" />
+              <div className="verify-requests-count">{verifyRequestsCount}</div>
             </ListItem>
           </Link>
             </>
@@ -102,7 +111,7 @@ const Navigation = () => {
           {
             store.user.roles.includes("Admin") && 
             <Link to="/roles">
-              <ListItem button>
+              <ListItem>
                 <ListItemIcon>
                   <img
                     style={{ width: "26px", height: "26px" }}
@@ -114,18 +123,7 @@ const Navigation = () => {
               </ListItem>
             </Link>
           }
-          <Link to="/">
-            <ListItem button>
-              <ListItemIcon>
-                <img
-                  style={{ width: "24px", height: "24px" }}
-                  src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
-                  alt=""
-                />
-              </ListItemIcon>
-              <ListItemText primary="Feed" />
-            </ListItem>
-          </Link>
+       
           <Link to="/messages">
             <ListItem button>
               <ListItemIcon>
@@ -139,7 +137,19 @@ const Navigation = () => {
             </ListItem>
           </Link>
           <Divider />
-          <ListItem button onClick={handleLogout}>
+          <Link to="/">
+            <ListItem button>
+              <ListItemIcon>
+                <img
+                  style={{ width: "24px", height: "24px" }}
+                  src="https://demo.foxthemes.net/socialite-v3.0/assets/images/icons/home.png"
+                  alt=""
+                />
+              </ListItemIcon>
+              <ListItemText primary="Feed" />
+            </ListItem>
+          </Link>
+          <ListItem onClick={handleLogout} style={{cursor:"pointer"}}>
             <ListItemIcon>
               <LogoutIcon />
             </ListItemIcon>

@@ -109,6 +109,7 @@ function App() {
       }
       function onConnectChat(chat) {
         setCurrentChat({ ...chat });
+        console.log(chat)
         setChatMessages([...chat.messages]);
       }
       function onRecieveMessage(message) {

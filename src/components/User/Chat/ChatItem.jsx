@@ -17,7 +17,7 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
       const timezoneOffsetInMinutes = currentDate.getTimezoneOffset();
       const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
       const utcOffset = -timezoneOffsetInHours;
-      inputDate.setHours(inputDate.getHours());
+      inputDate.setHours(inputDate.getHours() + utcOffset);
       const timeDifference = differenceInDays(currentDate, inputDate);
       if (timeDifference < 1) {
         const formattedTime = format(inputDate, 'HH:mm');
