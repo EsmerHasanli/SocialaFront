@@ -10,6 +10,8 @@ import { useFormik } from "formik";
 import { Context } from "../../../main";
 import Swal from "sweetalert2";
 import GroupItem from "../Group/GroupItem";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import {useNavigate} from 'react-router-dom';
 
 const ChatLeft = ({connection, chatsCount, groupsCount, typingUsers, groupsTypingUsers, chatItems, groupItems, setGroupItems, setChatItems, isChatItems, setIsChatItems, searchedUsers, setSearchedUsers}) => {
   const {currentChatId, setCurrentChatId} = useContext(FollowContext)
@@ -17,6 +19,7 @@ const ChatLeft = ({connection, chatsCount, groupsCount, typingUsers, groupsTypin
   const [selectedUsers, setSelectedUsers] = useState([])
   const [userFollows, setUserFollows] = useState([]);
   const {store} = useContext(Context)
+  const navigate = useNavigate();
   const showModal = async () => {
     const res = await store.getFollows(store.user.userName);
     setUserFollows(res);
@@ -105,6 +108,7 @@ const ChatLeft = ({connection, chatsCount, groupsCount, typingUsers, groupsTypin
   };
   return (
     <div id="users-wrapper">
+      <IconButton className='go-back-icon' onClick={()=>navigate(-1)}><ArrowBackIosIcon style={{fontSize:'12px'}} /> <span>go back</span></IconButton>
       <Modal
         open={isModalOpen}
         footer = {null}
@@ -139,11 +143,11 @@ const ChatLeft = ({connection, chatsCount, groupsCount, typingUsers, groupsTypin
       <div className="header">
         <div className="top">
           <div className="left" style={{display:"flex", justifyContent:"space-around", width:"100%"}}>
-            <h3 style={isChatItems ? {color:"blue"} : {cursor:"pointer"}} onClick={() => {
+            <h3 style={isChatItems ? {color:"rgb(88, 80, 236)"} : {cursor:"pointer", color:"rgb(41, 51, 66)"}} onClick={() => {
               setIsChatItems(true)
               localStorage.setItem("chats", true);
               }}>Chats ({chatsCount})</h3>
-            <h3 style={!isChatItems ? {color:"blue"} : {cursor:"pointer"}}  onClick={() => {
+            <h3 style={!isChatItems ? {color:"rgb(88, 80, 236)"} : {cursor:"pointer", color:"rgb(41, 51, 66)"}}  onClick={() => {
               setIsChatItems(false)
               localStorage.setItem("chats", false);
               }}>Groups ({groupsCount})</h3>

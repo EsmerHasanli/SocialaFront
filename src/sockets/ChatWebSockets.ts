@@ -1,5 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 const URL ="https://localhost:7023/messagesHub"; 
+
 class Connector {
     private connection: signalR.HubConnection;
     public state: boolean;
@@ -33,7 +34,7 @@ class Connector {
     constructor(store) {
         this.store = store;
         this.connection = new signalR.HubConnectionBuilder()
-        .withUrl('https://localhost:7023/messagesHub', {
+        .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/messagesHub', {
             skipNegotiation: true,
             transport: signalR.HttpTransportType.WebSockets
         })
