@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./index.scss";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,13 +15,14 @@ import WatchModal from "./WatchModal";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
 
-const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, story, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
+const WatchStories = ({videoRef, storiesVisible, setStoriesVisible, setUserStoryItems, story, setStory, stories, setStories, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedStoryId, setSelectedStoryId] = useState(null);
   const [ watchers, setWatchers ] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const videoRef = useRef(null);
+  
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -31,41 +32,48 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  useEffect(() => {
+    if (storyItems.length) {
+      setStoriesVisible(true)
+    }
+  }, [storyItems])
   async function handleSlideChange(swiper) {
-    const slideIndex = swiper.realIndex
-    if (storyItems[slideIndex]?.type == "Video") {
-      videoRef.current.play();
-    }
-    else if (videoRef?.current) {
-      videoRef.current.pause();
-    }
-    console.log(storyItems[slideIndex])
-    const storyItemId = storyItems[slideIndex].id
-    if (!store.user.watchedStoryItemsIds.find(id => id == storyItemId)) {
-      const storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
-      const currentItem = storyCurrentSlides.find(obj => obj.id == story.id);
-      
-      if (currentItem?.index < slideIndex) {
-        currentItem.index++;
-        localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
+      const slideIndex = swiper.realIndex
+      if (storyItems[slideIndex]?.type == "Video") {
+        videoRef.current.play();
       }
-      const oldUser = store.user;
-      await store.watchStory(storyItemId)
-      oldUser.watchedStoryItemsIds.push(storyItemId)
-      store.setUser(oldUser);
-  }
+      else if (videoRef?.current) {
+        videoRef.current.pause();
+      }
+      if (!storyItems[slideIndex].isWatched) {
+        await store.watchStory(storyItems[slideIndex].id)
+        if (slideIndex == storyItems.length - 1 && !story.isChecked) {
+
+          setStories(prev => prev.map(item => {
+            if (item.id == story.id) {
+              return { ...item, isChecked: true };
+            }
+            return item;
+          }))
+        }
+      }
     }
   
     async function handleDeleteStory() {
       
         const res = await store.deleteStory(selectedStoryId);
+      
         if (res.status == 204) {
           const filteredItems = storyItems.filter(s => s.id != selectedStoryId);
-        
+          
           setMenuOpen(false);
           setSelectedStoryId(null)
-          if (!filteredItems.length) setStoriesVisible(false)
+          if (!filteredItems.length) {
+            setStoriesVisible(false)
+            const updatedStories = stories.filter(item => item.id !== story.id);
+            setStories(updatedStories)
+            
+          }
           setStoryItems(filteredItems)
           setUserStoryItems(filteredItems)
         }
@@ -100,7 +108,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
             effect={"coverflow"}
             onSlideChange={handleSlideChange}
             grabCursor={true}
-            initialSlide={((JSON.parse(localStorage.getItem("storyPag")))?.find(obj => obj.id == story.id))?.index}
+            initialSlide={storyItems.findIndex(si => !si.isWatched) == -1 ? storyItems.length - 1 : storyItems.findIndex(si => !si.isWatched)}
             centeredSlides={true}
             slidesPerView={"auto"}
             coverflowEffect={{
@@ -197,7 +205,7 @@ const WatchStories = ({ storiesVisible, setStoriesVisible, setUserStoryItems, st
                     controls={false}
                     loop
                     controlslist="nodownload"
-                    autoPlay
+                    autoPlay={storyItems[0]?.type == "Video" ? true : false}
                     style={{width:'100%', height:'100%',}}
                     onClick={(e) => e.stopPropagation()}
                   >

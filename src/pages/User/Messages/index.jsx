@@ -12,6 +12,8 @@ import { FollowContext } from "../../../context";
 import Group from "../../../components/User/Group/Group";
 import GroupForm from "../../../components/User/Group/GroupForm";
 import Connector from "../../../sockets/ChatWebSockets";
+import SideBar from "../../../components/User/SideBar";
+import FooterMobile from "../../../components/User/FooterMobile";
 
 const Messages = () => {
   const { store } = useContext(Context);
@@ -61,8 +63,7 @@ const Messages = () => {
         <title>Socialite | Chat</title>
       </Helmet>
       <main id="messages-page">
-        <Navigation />
-
+        <SideBar sideBarWidth="18"/>
         <section>
           <ChatLeft
             connection={connection}
@@ -82,8 +83,8 @@ const Messages = () => {
               currentChat 
               ?
               <div>
-                <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
-                <Form connection={connection}  userName={currentChat.chatPartnerUserName} />
+                  <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
+                  <Form connection={connection}  userName={currentChat.chatPartnerUserName} />
               </div>
               : <div className="empty-chat-wrapper" >
                   <img src="https://cdn3d.iconscout.com/3d/premium/thumb/chat-6823641-5602882.png?f=webp" alt="" />
@@ -105,6 +106,7 @@ const Messages = () => {
           </div>
         </section>
       </main>
+
     </>
   );
 };

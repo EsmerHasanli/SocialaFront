@@ -150,7 +150,7 @@ function App() {
         });
       }
       function onGetGroupDeletedTypingUser(id, userName) {
-        console.log(userName, id)
+        console.log("Кто то печатает в группах")
         setGroupsTypingUsers(prevGroups => {
           const updatedGroups = prevGroups.map(group => {
             if (group.id == id) {
@@ -169,7 +169,7 @@ function App() {
         setSearchedUsers([...users]);
       }
       function onGetMessagesAfterDelete(messages) {
-        
+
         setChatMessages(messages)
       }
       function onGetChatAfterDelete(chatDto) {

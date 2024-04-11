@@ -64,7 +64,7 @@ const Form = ({connection, userName}) => {
             <input placeholder="Write your message" value={text} onBlur={handleBlurInput} onChange={(e) => {
               handleChangeInput(e);
             }
-              } autocomplete="off" />
+              } autoComplete="off" />
             <IconButton type='submit'>
               <SendIcon/>
             </IconButton>

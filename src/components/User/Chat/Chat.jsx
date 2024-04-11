@@ -84,6 +84,7 @@ const Chat = ({currentChat, setCurrentChat, typingUsers, chatMessages, connectio
           )}
         </div>
       </div>
+
     </div>
   );
 };

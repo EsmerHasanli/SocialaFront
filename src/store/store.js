@@ -503,6 +503,7 @@ export default class Store {
   async getStories() {
     try {
       const res = await StoriesServices.getStories();
+      console.log(res.data)
       return res.data;
     } catch (e) {
       console.log("error in getting stories", e);

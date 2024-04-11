@@ -1,6 +1,6 @@
 #messages-page {
   display: flex;
-  justify-content: row;
+  
 
   nav {
     ul {
@@ -31,9 +31,13 @@
   section {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 81%;
+    position: fixed;
+    height: 100%;
+
+    right: 0;
     #users-wrapper {
-      width: 25%;
+      width: 30%;
       background-color: white;
 
       border-left: 1px solid rgb(229, 231, 235);
@@ -149,7 +153,7 @@
     }
 
     #chat-wrapper {
-      width: 75%;
+      width: 70%;
       background-color: white;
       .wrapper {
         width: 100%;
@@ -260,7 +264,15 @@
                 }
               }
             }
-
+            .recieved {
+              .delete-message-btn{
+                background-color: rgb(254,226,226)!important;
+                display: none;
+              }
+              &:hover .delete-message-btn{
+                display: flex;
+              }
+            }
             .sended {
               margin-top: 24px;
               display: flex;
@@ -354,7 +366,7 @@
           position: relative;
           display: flex;
           align-items:center;
-          width: 56%;
+          width: 53%;
           background-color:white;
           .send-message-wrapper{
             width: 100%;
@@ -513,6 +525,9 @@
 @media only screen and (max-width: 1024px) {
   #messages-page {
     flex-direction: column !important;
+    section {
+      width: 100%;
+    }
     nav {
       ul {
         display: flex !important;
@@ -532,7 +547,6 @@
     #chat-wrapper {
       width: 100% !important;
       position: absolute;
-      top: 75px;
     }
     .empty-chat-wrapper {
       display: none;
@@ -557,25 +571,28 @@
     }
   }
 }
+@media screen and (max-width:1200px) and (min-width:1025px) {
+  #messages-page {
+    section {
+      width: 100%;
 
+      #chat-wrapper {
+        .message-input {
+          .input-wrapper {
+            width: 66% !important;
+          }
+
+        }
+      }
+    }
+
+  }
+}
 @media only screen and (max-width: 320px){
   #messages-page section  #users-wrapper .chatters {
     height: 50vh!important;
   }
 }
 
-@media only screen and (min-width: 1025px) and (max-width: 1329px){
-  #messages-page{
-    section {
-      #chat-wrapper {
-        .message-input {
-          .input-wrapper {
-            width: 52%!important;
-          }
-        }
-      }
-    }
-   } 
-  }
 
 

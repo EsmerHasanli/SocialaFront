@@ -20,74 +20,36 @@ const Stories = () => {
   const [currentUserStory, setCurrentUserStory] = useState({});
   const [storyItems, setStoryItems] = useState([]);
   const [userStoryItems, setUserStoryItems] = useState([]);
- 
+  const videoRef = useRef(null);
   useEffect(() => {
     async function fetchAllStoriesDatas() {
       const allStories = await store.getStories();
       setStories(allStories);
     }
-    async function getMyHistoryItems() {
-      const items = await store.getCurrentUserItems();
-      if (items?.length) {
-          setUserStoryItems(items);
-          const myStory = {
-            id: store.user.storyId,
-            ownerUserName: store.user.userName,
-            ownerImageUrl: store.user.imageUrl,
-            lastStoryPostedAt: store.user.lastStoryPostedAt,
-            lastStoryItemId:items[items.length-1].id
-          };
-          setCurrentUserStory(myStory);
-      }
-    }
     fetchAllStoriesDatas();
-    getMyHistoryItems();
   }, []);
 
   const handleWatchStori = async (storyy) => {
-    setStoriesVisible(true);
     setStory(storyy);
-    const res = await store.getStoryItems(storyy.id);
-    setStoryItems(res);
-    if (!store.user.watchedStoryItemsIds.find(id => id ==  res[0].id)) {
-      let storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
-      if (!storyCurrentSlides) {
-        storyCurrentSlides = []
+    let itemsFromDb;
+    if (storyy.ownerUserName == store.user.userName) itemsFromDb = await store.getCurrentUserItems(storyy.id);
+    else itemsFromDb = await store.getStoryItems(storyy.id);
+    setStoryItems(itemsFromDb);
+    if (!itemsFromDb[0].isWatched) {
+      await store.watchStory(itemsFromDb[0].id)
+      if (0 == itemsFromDb.length - 1 && !storyy.isChecked) {
+
+        setStories(prev => prev.map(item => {
+          if (item.id == storyy.id) {
+            return { ...item, isChecked: true };
+          }
+          return item;
+        }))
       }
-      const currentItem = storyCurrentSlides.find(obj => obj.id == storyy.id);
-      if (currentItem) {
-        storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != storyy.id);
-      }
-      storyCurrentSlides.push({id:storyy.id, index:0})
-      localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
-      await store.watchStory(res[0].id)
-      const oldUser = store.user;
-      oldUser.watchedStoryItemsIds.push(res[0].id)
-      store.setUser(oldUser);
     }
    
   };
-  async function showMyHistoryItems() {
-    setStoriesVisible(true);
-    const oldUser = store.user;
-    if (!oldUser.watchedStoryItemsIds.find(id => id == userStoryItems[0].id)) {
-      let storyCurrentSlides = JSON.parse(localStorage.getItem("storyPag"))
-      if (!storyCurrentSlides) {
-        storyCurrentSlides = []
-      }
-      const currentItem = storyCurrentSlides.find(obj => obj.id == currentUserStory.id);
-      if (currentItem) {
-        storyCurrentSlides = storyCurrentSlides.filter(obj => obj.id != currentUserStory.id);
-      }
-      storyCurrentSlides.push({id:currentUserStory.id, index:0})
-      localStorage.setItem("storyPag", JSON.stringify(storyCurrentSlides))
-      await store.watchStory(userStoryItems[0].id)
-      oldUser.watchedStoryItemsIds.push(userStoryItems[0].id)
-      store.setUser(oldUser);
-    }
-    setStory(currentUserStory)
-    setStoryItems(userStoryItems);
-  }
+
 
   useEffect(() => {
     if (storiesVisible) document.body.style.overflow = "hidden";
@@ -101,23 +63,6 @@ const Stories = () => {
           <SwiperSlide style={{cursor:'pointer'}} className="swiper-slide">
             <AddStories />
           </SwiperSlide>
-          {userStoryItems.length>0 && (
-            <SwiperSlide  style={{cursor:'pointer'}} className="swiper-slide" onClick={showMyHistoryItems}>
-              <div className="story">
-                <div
-                  className="avatar-border"
-                  style={
-                    store.user?.watchedStoryItemsIds?.find(id => id == currentUserStory.lastStoryItemId)
-                      ? { borderColor: "rgb(203,213,225)" }
-                      : { borderColor: "rgb(255,15,103)" }
-                  }
-                >
-                  <Avatar className="avatar" src={store.user.imageUrl} />
-                </div>
-                <p>You: {store.user.userName}</p>
-              </div>
-            </SwiperSlide>
-          )}
 
           {stories &&
             stories.map((story) => (
@@ -126,18 +71,18 @@ const Stories = () => {
                 className="swiper-slide"
                 onClick={() => handleWatchStori(story)}
               >
-                <div className="story">
+                <div className="story" style={{cursor:"pointer"}}>
                   <div
                     className="avatar-border"
                     style={
-                      store.user.watchedStoryItemsIds.find(id => id == story.lastStoryItemId)
+                      story.isChecked
                         ? { borderColor: "rgb(203,213,225)" }
                         : { borderColor: "rgb(255,15,103)" }
                     }
                   >
                     <Avatar className="avatar" src={story?.ownerImageUrl} />
                   </div>
-                  <p>{story.ownerUserName}</p>
+                  <p>{store.user.userName == story.ownerUserName && 'You: '}{story.ownerUserName}</p>
                 </div>
               </SwiperSlide>
             ))}
@@ -145,9 +90,13 @@ const Stories = () => {
       </div>
 
       <WatchStories
+        videoRef={videoRef}
         storiesVisible={storiesVisible}
         setStoriesVisible={setStoriesVisible}
         story={story}
+        setStory={setStory}
+        stories={stories}
+        setStories={setStories}
         storyItems={storyItems}
         setStoryItems={setStoryItems}
         setUserStoryItems={setUserStoryItems}

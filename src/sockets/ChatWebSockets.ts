@@ -81,7 +81,6 @@ class Connector {
                 onGetGroupsCount(data);
             });
             this.connection.on("GetChatItems", (data) => {
-                console.log(data)
                 onGetChatItems(data);
             });
             this.connection.on("ChatConnectResponse", (chat) => {

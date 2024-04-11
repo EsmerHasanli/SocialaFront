@@ -8,7 +8,7 @@ import { Context } from "../../../main";
 import { observer } from "mobx-react-lite";
 import { FollowContext } from "../../../context";
 
-const SideBar = () => {
+const SideBar = ({sideBarWidth}) => {
   const { store } = useContext(Context);
   const {unreadedMessagesCount, setUnreadedMessagesCount} = React.useContext(FollowContext)
   
@@ -18,7 +18,7 @@ const SideBar = () => {
   };
   return (
     <>
-      <div id="side-bar">
+      <div id="side-bar" style={{width:`${sideBarWidth}%`}}>
         <ul className="pages">
           {
             store.user?.roles.includes('Admin')  || store.user?.roles.includes('Moderator') ?

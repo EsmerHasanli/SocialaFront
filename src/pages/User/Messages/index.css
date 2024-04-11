@@ -1,6 +1,5 @@
 #messages-page {
   display: flex;
-  justify-content: row;
 }
 #messages-page nav ul {
   padding: 8px;
