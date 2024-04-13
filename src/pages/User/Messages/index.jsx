@@ -11,9 +11,9 @@ import { observer } from "mobx-react-lite";
 import { FollowContext } from "../../../context";
 import Group from "../../../components/User/Group/Group";
 import GroupForm from "../../../components/User/Group/GroupForm";
-import Connector from "../../../sockets/ChatWebSockets";
 import SideBar from "../../../components/User/SideBar";
 import FooterMobile from "../../../components/User/FooterMobile";
+import Connector from "../../../sockets/ChatWebSockets";
 
 const Messages = () => {
   const { store } = useContext(Context);
@@ -21,7 +21,9 @@ const Messages = () => {
 
   const {
     chatItems,
+    setChatItems,
     groupItems,
+    setGroupItems,
     currentChatId,
     setCurrentChatId,
     currentGroupId,
@@ -53,10 +55,37 @@ const Messages = () => {
   } = useContext(FollowContext);
   
   useEffect(() => {
-    if (connection.state) {
-      connection.getItems(isChatItems);
+    async function getItems() {
+      let data;
+      if (isChatItems) {
+          data = await store.getChatItems()
+          let unreadedMsgsCount = 0;
+          data.forEach((item) => unreadedMsgsCount+= item.unreadedMessagesCount)
+          setUnreadedMessagesCount(unreadedMsgsCount)
+          setChatItems([...data]);
+      }
+      else {
+          data = await store.getGroupItems();
+          console.log(data)
+          setGroupItems([...data]);
+      }
+      
     }
-  },[connection.state])
+    getItems();
+  }, [isChatItems])
+
+
+  useEffect(() => {
+    getChatAndGroupsCountAsync()
+  }, [])
+
+  async function getChatAndGroupsCountAsync() {
+    const data = await store.getChatAndGroupsCountAsync()
+    setChatsCount(data.chatsCount)
+    setGroupsCount(data.groupsCount)
+  }
+
+ 
   return (
     <>
       <Helmet>

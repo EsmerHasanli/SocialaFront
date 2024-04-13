@@ -34,9 +34,6 @@ const ChatLeft = ({connection, chatsCount, groupsCount, typingUsers, groupsTypin
     setIsModalOpen(false);
   };
   
-  useEffect(() => {
-      connection.getItems(isChatItems)
-  }, [isChatItems])
 
   let send;
   async function handleSearchChange(e) {

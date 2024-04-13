@@ -4,6 +4,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { format, differenceInDays } from 'date-fns';
 import { FollowContext } from '../../../context';
 import { Avatar } from '@mui/material';
+import { MicRounded } from '@mui/icons-material';
 
 const ChatItem = ({chatItem,typingUsers, connection }) => {
     const {store} = useContext(Context);
@@ -68,8 +69,10 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
                     : null
                 }
                 </span>
-                    {/* <p style={{marginBottom:'5px'}}>{chatItem.lastMessageSendedBy == store.user.userName} {chatItem.sender == store} {chatItem.lastMessage}</p> */}
-                    <p style={{marginBottom:'5px'}}>{chatItem.lastMessage?.length > 10 ? `${chatItem.lastMessage?.substring(0, 10)}... `: chatItem?.lastMessage  }</p>
+                  <div style={{display:"flex", marginLeft:"5px"}}>
+                      {chatItem.lastMessageType == "1" && <MicRounded style={{width:"19px", height:"19px", color:"#199DEC"}}/>}
+                      <p style={{marginLeft:'3px'}}>{chatItem.lastMessage?.length > 10 ? `${chatItem.lastMessage?.substring(0, 10)}... `: chatItem?.lastMessage  }</p>
+                  </div>
                 </div>
                 <div>
                     {chatItem.unreadedMessagesCount > 0 &&

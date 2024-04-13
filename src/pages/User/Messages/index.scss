@@ -1,10 +1,15 @@
 #messages-page {
   display: flex;
+
   
   #side-bar{
     background-color: white;
     width: 19%!important;
     height: 90vh;
+  }
+  audio {
+  
+    display: none;
   }
 
   section {
@@ -108,7 +113,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 2px;
+                margin-bottom: 7px;
                 h5 {
                   font-size: 14px;
                   font-weight: 500;
@@ -208,6 +213,38 @@
               overflow-wrap:break-word;
               word-wrap: break-word;
               gap: 12px;
+              .duration-div {
+                margin-left: 10px;
+              }
+              input[type="range"] {
+                -webkit-appearance: none; /* Удаление стандартного внешнего вида ползунка в Safari */
+                appearance: none;
+                width: 100%; /* Ширина ползунка равна ширине родительского контейнера */
+                background: #000; /* Цвет фона ползунка */
+                height: 5px;
+                float: left;
+                border-radius: 15px !important; /* Скругление углов ползунка */
+                outline: none; /* Удаление стандартного обвода элемента */
+                margin: 0; /* Удаление отступов */
+                padding: 0; /* Удаление внутренних отступов */
+              }
+              input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none; /* Удаление стандартного внешнего вида ползунка в Safari */
+                appearance: none;
+                width: 15px; /* Ширина ползунка */
+                height: 15px; /* Высота ползунка */
+                background: #000; /* Цвет фона ползунка */
+                border-radius: 50%; /* Создание круглого ползунка */
+                cursor: pointer; /* Изменение курсора при наведении */
+              }
+              
+              input[type="range"]::-moz-range-thumb {
+                width: 5px; /* Ширина ползунка */
+                height: 5px; /* Высота ползунка */
+                background: #fff; /* Цвет фона ползунка */
+                border-radius: 50%; /* Создание круглого ползунка */
+                cursor: pointer; /* Изменение курсора при наведении */
+              }
               .avatar {
                 width: 36px;
                 height: 36px;
@@ -233,18 +270,22 @@
                 overflow-wrap:break-word!important;
                 word-wrap: break-word!important;
                 display: flex;
-                align-items:end;
+                align-items:center;
+                position: relative;
                 gap: 5px;
                 padding: 8px 16px;
                 border-radius: 20px;
                 background-color: rgb(241, 245, 249);
-
-                /* Установка фона и цвета текста */
-                audio {
-                  background-color: #f2f2f2;
-                  color: #333;
+                .audio-wrapper {
+                  width: 95%;
+                  height: 100%;
+                  margin: 5px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
                 }
-
+                /* Установка фона и цвета текста */
+               
                 /* Установка ширины и высоты */
                 audio {
                   width: 100%;
@@ -282,6 +323,10 @@
                 span{
                   font-size: 12px;
                   font-weight: 300;
+                  position: absolute;
+                  right: 15px;
+                  bottom: 3px;
+
                 }
               }
             }
@@ -300,9 +345,49 @@
               justify-content: flex-end;
               align-items: end;
               gap: 12px;
+              .duration-div {
+                margin-left: 10px;
+              }
+              input[type="range"] {
+                -webkit-appearance: none; /* Удаление стандартного внешнего вида ползунка в Safari */
+                appearance: none;
+                width: 100%; /* Ширина ползунка равна ширине родительского контейнера */
+                background: #fff; /* Цвет фона ползунка */
+                height: 5px;
+                float: left;
+                border-radius: 15px !important; /* Скругление углов ползунка */
+                outline: none; /* Удаление стандартного обвода элемента */
+                margin: 0; /* Удаление отступов */
+                padding: 0; /* Удаление внутренних отступов */
+              }
+              input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none; /* Удаление стандартного внешнего вида ползунка в Safari */
+                appearance: none;
+                width: 15px; /* Ширина ползунка */
+                height: 15px; /* Высота ползунка */
+                background: #fff; /* Цвет фона ползунка */
+                border-radius: 50%; /* Создание круглого ползунка */
+                cursor: pointer; /* Изменение курсора при наведении */
+              }
+              
+              input[type="range"]::-moz-range-thumb {
+                width: 5px; /* Ширина ползунка */
+                height: 5px; /* Высота ползунка */
+                background: #fff; /* Цвет фона ползунка */
+                border-radius: 50%; /* Создание круглого ползунка */
+                cursor: pointer; /* Изменение курсора при наведении */
+              }
               audio {
                 border-radius: 1px;
                 outline: none;
+              }
+              .audio-wrapper {
+                width: 95%;
+                height: 100%;
+                margin: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
               }
 
               /* Установка стилей для контролов */
@@ -311,20 +396,8 @@
               
               }
               audio::-webkit-media-controls-enclosure {
-                border-radius: 0px;
+                display: none;
               }
-              audio::-webkit-media-controls-overflow-button {
-                display: none !important;
-              }
-              audio::-webkit-media-controls-volume-slider, audio::-webkit-media-controls-mute-button,
-              audio::-webkit-media-controls-volume-slider-container,
-              audio::-webkit-media-controls-seek-forward-button
-              {
-                display: none !important;
-                visibility: hidden;
-                pointer-events: none;
-              }
-
               .avatar {
                 width: 20px;
                 height: 20px;
@@ -346,7 +419,8 @@
                 word-wrap: break-word!important;
                 display: flex;
                 justify-content: center;
-                align-items:end;
+                align-items:center;
+                position: relative;
                 gap: 5px;
                 padding: 8px 16px;
                 border-radius: 20px;
@@ -375,6 +449,9 @@
                 span{
                   font-size: 12px;
                   font-weight: 300;
+                  position: absolute;
+                  right: 15px;
+                  bottom: 3px;
                 }
               }
               .delete-message-btn{
@@ -416,12 +493,52 @@
           position: relative;
           display: flex;
           align-items:center;
+          justify-content: center;
           width: 53%;
           background-color:white;
           .send-message-wrapper{
             width: 100%;
+            max-width: 100%;
             background-color: rgb(241, 245, 249);
-            
+            display: flex;
+            height: 40px;
+            align-items: center;
+            .volume-progress-wrapper {
+              width: 80%;
+              max-width: 80%;
+              display: flex;
+              padding: 11.5px 16px;
+              height: 100%;
+              overflow: hidden;
+              align-items: center;
+              margin-left: 5px;
+              .progress-div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              .progress {
+                width: 4px;
+                min-width: 4px;
+                border-radius: 5px;
+                max-height: 30px;
+                background-color: #2B8FF2;
+                margin: 2px;
+                min-height: 6px;
+              }
+            }
+            .recording-time-wrapper {
+              display: inline-flex;
+              justify-content: center;
+              margin-left: 15px;
+              align-items: center;
+              span {
+                color: black;
+                font-size: 14px;
+                margin-left: 5px;
+                color:#199DEC;
+              }
+            }
             border-radius: 20px;
             button{
               position: absolute;
@@ -636,5 +753,20 @@
 @media only screen and (max-width: 1201px){
   #messages-page .go-back-icon {
     display: flex!important;
+  }
+}
+@media screen and (max-width: 730px) and (min-width:481px) {
+  .volume-progress-wrapper {
+    width: 70% !important;
+  }
+}
+@media screen and (max-width: 480px) and (min-width:371px) {
+  .volume-progress-wrapper {
+    width: 60% !important;
+  }
+}
+@media screen and (max-width: 370px) {
+  .volume-progress-wrapper {
+    width: 50% !important;
   }
 }

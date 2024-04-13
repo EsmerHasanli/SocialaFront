@@ -7,6 +7,7 @@ import StoriesServices from "../services/StoriesServices";
 import AdminService from "../services/AdminService";
 import GroupService from "../services/GroupService";
 import ChatService from "../services/ChatService";
+import MessageService from "../services/MessageService";
 
 export default class Store {
   user = {};
@@ -534,6 +535,33 @@ export default class Store {
     catch (e) {
       this.showErrorAlertWithSound(e.response.message)
       
+    }
+  }
+  async getChatAndGroupsCountAsync() {
+    try {
+      const res = await MessageService.getChatAndGroupsCount();
+      return res.data;
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+  async getChatItems() {
+    try {
+      const res = await ChatService.getChatItems();
+      return res.data;
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+  async getGroupItems() {
+    try {
+      const res = await GroupService.getGroupItems();
+      return res.data;
+    }
+    catch (e) {
+      console.log(e);
     }
   }
   async sendAudio(formData) {

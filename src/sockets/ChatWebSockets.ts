@@ -1,9 +1,8 @@
 import * as signalR from "@microsoft/signalr";
+import { message } from "antd";
 const URL ="https://localhost:7023/messagesHub"; 
-
 class Connector {
     private connection: signalR.HubConnection;
-    public state: boolean;
     public events: (
         onGetChatItems: (data : object[]) => void,
         onConnectChat: (data:object) => void,
@@ -16,7 +15,7 @@ class Connector {
         onGetGroupAddedTypingUser: (id:number, userName : string) => void,
         onDeleteTypingUser:(data: string) => void,
         onGetGroupDeletedTypingUser: (id:number, userName : string) => void,
-        onGetMessagesAfterDelete : (data: object[]) => void,
+        onGetDeletedMesssageId : (id: number) => void,
         onGetGroupMessagesAfterDelete : (data: object[]) => void,
         onGetGroupItems: (data : object[]) => void,
         onConnectGroup: (data:object) => void,
@@ -29,21 +28,18 @@ class Connector {
         onGetChatAfterDelete:(data:object) => void
         ) => void;
     public store;
-    public loading : boolean;
     static instance: Connector;
     constructor(store) {
         this.store = store;
         this.connection = new signalR.HubConnectionBuilder()
         .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/messagesHub', {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets
+            // skipNegotiation: true,
+            // transport: signalR.HttpTransportType.WebSockets
         })
             .withAutomaticReconnect()
             .build();
         
             this.connection.onreconnected(()=> {
-            this.loading = true;
-            this.connection.invoke("Connect", this.store.user.userName)
             })
      
             
@@ -60,7 +56,7 @@ class Connector {
                 onGetGroupAddedTypingUser,
                 onDeleteTypingUser,
                 onGetGroupDeletedTypingUser,
-                onGetMessagesAfterDelete,
+                onGetDeletedMesssageId,
                 onGetGroupMessagesAfterDelete,
                 onGetGroupItems,
                 onConnectGroup,
@@ -117,8 +113,8 @@ class Connector {
             this.connection.on("GetGroupDeletedTypingUser", (id,userName) => {
                 onGetGroupDeletedTypingUser(id, userName)
             });
-            this.connection.on("GetMessagesAfterDelete", (messages) => {
-                onGetMessagesAfterDelete(messages)
+            this.connection.on("GetDeletedMesssageId", (id) => {
+                onGetDeletedMesssageId(id)
             });
 
             this.connection.on("GetGroupMessagesAfterDelete", (messages) => {
@@ -142,6 +138,11 @@ class Connector {
             this.connection.on("SendMessageError", (err) => {
                 console.log(err)
             });
+            this.connection.on("CheckChatAfterSendMessage", (connId:string, chatId:number, sender:string,reciever:string, sendedMessage:object) => {
+                console.log("geldi request getmelidir")
+                console.log(sendedMessage)
+                this.connection.invoke("CheckChatAfterSendMessage", connId, chatId, sender,reciever, sendedMessage)
+            })
             
         };
         
@@ -195,12 +196,15 @@ class Connector {
             .catch(e => console.log(e));
         }
     }
-    public connectMessagesSockets = () => {
+   
+    public connectMessagesSockets = (userName: string) => {
+        
         if (this.connection.state != signalR.HubConnectionState.Connected) {
             this.connection.start()
             .then(() => {
-                this.connection.invoke("ConnectToMessagesSockets", this.store.user.userName)
-                .then(c => this.state = true)
+                this.connection.invoke("ConnectToMessagesSockets", userName)
+                .then(c => 
+                    console.log("Connected to messages"))
             })
             .catch(err => console.log(err));
         }
@@ -237,6 +241,13 @@ class Connector {
     }
     public sendMessageById(payload : object) {
         this.connection.invoke("SendMessageByChatId", payload)
+        .then(() => {
+            console.log("sended by chat id")
+        })
+        .catch(err => console.log(err));
+    }
+    public sendAudioByChatId(payload : object) {
+        this.connection.invoke("SendAudioByChatId", payload)
         .then(() => {
             console.log("sended by chat id")
         })

@@ -11,8 +11,8 @@ const WebSockets = () => {
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/notificationHub', {
-                skipNegotiation: true,
-                transport: signalR.HttpTransportType.WebSockets
+                // skipNegotiation: true,
+                // transport: signalR.HttpTransportType.WebSockets
         })
             .withAutomaticReconnect()
             .build();

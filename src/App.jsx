@@ -27,7 +27,7 @@ function App() {
   const [currentGroup, setCurrentGroup] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [groupMessages, setGroupMessages] = useState([]);
-  const [isChatItems, setIsChatItems] = useState(localStorage.getItem("chats") ? JSON.parse(localStorage.getItem("chats")) : true);
+  const [isChatItems, setIsChatItems] = useState(localStorage.getItem("chats") == "true" ? true : localStorage.getItem("chats") == "false" ? false : true);
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [typingUsers, setTypingUsers] = useState([])
   const [groupsTypingUsers, setGroupsTypingUsers] = useState([]);
@@ -35,6 +35,7 @@ function App() {
   const [groupsCount, setGroupsCount] = useState(0)
   const [groupMembers, setGroupMembers] = useState([]);
   const [unreadedMessagesCount, setUnreadedMessagesCount] = useState(0)
+  const connection = Connector(store);
   useEffect(() => {
     const fetchCurrentUser = async () => {
       await store.checkAuth();
@@ -43,13 +44,12 @@ function App() {
     };
 
       fetchCurrentUser();
-
+    return () => connection.state = false;
   }, []);
-  const connection = Connector(store);
   useEffect(() => {
     if (store.user.userName) {
       
-      connection.connectMessagesSockets();
+      connection.connectMessagesSockets(store.user.userName);
       connection.events(
         onGetChatItems,
         onConnectChat,
@@ -62,7 +62,7 @@ function App() {
         onGetGroupAddedTypingUser,
         onDeleteTypingUser,
         onGetGroupDeletedTypingUser,
-        onGetMessagesAfterDelete,
+        onGetDeletedMesssageId,
         onGetGroupMessagesAfterDelete,
         onGetGroupItems,
         onConnectGroup,
@@ -105,7 +105,6 @@ function App() {
         data.forEach((item) => unreadedMsgsCount+= item.unreadedMessagesCount)
         setUnreadedMessagesCount(unreadedMsgsCount)
         setChatItems([...data]);
-        setChatsCount(data.length);
       }
       function onConnectChat(chat) {
         setCurrentChat({ ...chat });
@@ -115,7 +114,7 @@ function App() {
       function onRecieveMessage(message) {
         setChatMessages(prev => [{ ...message }, ...prev]);
         console.log(message)
-        if (!message.isChecked) setUnreadedMessagesCount(prev => prev + 1);
+        if (!message.isChecked && message.sender != store.user.userName) setUnreadedMessagesCount(prev => prev + 1);
       }
       function onRecieveGroupMessage(message) {
         setGroupMessages(prev => [{ ...message }, ...prev]);
@@ -169,34 +168,40 @@ function App() {
       function onGetSearchUsers(users) {
         setSearchedUsers([...users]);
       }
-      function onGetMessagesAfterDelete(messages) {
+      function onGetDeletedMesssageId(id) {
 
-        setChatMessages(messages)
+        console.log(id)
+        setChatMessages(prev => {
+          return prev.filter(message => message.id !== id);
+      });
+
       }
       function onGetChatAfterDelete(chatDto) {
-      
+        console.log(chatDto)
         if (!chatDto.isDeletedMessageChecked && chatDto) setUnreadedMessagesCount(prev => prev -1)
-        setChatItems(prev => {
-          const updatedChatItems = prev.map(chatItem => {
-              if (chatItem.chatId === chatDto.id) {
-                  // Если chatItem имеет такой же chatId, как id из chatDto, обновляем его поля
-                  return {
-                      ...chatItem,
-                      lastMessage: chatDto.messages[0].text,
-                      lastMessageIsChecked: chatDto.messages[0].isChecked,
-                      lastMessageSendedAt: chatDto.messages[0].createdAt,
-                      lastMessageSendedBy: chatDto.messages[0].sender,
-                      unreadedMessagesCount: chatDto.isDeletedMessageChecked ? chatItem.unreadedMessagesCount : chatItem.unreadedMessagesCount - 1 // Предполагается, что количество непрочитанных сообщений обнуляется
-                  };
-              }
-              return chatItem; // Возвращаем остальные chatItem без изменений
+        if (chatDto.currentLastMessage) {
+            console.log(chatDto.currentLastMessage);
+            setChatItems(prev => {
+              const updatedChatItems = prev.map(chatItem => {
+                  if (chatItem.chatId === chatDto.id) {
+                      // Если chatItem имеет такой же chatId, как id из chatDto, обновляем его поля
+                      return {
+                          ...chatItem,
+                          lastMessage: chatDto.currentLastMessage.text,
+                          lastMessageIsChecked: chatDto.currentLastMessage.isChecked,
+                          lastMessageSendedAt: chatDto.currentLastMessage.createdAt,
+                          lastMessageSendedBy: chatDto.currentLastMessage.sender,
+                          lastMessageType:chatDto.currentLastMessage.type,
+                          unreadedMessagesCount: chatDto.isDeletedMessageChecked ? chatItem.unreadedMessagesCount : chatItem.unreadedMessagesCount - 1 // Предполагается, что количество непрочитанных сообщений обнуляется
+                      };
+                  }
+                  return chatItem; // Возвращаем остальные chatItem без изменений
+              });
+          
+              // Сортируем обновленный массив по дате отправки последнего сообщения (lastMessageSendedAt)
+              return updatedChatItems.sort((a, b) => new Date(b.lastMessageSendedAt) - new Date(a.lastMessageSendedAt));
           });
-      
-          // Сортируем обновленный массив по дате отправки последнего сообщения (lastMessageSendedAt)
-          return updatedChatItems.sort((a, b) => new Date(b.lastMessageSendedAt) - new Date(a.lastMessageSendedAt));
-      });
-      
-      setChatMessages(chatDto.messages)
+        }
       
       }
       function onGetGroupMessagesAfterDelete(messages) {
