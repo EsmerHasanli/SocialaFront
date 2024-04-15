@@ -582,6 +582,16 @@ export default class Store {
       console.log(e)
     }
   }
+  async sendMediaToChat(payload) {
+    try {
+      const res = await ChatService.sendMediaToChat(payload);
+      return res.status;
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
   async deleteStory(storyId) {
     try {
       const res = await StoriesServices.deleteStory(storyId);

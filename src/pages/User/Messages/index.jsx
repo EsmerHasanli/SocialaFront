@@ -118,7 +118,7 @@ const Messages = () => {
               currentChat 
               ?
                 isPreviewOpen ?
-                <PreviewWrapper previews={previewMedia} setPreviews={setPreviewMedia}/>
+                <PreviewWrapper previews={previewMedia} setPreviews={setPreviewMedia} setIsPreviewOpen={setIsPreviewOpen}/>
                 :
               <div>
                   <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />

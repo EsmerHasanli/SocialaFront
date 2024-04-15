@@ -75,7 +75,8 @@ function App() {
         onGetGroupMembersAfterDelete,
         onGetNewGroup,
         onGetUnreadedMessagesCount,
-        onGetChatAfterDelete
+        onGetChatAfterDelete,
+        onRecieveChatMediaMessages
         );
   
       function onGetRemovedGroupId(groupId) {
@@ -123,7 +124,13 @@ function App() {
         setGroupMessages(prev => [{ ...message }, ...prev]);
       }
       function onRecieveChatMessages(messages) {
+        
         setChatMessages(prev => [...prev, ...messages])
+      }
+      function onRecieveChatMediaMessages(messages) {
+        
+        setChatMessages(prev => [...messages, ...prev]);
+
       }
       function onRecieveGroupMessages(messages) {
         setGroupMessages(prev => [...prev, ...messages])

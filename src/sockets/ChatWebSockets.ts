@@ -25,7 +25,8 @@ class Connector {
         onGetGroupMembersAfterDelete: (data:number) => void,
         onGetNewGroup : (data: object) => void,
         onGetUnreadedMessagesCount:(data:Int32Array) => void,
-        onGetChatAfterDelete:(data:object) => void
+        onGetChatAfterDelete:(data:object) => void,
+        onRecieveChatMediaMessages:(data:object[]) => void,
         ) => void;
     public store;
     public state : boolean = false;
@@ -65,7 +66,9 @@ class Connector {
                 onGetGroupMembersAfterDelete,
                 onGetNewGroup,
                 onGetUnreadedMessagesCount,
-                onGetChatAfterDelete) => {
+                onGetChatAfterDelete,
+                onRecieveChatMediaMessages) => {
+                
                  
             this.connection.on("GetChatsCount", (data) => {
                 onGetChatsCount(data);
@@ -94,6 +97,7 @@ class Connector {
             this.connection.on("RecieveMessage", (message) => {
                 onRecieveMessage(message)
             });
+            
             this.connection.on("RecieveGroupMessage", (message) => {
                 onRecieveGroupMessage(message)
             });
@@ -139,6 +143,13 @@ class Connector {
             });
             this.connection.on("CheckChatAfterSendMessage", (connId:string, sender:string,reciever:string, sendedMessage:object) => {
                 this.connection.invoke("CheckChatAfterSendMessage", connId, sender,reciever, sendedMessage)
+            })
+            this.connection.on("CheckChatAfterUpload", (connId:string, sender:string,reciever:string, sendedMessages:Array<object>) => {
+                this.connection.invoke("CheckChatAfterUpload", connId, sender,reciever, sendedMessages)
+            })
+            this.connection.on("GetChatNewMediaMessages", (messages: Array<object>) => {
+                console.log(messages);
+                onRecieveChatMediaMessages(messages);
             })
             
         };

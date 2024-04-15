@@ -14,7 +14,7 @@ const UploadPreview = () => {
           const file = files[i];
       
           if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-            previews.push({sourceUrl: URL.createObjectURL(file), text:null})
+            previews.push({file,sourceUrl: URL.createObjectURL(file), text:null})
           } else {
             Swal.fire({
               icon: 'error',

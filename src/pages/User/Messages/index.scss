@@ -264,6 +264,50 @@
                   }
                 }
               }
+              .media-wrapper {
+                padding: 2px;
+                
+                img, video {
+                  max-width: 250px;
+                  object-fit: contain;
+                  max-height: 250px;
+                  cursor: pointer;
+                  border-radius: 8px;
+                }
+                video::-webkit-media-controls-enclosure {
+                  display: none !important;
+                }
+                .lucid-controls {
+                  display: none !important;
+                }
+                .detach-button-host {
+                  display: none !important;
+                }
+              }
+              .filled {
+                overflow-wrap:break-word!important;
+                word-wrap: break-word!important;
+                display: flex;
+                justify-content: space-around;
+                align-items:center;
+                flex-direction: column;
+                position: relative;
+                padding: 0px;
+                border-radius: 8px;
+                background-color: rgb(241, 245, 249);
+                  img {
+                    border-bottom-left-radius: 0 !important;
+                    border-bottom-right-radius: 0 !important;
+                  }
+                  div {
+                    color: black;
+                    display: flex;
+                    width: 100%;
+                    display: flex;
+                    padding: 10px;
+                  }
+              }
+
               .message {
                 min-width: 40px!important;
                 max-width: 770px!important;
@@ -389,6 +433,57 @@
                 justify-content: center;
                 align-items: center;
               }
+              .media-wrapper {
+                padding: 2px;
+                
+                img, video {
+                  max-width: 250px;
+                  object-fit: contain;
+                  max-height: 250px;
+                  cursor: pointer;
+                  border-radius: 8px;
+                }
+                video::-webkit-media-controls-enclosure {
+                  display: none !important;
+                }
+                .lucid-controls {
+                  display: none !important;
+                }
+                .detach-button-host {
+                  display: none !important;
+                }
+              }
+              .filled {
+                overflow-wrap:break-word!important;
+                word-wrap: break-word!important;
+                display: flex;
+                justify-content: space-around;
+                align-items:center;
+                flex-direction: column;
+                position: relative;
+                padding: 0px;
+                border-radius: 8px;
+                background-image: linear-gradient(
+                  to right top,
+                  rgb(14, 165, 233),
+                  rgb(59, 130, 246)
+                  );
+                  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+                  rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+                  img {
+                    border-bottom-left-radius: 0 !important;
+                    border-bottom-right-radius: 0 !important;
+                  }
+                  div {
+                    color: white;
+                    display: flex;
+                    width: 100%;
+                    display: flex;
+                    padding: 10px;
+                  }
+              }
 
               /* Установка стилей для контролов */
               audio::-webkit-media-controls-panel {
@@ -412,6 +507,7 @@
                   }
                 }
               }
+          
               .message {
                 min-width: 40px!important;
                 max-width: 770px!important;
@@ -494,7 +590,7 @@
           display: flex;
           align-items:center;
           justify-content: center;
-          width: 53%;
+          width: 51.5%;
           background-color:white;
           .send-message-wrapper{
             width: 100%;
