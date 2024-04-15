@@ -28,13 +28,14 @@ class Connector {
         onGetChatAfterDelete:(data:object) => void
         ) => void;
     public store;
+    public state : boolean = false;
     static instance: Connector;
     constructor(store) {
         this.store = store;
         this.connection = new signalR.HubConnectionBuilder()
-        .withUrl('https://app-socialite-eastus-dev-001.azurewebsites.net/messagesHub', {
-            // skipNegotiation: true,
-            // transport: signalR.HttpTransportType.WebSockets
+        .withUrl('https://localhost:7023/messagesHub', {
+            skipNegotiation: true,
+            transport: signalR.HttpTransportType.WebSockets
         })
             .withAutomaticReconnect()
             .build();
@@ -42,8 +43,6 @@ class Connector {
             this.connection.onreconnected(()=> {
             })
      
-            
-            
             this.events = (
                 onGetChatItems,
                 onConnectChat,
@@ -138,10 +137,8 @@ class Connector {
             this.connection.on("SendMessageError", (err) => {
                 console.log(err)
             });
-            this.connection.on("CheckChatAfterSendMessage", (connId:string, chatId:number, sender:string,reciever:string, sendedMessage:object) => {
-                console.log("geldi request getmelidir")
-                console.log(sendedMessage)
-                this.connection.invoke("CheckChatAfterSendMessage", connId, chatId, sender,reciever, sendedMessage)
+            this.connection.on("CheckChatAfterSendMessage", (connId:string, sender:string,reciever:string, sendedMessage:object) => {
+                this.connection.invoke("CheckChatAfterSendMessage", connId, sender,reciever, sendedMessage)
             })
             
         };
@@ -196,6 +193,10 @@ class Connector {
             .catch(e => console.log(e));
         }
     }
+
+    public isSignalRConnected(): boolean {
+        return this.connection.state === signalR.HubConnectionState.Connected;
+    }
    
     public connectMessagesSockets = (userName: string) => {
         
@@ -205,6 +206,7 @@ class Connector {
                 this.connection.invoke("ConnectToMessagesSockets", userName)
                 .then(c => 
                     console.log("Connected to messages"))
+                    
             })
             .catch(err => console.log(err));
         }
@@ -264,9 +266,11 @@ class Connector {
 
 
     public connectToChat = (chatId : number) => {
-        if (chatId) {
-            this.connection.invoke("ConnectToChat", chatId, this.store.user.userName)
-            .catch(err => console.log(err));
+        if (this.connection.state == signalR.HubConnectionState.Connected) {
+            if (chatId) {
+                this.connection.invoke("ConnectToChat", chatId, this.store.user.userName)
+                .catch(err => console.log(err));
+            }
         }
     }
     public connectToGroup = (groupId : number) => {
@@ -276,11 +280,13 @@ class Connector {
         }
     }
     public disconnectFromChat = (chatId : number) => {
-        this.connection.invoke("DisconnectChat", chatId, localStorage.getItem("userName"))
-        .then(() => {
-            console.log("(^ OK")
-        })
-        .catch(err => console.log(err));
+        if (this.connection.state == signalR.HubConnectionState.Connected) {
+            this.connection.invoke("DisconnectChat", chatId, localStorage.getItem("userName"))
+            .then(() => {
+                console.log("(^ OK")
+            })
+            .catch(err => console.log(err));
+        }
     }
     public disconnectFromGroup = (groupId : number) => {
         console.log(groupId)

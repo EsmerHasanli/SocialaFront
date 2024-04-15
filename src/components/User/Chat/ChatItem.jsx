@@ -5,12 +5,12 @@ import { format, differenceInDays } from 'date-fns';
 import { FollowContext } from '../../../context';
 import { Avatar } from '@mui/material';
 import { MicRounded } from '@mui/icons-material';
-
+import Connector from "../../../sockets/ChatWebSockets"
+import { connect } from 'formik';
 const ChatItem = ({chatItem,typingUsers, connection }) => {
     const {store} = useContext(Context);
     const {onlineUsers, setOnlineUsers} = useContext(FollowContext)
     const {currentChatId, setCurrentChatId} = useContext(FollowContext)
-    
     const formatDate = (dateString) => {
       const currentDate = new Date();
       const inputDate = new Date(dateString);
@@ -33,14 +33,19 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
     };
 
       useEffect(() => {
-        connection.connectToChat(currentChatId)
-      }, [currentChatId])
+        if (currentChatId) {
+          connection.connectToChat(currentChatId)
+        }
+       
+      }, [currentChatId, connection.state])
     
     return (
         <li onClick={() => {
-            if (currentChatId) connection.disconnectFromChat(currentChatId)           
-            setCurrentChatId(chatItem?.chatId)
-            localStorage.setItem("chatId", JSON.stringify(chatItem.chatId));
+              if (connection.isSignalRConnected()) {
+                if (currentChatId) connection.disconnectFromChat(currentChatId)           
+                setCurrentChatId(chatItem?.chatId)
+                localStorage.setItem("chatId", JSON.stringify(chatItem.chatId));
+              }
             }}>
             <div className="avatar">
             <Avatar
@@ -70,7 +75,7 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
                 }
                 </span>
                   <div style={{display:"flex", marginLeft:"5px"}}>
-                      {chatItem.lastMessageType == "1" && <MicRounded style={{width:"19px", height:"19px", color:"#199DEC"}}/>}
+                      {(chatItem.lastMessageType == "Audio"||chatItem.lastMessageType == "2") && <MicRounded style={{width:"19px", height:"19px", color:"#199DEC"}}/>}
                       <p style={{marginLeft:'3px'}}>{chatItem.lastMessage?.length > 10 ? `${chatItem.lastMessage?.substring(0, 10)}... `: chatItem?.lastMessage  }</p>
                   </div>
                 </div>

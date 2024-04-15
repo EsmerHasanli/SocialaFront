@@ -244,6 +244,16 @@ export default class Store {
       );
     }
   }
+  async deleteComment(id) {
+    try {
+      const res = await PostService.deleteComment(id);
+      return res.status;
+    } catch (e) {
+      this.showErrorAlertWithSound(
+        e.response.data.message || "Something went wrong!"
+      );
+    }
+  }
   async likeComment(id) {
     try {
       const res = await PostService.likeComment(id);

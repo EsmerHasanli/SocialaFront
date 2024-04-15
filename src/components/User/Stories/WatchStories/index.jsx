@@ -14,12 +14,14 @@ import { observer } from "mobx-react-lite";
 import WatchModal from "./WatchModal";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
+import WatchItem from "./WatchItem";
+import StoryItem from "./StoryItem";
 
 const WatchStories = ({videoRef, storiesVisible, setStoriesVisible, setUserStoryItems, story, setStory, stories, setStories, storyItems,setStoryItems, watchedStories, setWatchedStories }) => {
   const {store} = useContext(Context)
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedStoryId, setSelectedStoryId] = useState(null);
-  const [ watchers, setWatchers ] = useState([]);
+  const [watchers, setWatchers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
 
@@ -80,9 +82,9 @@ const WatchStories = ({videoRef, storiesVisible, setStoriesVisible, setUserStory
     }
 
     async function getWatchers(id) {
-      showModal()
       const res = await store.getWatchers(id);
       setWatchers(res)
+      showModal()
     }
 
   return (
@@ -123,108 +125,25 @@ const WatchStories = ({videoRef, storiesVisible, setStoriesVisible, setUserStory
             className="stori-swiper"
           >
             {
-              storyItems && storyItems.map(storyItem => (
-                storyItem.type == 'Image' ?
-                <SwiperSlide
-                  key={storyItem.key}
-                  className="swiper-slide"
-                  style={{
-                    backgroundImage:
-                      `url(${storyItem.sourceUrl})`,
-                  }}
-                >
-                  <div className="header">
-                    <Link to={`/users/${story?.ownerUserName}`}>
-                      <Avatar className="avatar" src={story?.ownerImageUrl} />
-                      <p>{story?.ownerUserName}</p>
-                    </Link>
-                    {story.ownerUserName == store.user.userName &&
-                    <div className="menu">
-                      <IconButton className="menu-button" onClick={() => {
-                        setMenuOpen(!menuOpen)
-                        setSelectedStoryId(storyItem.id)
-                      }}>
-                        <MoreHorizIcon style={{ color: "antiquewhite" }} />
-                      </IconButton>
-                      {
-                        menuOpen && selectedStoryId == storyItem.id && 
-                        <ul>
-                          <li onClick={handleDeleteStory}>Delete</li>
-                        </ul>
-                      }
-                    </div>
-                    }
-
-                  </div>
-
-                  <div className="footer">
-                    <p>{storyItem?.text}</p>
-                    {
-                      story.ownerUserName == store.user.userName && 
-                        <button className="watch-wrapper" onClick={(e) => getWatchers(storyItem.id)}>
-                          <RemoveRedEyeIcon />
-                          <span>{storyItem?.watchCount}</span>
-                        </button>
-                    }
-                  </div>
-                </SwiperSlide> 
-                :
-                <SwiperSlide
-                  key={storyItem.key}
-                  className="swiper-slide"
-                  style={{backgroundColor: 'black'}}
-                >
-                  <div className="header" style={{zIndex:"10"}}>
-                    <Link to={`/users/${story?.ownerUserName}`}>
-                      <Avatar className="avatar" src={story?.ownerImageUrl} />
-                      <p>{story?.ownerUserName}</p>
-                    </Link>
-                    {story.ownerUserName === store.user.userName && (
-                      <>
-                        <div className="menu">
-                          <IconButton
-                            className="menu-button"
-                            onClick={() => {
-                              setMenuOpen(!menuOpen);
-                              setSelectedStoryId(storyItem.id);
-                            }}
-                          >
-                            <MoreHorizIcon style={{ color: "antiquewhite" }} />
-                          </IconButton>
-                          {menuOpen && storyItem.id === selectedStoryId && (
-                            <ul>
-                              <li onClick={handleDeleteStory}>Delete</li>
-                            </ul>
-                          )}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <video
-                    ref={videoRef}
-                    controls={false}
-                    loop
-                    controlslist="nodownload"
-                    autoPlay={storyItems[0]?.type == "Video" ? true : false}
-                    style={{width:'100%', height:'100%',}}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <source src={storyItem.sourceUrl} aut type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <div className="footer">
-                    <p>{storyItem?.text}</p>
-                    {story.ownerUserName === store.user.userName && (
-                      <button className="watch-wrapper" onClick={(e) => getWatchers(storyItem.id)}>
-                        <RemoveRedEyeIcon />
-                        <span>{storyItem?.watchCount}</span>
-                      </button>
-                    )}
-                  </div>
-                </SwiperSlide>
-              ))
+              storyItems && storyItems.map(storyItem => 
+               <SwiperSlide
+                style={storyItem.type == "Image" ?
+                {backgroundImage:`url(${storyItem.sourceUrl})`}
+                : {backgroundColor: 'black'}
+                }>
+                  <StoryItem 
+                  storyItem={storyItem}
+                  storyItems={storyItems}
+                  setStories={setStories}
+                  story={story}
+                  setStoriesVisible={setStoriesVisible}
+                  setStoryItems={setStoryItems}
+                  setUserStoryItems={setUserStoryItems}
+                  videoRef={videoRef} />
+               </SwiperSlide>
+                  
+              )
             }
-            <WatchModal isModalOpen={isModalOpen} handleCancel={handleCancel} handleOk={handleOk} watchers={watchers} />
           </Swiper>
         </div>
       )}

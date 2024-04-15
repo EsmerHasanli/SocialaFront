@@ -7,9 +7,11 @@ import { observer } from "mobx-react-lite";
 import EmojiKeyboard from "./EmojiKeyboard";
 import { FollowContext } from "../../../context";
 import { sendMessage } from "@microsoft/signalr/dist/esm/Utils";
-import { ArrowUpward, MicRounded, VoiceChat, VoiceChatOutlined } from "@mui/icons-material";
+import { AddToPhotosOutlined, ArrowUpward, MicRounded, VoiceChat, VoiceChatOutlined } from "@mui/icons-material";
 import { setMinutes, setSeconds } from "date-fns";
 import Message from "./Message";
+import Swal from "sweetalert2";
+import UploadPreview from "../UploadPreview";
 
 
 let send;
@@ -150,11 +152,14 @@ const Form = ({connection, userName}) => {
       setRecording(false);
       setVolumeLevel([])
   };
+
+
   return (
     <>
       <div className="message-input">
         <div className="icons">
           <EmojiKeyboard showEmojiKeyboard={showEmojiKeyboard} setShowEmojiKeyboard={setShowEmojiKeyboard} setText={setText} />
+          <UploadPreview/>
         </div>
         <form onSubmit={sendMessage} className="input-wrapper" encType="multipart/form-data">
           <div className="send-message-wrapper">

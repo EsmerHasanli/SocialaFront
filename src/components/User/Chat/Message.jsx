@@ -9,6 +9,7 @@ import { Pause, PlayArrow } from "@mui/icons-material";
 
 const Message = ({connection, message, chat }) => {
   const { store } = useContext(Context);
+  console.log(message);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudioDurationSeconds, setCurrentAudioDurationSeconds] = useState(0)
   const [currentAudioDurationMinutes, setCurrentAudioDurationMinutes] = useState(0)
@@ -102,15 +103,15 @@ const Message = ({connection, message, chat }) => {
                   <input
                     type="range"
                     min={0}
-                    max={message?.seconds + (message?.minutes * 60)}
+                    max={message?.audioSeconds + (message?.audioMinutes * 60)}
                     value={currentTime}
                     onChange={handleSeek}
                   />
                   <div className="duration-div">{
-                    !message?.minutes >=0 && message?.seconds >= 0
+                    !message?.audioMinutes >=0 && message?.audioSeconds >= 0
 
                       ? !isPlaying
-                        ? `${message.minutes}:${message.seconds < 10 ? `0${message.seconds}` : message.seconds}`
+                        ? `${message.audioMinutes}:${message.audioSeconds < 10 ? `0${message.audioSeconds}` : message.audioSeconds}`
                         :`${currentAudioDurationMinutes}:${currentAudioDurationSeconds < 10 ? 
                           `0${currentAudioDurationSeconds}`
                            : currentAudioDurationSeconds}`
@@ -153,15 +154,15 @@ const Message = ({connection, message, chat }) => {
                   <input
                     type="range"
                     min={0}
-                    max={message?.seconds + (message?.minutes * 60)}
+                    max={message?.audioSeconds + (message?.audioMinutes * 60)}
                     value={currentTime}
                     onChange={handleSeek}
                   />
                   <div className="duration-div">{
-                    !message?.minutes >=0 && message?.seconds >= 0
+                    !message?.audioMinutes >=0 && message?.audioSeconds >= 0
 
                       ? !isPlaying
-                        ? `${message.minutes}:${message.seconds < 10 ? `0${message.seconds}` : message.seconds}`
+                        ? `${message.audioMinutes}:${message.audioSeconds < 10 ? `0${message.audioSeconds}` : message.audioSeconds}`
                         :`${currentAudioDurationMinutes}:${currentAudioDurationSeconds < 10 ? 
                           `0${currentAudioDurationSeconds}`
                            : currentAudioDurationSeconds}`

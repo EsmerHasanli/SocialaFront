@@ -14,12 +14,17 @@ import GroupForm from "../../../components/User/Group/GroupForm";
 import SideBar from "../../../components/User/SideBar";
 import FooterMobile from "../../../components/User/FooterMobile";
 import Connector from "../../../sockets/ChatWebSockets";
+import PreviewWrapper from "../../../components/User/UploadPreview/PreviewWrapper";
 
 const Messages = () => {
   const { store } = useContext(Context);
   const connection = Connector(store);
 
   const {
+    isPreviewOpen,
+    setIsPreviewOpen,
+    previewMedia,
+    setPreviewMedia,
     chatItems,
     setChatItems,
     groupItems,
@@ -62,6 +67,7 @@ const Messages = () => {
           let unreadedMsgsCount = 0;
           data.forEach((item) => unreadedMsgsCount+= item.unreadedMessagesCount)
           setUnreadedMessagesCount(unreadedMsgsCount)
+          console.log(data)
           setChatItems([...data]);
       }
       else {
@@ -111,6 +117,9 @@ const Messages = () => {
             {isChatItems ? 
               currentChat 
               ?
+                isPreviewOpen ?
+                <PreviewWrapper previews={previewMedia} setPreviews={setPreviewMedia}/>
+                :
               <div>
                   <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} typingUsers={typingUsers} chatMessages={chatMessages}  connection={connection} setCurrentChatId={setCurrentChatId} setChatMessages={setChatMessages} />
                   <Form connection={connection}  userName={currentChat.chatPartnerUserName} />

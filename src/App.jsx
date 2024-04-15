@@ -35,6 +35,9 @@ function App() {
   const [groupsCount, setGroupsCount] = useState(0)
   const [groupMembers, setGroupMembers] = useState([]);
   const [unreadedMessagesCount, setUnreadedMessagesCount] = useState(0)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [previewMedia, setPreviewMedia]= useState([])
+
   const connection = Connector(store);
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -48,8 +51,8 @@ function App() {
   }, []);
   useEffect(() => {
     if (store.user.userName) {
-      
       connection.connectMessagesSockets(store.user.userName);
+      
       connection.events(
         onGetChatItems,
         onConnectChat,
@@ -179,29 +182,28 @@ function App() {
       function onGetChatAfterDelete(chatDto) {
         console.log(chatDto)
         if (!chatDto.isDeletedMessageChecked && chatDto) setUnreadedMessagesCount(prev => prev -1)
-        if (chatDto.currentLastMessage) {
-            console.log(chatDto.currentLastMessage);
-            setChatItems(prev => {
-              const updatedChatItems = prev.map(chatItem => {
-                  if (chatItem.chatId === chatDto.id) {
-                      // Если chatItem имеет такой же chatId, как id из chatDto, обновляем его поля
-                      return {
-                          ...chatItem,
-                          lastMessage: chatDto.currentLastMessage.text,
-                          lastMessageIsChecked: chatDto.currentLastMessage.isChecked,
-                          lastMessageSendedAt: chatDto.currentLastMessage.createdAt,
-                          lastMessageSendedBy: chatDto.currentLastMessage.sender,
-                          lastMessageType:chatDto.currentLastMessage.type,
-                          unreadedMessagesCount: chatDto.isDeletedMessageChecked ? chatItem.unreadedMessagesCount : chatItem.unreadedMessagesCount - 1 // Предполагается, что количество непрочитанных сообщений обнуляется
-                      };
-                  }
-                  return chatItem; // Возвращаем остальные chatItem без изменений
-              });
+        
+        console.log(chatDto.currentLastMessage);
+        setChatItems(prev => {
+          const updatedChatItems = prev.map(chatItem => {
+              if (chatItem.chatId === chatDto.id) {
+                  // Если chatItem имеет такой же chatId, как id из chatDto, обновляем его поля
+                  return {
+                      ...chatItem,
+                      lastMessage: chatDto.currentLastMessage?.text,
+                      lastMessageIsChecked: chatDto.currentLastMessage?.isChecked,
+                      lastMessageSendedAt: chatDto.currentLastMessage?.createdAt,
+                      lastMessageSendedBy: chatDto.currentLastMessage?.sender,
+                      lastMessageType:chatDto.currentLastMessage?.type,
+                      unreadedMessagesCount: chatDto.isDeletedMessageChecked ? chatItem.unreadedMessagesCount : chatItem.unreadedMessagesCount - 1 // Предполагается, что количество непрочитанных сообщений обнуляется
+                  };
+              }
+              return chatItem; // Возвращаем остальные chatItem без изменений
+          });
           
               // Сортируем обновленный массив по дате отправки последнего сообщения (lastMessageSendedAt)
               return updatedChatItems.sort((a, b) => new Date(b.lastMessageSendedAt) - new Date(a.lastMessageSendedAt));
           });
-        }
       
       }
       function onGetGroupMessagesAfterDelete(messages) {
@@ -301,7 +303,12 @@ function App() {
         groupMembers,
         setGroupMembers,
         unreadedMessagesCount,
-        setUnreadedMessagesCount
+        setUnreadedMessagesCount,
+        isPreviewOpen,
+        setIsPreviewOpen,
+        previewMedia,
+        setPreviewMedia
+        
       }}
     >
       <AppRouter />

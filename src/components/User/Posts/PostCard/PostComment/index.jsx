@@ -7,7 +7,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import CommentReply from "./CommentReply";
 import Swal from "sweetalert2";
-function PostComment({ comment, setCommentsCount }) {
+import { Delete, DeleteOutline } from "@mui/icons-material";
+function PostComment({ comment, setCommentsCount, setComments, setPostRepliesCount }) {
   const { store } = useContext(Context);
   const [likesCount, setLikesCount] = useState(comment.likesCount);
   const [isLiked, setIsLiked] = useState(
@@ -49,15 +50,20 @@ function PostComment({ comment, setCommentsCount }) {
       return `${daysAgo} days ago`;
     }
   }
-
+  async function deleteComment() {
+    const status = await store.deleteComment(comment?.id)
+    if (status == 204) {
+      setComments(prev => prev.filter(c => c.id != comment.id))
+      setCommentsCount(prev => prev - 1)
+      setPostRepliesCount(prev => prev - repliesCount);
+    }
+  }
   async function getReplies() {
     const skip = replySkip + 10;
     const commentsRepliesFromDb = await store.getCommentReplies(
       comment.id,
       skip
     );
-    console.log(repliesCount)
-    console.log(skip)
     if (commentsRepliesFromDb.length < 10 || repliesCount == skip + 10) setShowRepliesBtn(false);
     setReplies([...replies, ...commentsRepliesFromDb]);
     setReplySkip(replySkip + 10);
@@ -119,6 +125,9 @@ function PostComment({ comment, setCommentsCount }) {
               Reply
             </div>
           </div>
+          {comment?.author == store.user.userName && 
+          <Delete onClick={deleteComment} style={{width:"18px", height:"18px", cursor:"pointer"}}/>}
+          
         </div>
       </div>
 

@@ -10,6 +10,8 @@
   height: 100vh;
 
   padding: 30px;
+
+ 
   .stori-swiper {
     margin-top: 50px;
   }
@@ -25,6 +27,61 @@
 
     position: relative;
 
+    .modal-wrapper {
+      display: flex;
+      height: 100%;
+      transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);;
+      opacity: 0;
+      right: 0;
+      left: 0;
+      position: absolute;
+      opacity: 1 !important;
+      visibility: visible !important;
+      bottom: -100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.652);
+      backdrop-filter: blur(8px);
+      h2 {
+        color: white;
+        font-size: 26px;
+        position: fixed;
+        top: 20px;
+        font-weight: 500;
+      }
+      ul {
+        li {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          margin: 8px 0;
+          p,span {
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+          }
+          span {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+      }
+
+      .hide-icon {
+        width: 40px;
+        height: 40px;
+        color: white;
+        cursor: pointer;
+        bottom: 0;
+        position: fixed;
+      }
+   
+    }
+    .active {
+    
+      bottom: 0;
+    }
     
     .header, .footer{
       padding: 20px;

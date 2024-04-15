@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import CommentvalidationSchema from "../../../validations/CommentvalidationSchema";
 import Swal from "sweetalert2";
 import { values } from "mobx";
+import { Telegram } from "@mui/icons-material";
 
 const AddComment = ({comments,setComments, post,commentsCount, setCommentsCount}) => {
     const {store} = useContext(Context)
@@ -45,7 +46,7 @@ const AddComment = ({comments,setComments, post,commentsCount, setCommentsCount}
         <Avatar src={store.user.imageUrl} />
         <input className="com-inp" id='text' name='text' value={formik.values.text} onChange={formik.handleChange} placeholder="Add Comment...." type="text" />
         </div>
-        <button type='submit'>Comment</button>
+        <button type='submit' style={{display:"flex", justifyContent:"center", alignItems:"center"}}><Telegram style={{color:""}}/></button>
       </form>
     </>
   );

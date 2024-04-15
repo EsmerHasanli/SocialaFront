@@ -29,6 +29,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
   const [commentSkip, setCommentSkip] = useState(-5);
   const [showMoreBtn, setShowMoreBtn] = useState( post?.comments?.length == 5 ? true : false );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
+  const [repliesCount, setRepliesCount] = useState(post?.repliesCount);
   const [anchorEl, setAnchorEl] = useState(null);
   const {fetchedUser} = useContext(FollowContext)
   const open = Boolean(anchorEl);
@@ -209,10 +210,10 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
           path != '/archive' && 
           <div className="icons-wrapper">
             <PostLike post={post} />
-            <IconButton className="comment-btn">
+            <IconButton className="comment-btn" disabled>
               <MapsUgcIcon />
             </IconButton>
-            <p>{commentsCount}</p>
+            <p>{commentsCount + repliesCount}</p>
           </div>
 
         }
@@ -228,6 +229,8 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
                   key={comment.id}
                   post={post}
                   comment={comment}
+                  setComments={setComments}
+                  setPostRepliesCount={setRepliesCount}
                   setCommentsCount={setCommentsCount}
                 />
               ))}

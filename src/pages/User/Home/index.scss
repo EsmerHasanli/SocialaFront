@@ -262,27 +262,34 @@
             }
             padding: 16px;
             form {
-                div {
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                gap: 16px;
-                }
+               
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 flex-wrap: wrap;
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    width: 80%;
+                    gap: 16px;
+                    .MuiAvatar-root {
+                        width: 40px;
+                    }
+                }
                 .com-inp {
                 padding: 8px;
                 // border: 1px solid #ccc;
                 // border-radius: 5px;
+                width: 90%;
                 border:none;
                 transition: border-color 0.3s;
-            
+               
                 &:focus {
                     // border-color: #007bff;
                     outline: none; 
                 }
+              
             }
             }
             button {

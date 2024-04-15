@@ -12,6 +12,9 @@ export default class PostService{
     static async postComment(payload){
         return await $api.post(`${API_BASE_URL}/posts/comment`, payload)
     }
+    static async deleteComment(id){
+        return await $api.delete(`${API_BASE_URL}/posts/comment/${id}`)
+    }
     static async replyComment(payload){
         return await $api.post(`${API_BASE_URL}/posts/comment/reply`, payload)
     }
