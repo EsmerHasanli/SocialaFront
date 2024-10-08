@@ -27,7 +27,7 @@ const AddComment = ({comments,setComments, post,commentsCount, setCommentsCount}
             }else{
                 const newData = {
                     id: post.id,
-                    text: values.text
+                    text: values.text,
                 }
                 const res = await store.postComment(newData);
                 setComments([...comments, {...res}]);

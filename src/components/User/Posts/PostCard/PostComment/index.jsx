@@ -54,8 +54,7 @@ function PostComment({ comment, setCommentsCount, setComments, setPostRepliesCou
     const status = await store.deleteComment(comment?.id)
     if (status == 204) {
       setComments(prev => prev.filter(c => c.id != comment.id))
-      setCommentsCount(prev => prev - 1)
-      setPostRepliesCount(prev => prev - repliesCount);
+      setCommentsCount(prev => prev - repliesCount - 1)
     }
   }
   async function getReplies() {
@@ -76,7 +75,7 @@ function PostComment({ comment, setCommentsCount, setComments, setPostRepliesCou
         text: 'Comment can not be blank'
     });
     }else{
-      const reply = await store.replyComment(commentId, value);
+      const reply = await store.replyComment(commentId,value);
       setReplies([{ ...reply }, ...replies]);
       setShowReplyInput(false);
       setRepliesCount(repliesCount + 1);

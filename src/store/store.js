@@ -266,7 +266,7 @@ export default class Store {
   }
   async replyComment(id, text) {
     try {
-      const paylaod = { id, text };
+      const paylaod = { commentId:id, text };
       const res = await PostService.replyComment(paylaod);
       return res.data;
     } catch (e) {

@@ -16,6 +16,7 @@ const Posts = ({posts, setPosts}) => {
   useEffect(() => {
     async function fetchPosts() {
       const res = await store.getPosts(fetchedUser.userName);
+      console.log(res)
       setPosts(res);
     }
     fetchPosts();

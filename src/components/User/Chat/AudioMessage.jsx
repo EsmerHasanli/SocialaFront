@@ -1,6 +1,6 @@
 import { Pause, PlayArrow } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const AudioMessage = ({message}) => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -52,9 +52,9 @@ const AudioMessage = ({message}) => {
         <div className="audio-wrapper">
                   <IconButton onClick={togglePlay} style={{color:"white", marginRight:"5px"}}>
                     {isPlaying ?
-                    <Pause/>
+                    <Pause  className='play-pause-btn'/>
                     :
-                    <PlayArrow/>
+                    <PlayArrow className='play-pause-btn'/>
                     }
                   </IconButton>
                   <input

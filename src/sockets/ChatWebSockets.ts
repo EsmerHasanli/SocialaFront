@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 import { message } from "antd";
-const URL ="https://localhost:7023/messagesHub"; 
+//const URL ="https://localhost:7023/messagesHub"; 
 class Connector {
     private connection: signalR.HubConnection;
     public events: (

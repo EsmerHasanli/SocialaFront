@@ -42,7 +42,7 @@ const ChatItem = ({chatItem,typingUsers, connection }) => {
     return (
         <li onClick={() => {
               if (connection.isSignalRConnected()) {
-                if (currentChatId) connection.disconnectFromChat(currentChatId)           
+                if (currentChatId && chatItem?.chatId != currentChatId) connection.disconnectFromChat(currentChatId)           
                 setCurrentChatId(chatItem?.chatId)
                 localStorage.setItem("chatId", JSON.stringify(chatItem.chatId));
               }

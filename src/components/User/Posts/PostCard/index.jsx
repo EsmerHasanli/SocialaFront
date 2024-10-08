@@ -22,14 +22,13 @@ import { FollowContext } from "../../../../context";
 const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) => {
   const location = useLocation()
   const path = location.pathname
-
+  console.log(post?.items);
   // console.log("post", post);
   const { store } = useContext(Context);
   const [comments, setComments] = useState(post?.comments);
   const [commentSkip, setCommentSkip] = useState(-5);
   const [showMoreBtn, setShowMoreBtn] = useState( post?.comments?.length == 5 ? true : false );
   const [commentsCount, setCommentsCount] = useState(post?.commentsCount);
-  const [repliesCount, setRepliesCount] = useState(post?.repliesCount);
   const [anchorEl, setAnchorEl] = useState(null);
   const {fetchedUser} = useContext(FollowContext)
   const open = Boolean(anchorEl);
@@ -213,7 +212,7 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
             <IconButton className="comment-btn" disabled>
               <MapsUgcIcon />
             </IconButton>
-            <p>{commentsCount + repliesCount}</p>
+            <p>{commentsCount}</p>
           </div>
 
         }
@@ -230,7 +229,6 @@ const PostCard = ({ post, posts, setPosts, archivedPosts, setArchivedPosts }) =>
                   post={post}
                   comment={comment}
                   setComments={setComments}
-                  setPostRepliesCount={setRepliesCount}
                   setCommentsCount={setCommentsCount}
                 />
               ))}

@@ -12,8 +12,9 @@ const WatchItem = ({watcher}) => {
       const timezoneOffsetInHours = timezoneOffsetInMinutes / 60;
       const utcOffset = -timezoneOffsetInHours;
       elapsedTime = elapsedTime - (utcOffset * 60);
-  
+      console.log(elapsedTime);
       if (elapsedTime < 1) {
+        if (elapsedTime == 0) return "now"
         return `${elapsedTime * 60}s`;
       } else if (elapsedTime < 60) {
         return `${elapsedTime}m`;

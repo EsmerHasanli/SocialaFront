@@ -216,6 +216,9 @@
               .duration-div {
                 margin-left: 10px;
               }
+              .play-pause-btn {
+                color: black;
+              }
               input[type="range"] {
                 -webkit-appearance: none; /* Удаление стандартного внешнего вида ползунка в Safari */
                 appearance: none;
@@ -367,7 +370,6 @@
                 span{
                   font-size: 12px;
                   font-weight: 300;
-                  position: absolute;
                   right: 15px;
                   bottom: 3px;
 
@@ -545,7 +547,6 @@
                 span{
                   font-size: 12px;
                   font-weight: 300;
-                  position: absolute;
                   right: 15px;
                   bottom: 3px;
                 }
@@ -808,6 +809,7 @@
       .message{
         max-width: 266px!important;
       }
+     
       .delete-message-btn{
         background-color: rgb(254,226,226)!important;
         display: none;
